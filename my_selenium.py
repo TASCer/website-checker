@@ -6,7 +6,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 
 from selenium.common.exceptions import ElementNotSelectableException
-from selenium.webdriver.support.expected_conditions import presence_of_element_located
+# from selenium.webdriver.support.expected_conditions import presence_of_element_located
 
 
 def selenium_service():
@@ -48,10 +48,12 @@ def contact_form(s):
 
 	comments = s.find_element(By.NAME, 'message')
 	comments.send_keys("SELENIUM TESTING")
+	WebDriverWait(s, 1000)
 
 	s.find_element(By.ID, 'submit-form').click()
+	WebDriverWait(s, 1000)
 
-	return s.close()
+	return
 
 
 def consult_form(s):
