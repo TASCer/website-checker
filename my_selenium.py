@@ -1,12 +1,24 @@
+import logging
 import my_secrets
 
 from selenium import webdriver
 from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
-
+from selenium.common.exceptions import WebDriverException
 from selenium.common.exceptions import ElementNotSelectableException
 # from selenium.webdriver.support.expected_conditions import presence_of_element_located
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+
+fh = logging.FileHandler('log.log')
+fh.setLevel(logging.DEBUG)
+
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+fh.setFormatter(formatter)
+
+logger.addHandler(fh)
 
 
 def selenium_service():
@@ -17,18 +29,18 @@ def selenium_service():
 
 		return webdriver.Chrome(service=ser, options=op)
 
-	except FileNotFoundError:
-		print("Gecko Driver File geckodriver.exe not found in D:\\")
-
+	except (FileNotFoundError, WebDriverException) as e:
+		logger.critical(f"{str(e)}")
+		exit()
 
 def contact_form(s):
-	"""Takes in a Selenium Service and populates the CONTACT REQUEST FORM on Contact-Us web page"""
+	"""Takes in a Selenium Service s and populates the CONTACT REQUEST FORM on Contact-Us web page"""
 	try:
 		s.get(my_secrets.contact_url)
 		s.find_element(By.ID, "captcha-form")
 
-	except ElementNotSelectableException:
-		print('website must be down')
+	except ElementNotSelectableException as e:
+		logger.critical(f'{str(e)} website must be down')
 
 	name = s.find_element(By.NAME, 'name')
 	name.send_keys("TEST")
@@ -57,13 +69,13 @@ def contact_form(s):
 
 
 def consult_form(s):
-	"""Takes in a Selenium Service and populates the CONSULTATION REQUEST FORM on home web page"""
+	"""Takes in a Selenium Service s and populates the CONSULTATION REQUEST FORM on home web page"""
 	# TODO captcha issues - disable or hard code answer for testing
 	try:
 		s.get(my_secrets.consult_url)
 		s.find_element(By.XPATH, '//*[@id="captcha-form"]/div')
-	except ElementNotSelectableException:
-		print('website must be down')
+	except ElementNotSelectableException as e:
+		print(f'{str(e)} website must be down')
 
 	fname = s.find_element(By.NAME, 'firstname')
 	fname.send_keys("TEST")
