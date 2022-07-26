@@ -1,4 +1,4 @@
-import mySecrets
+import my_secrets
 
 from selenium import webdriver
 from selenium.webdriver.firefox.service import Service
@@ -24,7 +24,7 @@ def selenium_service():
 def contact_form(s):
 	"""Takes in a Selenium Service and populates the CONTACT REQUEST FORM on Contact-Us web page"""
 	try:
-		s.get(mySecrets.contact_url)
+		s.get(my_secrets.contact_url)
 		s.find_element(By.ID, "captcha-form")
 
 	except ElementNotSelectableException:
@@ -60,7 +60,7 @@ def consult_form(s):
 	"""Takes in a Selenium Service and populates the CONSULTATION REQUEST FORM on home web page"""
 	# TODO captcha issues - disable or hard code answer for testing
 	try:
-		s.get(mySecrets.consult_url)
+		s.get(my_secrets.consult_url)
 		s.find_element(By.XPATH, '//*[@id="captcha-form"]/div')
 	except ElementNotSelectableException:
 		print('website must be down')
