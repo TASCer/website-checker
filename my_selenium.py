@@ -36,8 +36,9 @@ def selenium_service():
 def contact_form(s):
 	"""Takes in a Selenium Service s and populates the CONTACT REQUEST FORM on Contact-Us web page"""
 	try:
-		s.get(my_secrets.contact_url)
+		s.get(my_secrets.local_contact_url)
 		s.find_element(By.ID, "captcha-form")
+
 
 	except ElementNotSelectableException as e:
 		logger.critical(f'{str(e)} website must be down')
@@ -65,14 +66,14 @@ def contact_form(s):
 	s.find_element(By.ID, 'submit-form').click()
 	WebDriverWait(s, 1000)
 
-	return
-
+	# return
+	s.quit()
 
 def consult_form(s):
 	"""Takes in a Selenium Service s and populates the CONSULTATION REQUEST FORM on home web page"""
 	# TODO captcha issues - disable or hard code answer for testing
 	try:
-		s.get(my_secrets.consult_url)
+		s.get(my_secrets.local_contact_url)
 		s.find_element(By.XPATH, '//*[@id="captcha-form"]/div')
 	except ElementNotSelectableException as e:
 		print(f'{str(e)} website must be down')
@@ -108,4 +109,5 @@ def consult_form(s):
 
 if __name__ == "__main__":
 	contact_form(selenium_service())
-	consult_form(selenium_service())
+	# webdriver.Quit()  # try to close ff windoe
+	# consult_form(selenium_service())
