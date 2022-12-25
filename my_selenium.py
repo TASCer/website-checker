@@ -66,14 +66,13 @@ def contact_form(s):
 	s.find_element(By.ID, 'submit-form').click()
 	WebDriverWait(s, 1000)
 
-	# return
 	s.quit()
 
 def consult_form(s):
 	"""Takes in a Selenium Service s and populates the CONSULTATION REQUEST FORM on home web page"""
 	# TODO captcha issues - disable or hard code answer for testing
 	try:
-		s.get(my_secrets.local_contact_url)
+		s.get(my_secrets.contact_url)
 		s.find_element(By.XPATH, '//*[@id="captcha-form"]/div')
 	except ElementNotSelectableException as e:
 		print(f'{str(e)} website must be down')
