@@ -1,10 +1,11 @@
 import logging
 
-logger = logging.getLogger(__name__)
-
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.firefox.service import Service
+
+logger = logging.getLogger(__name__)
+
 
 def my_selenium_chrome():
 	"""Create and return a selenium Firefox service to be used on pages and forms"""
