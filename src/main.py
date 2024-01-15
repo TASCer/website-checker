@@ -1,4 +1,4 @@
-import complete_form
+import complete_forms
 import create_service
 import datetime as dt
 import logging
@@ -20,9 +20,9 @@ logger.addHandler(fh)
 
 if __name__ == "__main__":
 	s = create_service.my_selenium_chrome()
-	complete_form.contact_form(s)
-
-	# complete_form.consult_form(s) # CAPTCHA
+	# FORMS
+	complete_forms.contact_form(s)
+	# complete_form.consult_forms(s) # CAPTCHA
 	# run_tascs_site
 	# run_hoa_site
 	# run_roadspies_site
