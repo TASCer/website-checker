@@ -9,7 +9,7 @@ from selenium.common.exceptions import ElementNotSelectableException
 logger = logging.getLogger(__name__)
 
 
-def contact_form(s: Service):
+def contact_form(s):
 	"""Takes in a Selenium service s and populates the CONTACT REQUEST FORM on Contact-Us web page"""
 	try:
 		s.get(my_secrets.test_contact_url)
@@ -41,11 +41,12 @@ def contact_form(s: Service):
 	s.find_element(By.ID, 'submit-form').click()
 	WebDriverWait(s, 1000)
 
-	logger.info("CONTACT FORM SUBMITTED")
-
 	s.quit()
 
-def consult_form(s: Service):
+	return "CONTACT FORM SUBMITTED"
+
+
+def consult_form(s):
 	"""Takes in a Selenium Service s and populates the CONSULTATION REQUEST FORM on home web page"""
 	# TODO captcha issues - disable or hard code answer for testing
 	try:
@@ -81,3 +82,8 @@ def consult_form(s: Service):
 	s.find_element(By.NAME, 'submit').click()
 
 	logger.info("CONSULT FORM SUBMITTED")
+
+	s.quit()
+
+
+	logger.info("CONTACT FORM SUBMITTED")
