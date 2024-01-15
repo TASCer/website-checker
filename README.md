@@ -1,13 +1,17 @@
 ![TASCS LOGO](./assets/logo.png)
 
-# Selenium_Forms
-My Selenium solution used to test my website's various html forms.
+# Selenium Website Testing
+My Selenium solution used to test my website's various html links and forms.
 Using Python 3.11 
 Depdendancies noted in requirements.txt
 
+# Links
 1. Securely download compressed log files from website hosting provider
 2. Decompress log files 
 3. PARSE exported log files
+
+
+# Forms
 4. LOAD unique sources from parsed logs into sources table
         - New entries into lookup table will have a NULL COUNTRY and DESCRIPTION value
 5. LOAD parsed logs into MySQL 5.7.20-log log table
@@ -19,9 +23,9 @@ Depdendancies noted in requirements.txt
 
 src folder contains: 
 
-        1. Python files needed to run analysis
+        1. Python files needed to run tests
 
-misc folder contains:
+assets folder contains:
 
         1. sample_log with 1 day of my webserver anonymized logfile (testlog.csv)
         2. Plotting examples
