@@ -1,5 +1,5 @@
 import complete_forms
-import create_service
+import create_browser
 import datetime as dt
 import test_nav_bar
 import logging
@@ -24,7 +24,7 @@ MAIL_TEST: bool = True
 
 if __name__ == "__main__":
 	logger.info("STARTED WEBSITE TESTING...")
-	FIREFOX = create_service.my_selenium_firefox()
+	FIREFOX = create_browser.my_selenium_firefox()
 	logger.info(f"SELENIUM SERVICE CREATED FOR: {type(FIREFOX)}")
 	# if TEST_FORMS:
 	# 	contact = complete_forms.contact_form(FIREFOX)
