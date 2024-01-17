@@ -11,7 +11,7 @@ todays_date: str = now.strftime('%D').replace('/', '-')
 logger = logging.getLogger(__name__)
 
 
-def collect(browser, MAIL_TEST):
+def browse(browser, MAIL_TEST):
 	logger.info("Testing navigation bar links")
 	browser.get(my_secrets.test_home_url)
 	WebDriverWait(browser, 1000)

@@ -37,7 +37,7 @@ def my_selenium_chrome():
 		options.add_argument("--disable notifications")
 		options.add_argument("--start-maximized")
 
-		logger.info(f"selenium CHROME service created with options: {options.KEY}")
+		logger.info(f"selenium CHROME service created with options: {options.arguments}")
 
 		chr_browser = webdriver.Chrome(service=service, options=options)
 

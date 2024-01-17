@@ -1,7 +1,7 @@
 import complete_forms
 import create_browser
 import datetime as dt
-import test_nav_bar
+import nav_bar_links
 import logging
 import my_secrets
 
@@ -27,11 +27,8 @@ MAIL_TEST: bool = False
 if __name__ == "__main__":
 	logger.info("STARTED WEBSITE TESTING...")
 	FIREFOX = create_browser.selenium_firefox()
-	logger.info(f"SELENIUM SERVICE CREATED FOR: {type(FIREFOX)}")
-	home_page_links = test_nav_bar.collect(FIREFOX, MAIL_TEST)
+	home_page_links = nav_bar_links.browse(FIREFOX, MAIL_TEST)
 	FIREFOX.quit()
-		# test_home_links.complete(FIREFOX)
-		# print(home_page_links)
 
 
 
