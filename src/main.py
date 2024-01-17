@@ -20,22 +20,15 @@ fh.setFormatter(formatter)
 root_logger.addHandler(fh)
 logger: Logger = logging.getLogger(__name__)
 
-MAIL_TEST: bool = True
+# CHROME = create_browser.my_selenium_chrome()
+
+MAIL_TEST: bool = False
 
 if __name__ == "__main__":
 	logger.info("STARTED WEBSITE TESTING...")
-	FIREFOX = create_browser.my_selenium_firefox()
+	FIREFOX = create_browser.selenium_firefox()
 	logger.info(f"SELENIUM SERVICE CREATED FOR: {type(FIREFOX)}")
-	# if TEST_FORMS:
-	# 	contact = complete_forms.contact_form(FIREFOX)
-	# 	logger.info(f"{contact}")
-		# complete_forms.consult_forms(browser) # CAPTCHA
-		# logger.info(f"{consult}")
-	# browser.get(my_secrets.test_consult_url)
-	# site = browser.current_url
-	# else:
 	home_page_links = test_nav_bar.collect(FIREFOX, MAIL_TEST)
-	# logger.info(f"Navigation Bar links tested. Mail test: {MAIL_TEST}")
 	FIREFOX.quit()
 		# test_home_links.complete(FIREFOX)
 		# print(home_page_links)
