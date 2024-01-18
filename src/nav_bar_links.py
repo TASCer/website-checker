@@ -13,8 +13,12 @@ logger = logging.getLogger(__name__)
 
 def browse(browser, MAIL_TEST):
 	logger.info("Testing navigation bar links")
-	browser.get(my_secrets.test_home_url)
+	browser.get(my_secrets.test_consult_url)
 	WebDriverWait(browser, 1000)
+	if MAIL_TEST and my_secrets.test_home_url:
+		logger.info(f"NEED HARD CODE VALUE OR ?? for captcha: {my_secrets.test_home_url}")
+		browser.find_element(By.ID, "refresh-captcha").click()
+		# print(what)
 	browser.find_element(By.LINK_TEXT, "WHY TASCS?").click()
 	WebDriverWait(browser, 1000)
 	browser.find_element(By.LINK_TEXT, "SOLUTIONS").click()
@@ -57,19 +61,3 @@ def browse(browser, MAIL_TEST):
 	logger.info(f"Navigation Bar links tested. Mail test: {MAIL_TEST}")
 
 	return browser
-
-
-
-# print(a_refs.)
-
-# for ref in a_refs:
-# 	link = ref.get_attribute("href")
-#
-# 	if link == '' or '#' in link or 'mailto' in link or "vreasolutions" in link:
-# 		continue
-#
-# 	unique_links.add(link)
-#
-# with open(f"./output/links.txt", "w+") as fh:
-# 	for unique_link in unique_links:
-# 		fh.write(unique_link + '\n')
