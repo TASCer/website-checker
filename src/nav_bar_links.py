@@ -1,6 +1,7 @@
 import datetime as dt
 import logging
 import my_secrets
+import time
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -16,9 +17,13 @@ def browse(browser, MAIL_TEST):
 	browser.get(my_secrets.test_consult_url)
 	WebDriverWait(browser, 1000)
 	if MAIL_TEST and my_secrets.test_home_url:
+		# try to test if image/rnd value changes when refresh clicked to test
 		logger.info(f"NEED HARD CODE VALUE OR ?? for captcha: {my_secrets.test_home_url}")
 		browser.find_element(By.ID, "refresh-captcha").click()
-		# print(what)
+		browser.find_element(By.ID, "refresh-captcha").click()
+		time.sleep(10)
+		browser.find_element(By.ID, "refresh-captcha").click()
+		time.sleep(5)
 	browser.find_element(By.LINK_TEXT, "WHY TASCS?").click()
 	WebDriverWait(browser, 1000)
 	browser.find_element(By.LINK_TEXT, "SOLUTIONS").click()
