@@ -1,7 +1,8 @@
 import create_browser
 import datetime as dt
-import nav_bar_links
 import logging
+import my_secrets
+import nav_bar_links
 
 from logging import Logger, Formatter
 
@@ -19,14 +20,18 @@ root_logger.addHandler(fh)
 logger: Logger = logging.getLogger(__name__)
 
 # CHROME = create_browser.my_selenium_chrome()
+tascs_site = my_secrets.prod_home_url
+test_site = my_secrets.test_home_url
+local_site = my_secrets.local_home_url
+
 
 MAIL_TEST: bool = True
 
 if __name__ == "__main__":
 	logger.info("STARTED WEBSITE TESTING...")
 	BROWSER = create_browser.my_selenium_chrome()
-	home_page_links = nav_bar_links.browse(BROWSER, MAIL_TEST)
-	BROWSER.quit()
+	home_page_links = nav_bar_links.browse(BROWSER, MAIL_TEST, test_site)
+	# BROWSER.quit()
 
 
 
