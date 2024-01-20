@@ -64,14 +64,15 @@ def browse(browser, MAIL_TEST: bool, site: str) -> object:
 			WebDriverWait(browser, 1000)
 
 			browser.find_element(By.NAME, 'submit').click()
-			# GET RESPONSE AND ADD TO CHECKS
+			time.sleep(1)
+			#  RESPONSE msg sometime blank?
 			response_element = browser.find_element(By.ID, 'msg')
 			response_text = response_element.text
-			print(response_text, type(response_text))
+
 			if response_text == 'Request sent successfully':
-				logger.info("CONSULT EMAIL SENT")
+				logger.info(f"Consult email: {response_text}")
 			else:
-				logger.error("**CONSULT EMAIL NOT SENT**")
+				logger.error(f"**CONSULT EMAIL NOT SENT** {response_text}")
 		except Exception as e:
 			logger.error(e)
 
@@ -112,18 +113,14 @@ def browse(browser, MAIL_TEST: bool, site: str) -> object:
 		WebDriverWait(browser, 1000)
 
 		browser.find_element(By.ID, 'submit-form').click()
-
+		time.sleep(1)
 		response_element = browser.find_element(By.ID, 'msg')
 		response = response_element.text
 
 		if response_text == 'Request sent successfully':
-			logger.info(f"{response_text}")
+			logger.info(f"Contact email: {response_text}")
 		else:
 			logger.error(f"**CONTACT EMAIL NOT SENT** {response_text}")
-
-		WebDriverWait(browser, 1000)
-
-		logger.info("CONTACT EMAIL SENT")
 
 	WebDriverWait(browser, 1000)
 
