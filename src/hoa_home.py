@@ -23,10 +23,13 @@ def browse(browser, site: str) -> object:
 		logger.error(e)
 
 	try:
-
-		browser.find_element(By.LINK_TEXT, "Neighboring Communities").click()
+		browser.find_element(By.LINK_TEXT, "Legacy Parc South (LPS)").click()   # "Neighboring Communities"
 	except Exception as e:
 			logger.error(e)
+	time.sleep(12)
+
+	communities = browser.find_elements(By.ID, "legend")#.click()
+	print(communities[0].text)
 	time.sleep(11)
 	# 	fname = browser.find_element(By.NAME, 'firstname')
 	# 	fname.clear()

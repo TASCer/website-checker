@@ -112,7 +112,14 @@ def browse(browser, MAIL_TEST: bool, site: str) -> object:
 		WebDriverWait(browser, 1000)
 
 		browser.find_element(By.ID, 'submit-form').click()
-		# GET RESPONSE AND ADD TO CHECKS
+
+		response_element = browser.find_element(By.ID, 'msg')
+		response = response_element.text
+
+		if response_text == 'Request sent successfully':
+			logger.info(f"{response_text}")
+		else:
+			logger.error(f"**CONTACT EMAIL NOT SENT** {response_text}")
 
 		WebDriverWait(browser, 1000)
 

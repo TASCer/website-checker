@@ -37,7 +37,7 @@ def my_selenium_chrome():
 		options.add_argument("--start-maximized")
 		options.add_experimental_option("excludeSwitches", ["enable-automation"])
 		options.add_experimental_option("useAutomationExtension", False)
-		# options.add_argument("--disable notifications")
+		options.add_argument("--disable notifications")
 
 		logger.info(f"selenium CHROME service created with options: {options.arguments}")
 
