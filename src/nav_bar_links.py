@@ -83,7 +83,7 @@ def browse(browser, MAIL_TEST: bool, site: str) -> object:
 	WebDriverWait(browser, 1000)
 
 	browser.find_element(By.LINK_TEXT, "CONTACT").click()
-	if MAIL_TEST and site == 'https://tascs.test':
+	if MAIL_TEST:
 		# WebDriverWait(browser, 1000)
 		logger.info("TESTING SEND MAIL FROM CONTACT FORM")
 		name = browser.find_element(By.NAME, 'name')
