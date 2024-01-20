@@ -16,20 +16,21 @@ logger = logging.getLogger(__name__)
 
 def browse(browser, site: str) -> object:
 	try:
-		browser.get(site)
+		# searching this even though click elsewhere!!?!
+		browser.get(site+'/lpsMap.php')
 		WebDriverWait(browser, 1000)
 		logger.info(f"Testing navigation bar links for: {site}")
 	except Exception as e:
 		logger.error(e)
 
-	try:
-		browser.find_element(By.LINK_TEXT, "Legacy Parc South (LPS)").click()   # "Neighboring Communities"
-	except Exception as e:
-			logger.error(e)
-	time.sleep(12)
+	# try:
+	# 	browser.find_element(By.LINK_TEXT, "Legacy Parc South (LPS)").click()   # "Neighboring Communities"
+	# except Exception as e:
+	# 		logger.error(e)
+	time.sleep(6)
 
-	communities = browser.find_elements(By.ID, "legend")#.click()
-	print(communities[0].text)
+	communities = browser.find_element(By.ID, "legend")#.click()
+	print(communities.text)
 	time.sleep(11)
 	# 	fname = browser.find_element(By.NAME, 'firstname')
 	# 	fname.clear()
