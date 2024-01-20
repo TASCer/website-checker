@@ -29,7 +29,7 @@ MAIL_TEST: bool = True
 
 if __name__ == "__main__":
 	logger.info("STARTED SELENIUM WEBSITE TESTING...")
-	BROWSER = create_browser.my_selenium_chrome()
+	BROWSER = create_browser.selenium_firefox()
 	home_page_links = nav_bar_links.browse(BROWSER, MAIL_TEST, test_tascs_site)
 	# hoa_community = hoa_home.browse(BROWSER, test_hoa_site)
 	# BROWSER.quit()

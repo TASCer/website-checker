@@ -28,7 +28,7 @@ def selenium_firefox() -> Service:
 		exit()
 
 
-def my_selenium_chrome():
+def selenium_chrome():
 	"""Create and return a selenium Firefox service to be used on pages and forms"""
 	try:
 		service = Service(f"{my_secrets.chrome_driver}")
