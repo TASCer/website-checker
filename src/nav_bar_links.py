@@ -31,27 +31,22 @@ def browse(browser, MAIL_TEST: bool, site: str) -> object:
 			browser.find_element(By.ID, "refresh-captcha").click()
 
 			fname = browser.find_element(By.NAME, 'firstname')
-			fname.clear()
 			fname.send_keys("SELENIUM CONSULT")
 			WebDriverWait(browser, 1000)
 
 			lname = browser.find_element(By.NAME, 'lastname')
-			lname.clear()
 			lname.send_keys("TESTER")
 			WebDriverWait(browser, 1000)
 
 			email = browser.find_element(By.NAME, 'email')
-			email.clear()
 			email.send_keys("TESTER@CONSULTFORM.COM")
 			WebDriverWait(browser, 1000)
 
 			company = browser.find_element(By.NAME, 'company')
-			company.clear()
 			company.send_keys("SELENIUM CONSULT TESTING INC.")
 			WebDriverWait(browser, 1000)
 
 			phone = browser.find_element(By.NAME, 'telephone')
-			phone.clear()
 			phone.send_keys("1234567890")
 			WebDriverWait(browser, 1000)
 
@@ -65,62 +60,74 @@ def browse(browser, MAIL_TEST: bool, site: str) -> object:
 
 			browser.find_element(By.NAME, 'submit').click()
 			time.sleep(1)
-			#  RESPONSE msg sometime blank?
-			response_element = browser.find_element(By.ID, 'msg')
-			response_text = response_element.text
+			time.sleep(2)
+			try:
+				response_element = browser.find_element(By.ID, 'msg')
+				response = response_element.text
+				time.sleep(1)
+			except Exception as e:
+				response = None
+				logger.exception(f"{response}-- {e}")
 
-			if response_text == 'Request sent successfully':
-				logger.info(f"Consult email: {response_text}")
+			if response == 'Request sent successfully':
+				logger.info(f"CONSULT email: {response}")
+
 			else:
-				logger.error(f"**CONSULT EMAIL NOT SENT** {response_text}")
-		except Exception as e:
+				logger.error(f"**CONSULT EMAIL NOT SENT** {response}")
+
+		except ElementNotSelectableException as e:
 			logger.error(e)
 
-	time.sleep(10)
+	time.sleep(5)
 
-	browser.find_element(By.LINK_TEXT, "WHY TASCS?").click()
-	WebDriverWait(browser, 1000)
-	browser.find_element(By.LINK_TEXT, "SOLUTIONS").click()
-	WebDriverWait(browser, 1000)
+	# browser.find_element(By.LINK_TEXT, "WHY TASCS?").click()
+	# WebDriverWait(browser, 1000)
+	# browser.find_element(By.LINK_TEXT, "SOLUTIONS").click()
+	# WebDriverWait(browser, 1000)
 
 	browser.find_element(By.LINK_TEXT, "CONTACT").click()
+	browser.get(site + '/contact-us')
+	WebDriverWait(browser, 1000)
+
 	if MAIL_TEST:
 		# WebDriverWait(browser, 1000)
 		logger.info("TESTING SEND MAIL FROM CONTACT FORM")
 		name = browser.find_element(By.NAME, 'name')
-		name.clear()
 		name.send_keys("SELENIUM CONTACT TEST")
 		WebDriverWait(browser, 1000)
 
 		email = browser.find_element(By.NAME, 'email')
-		email.clear()
 		email.send_keys("TESTER@CONTACTFORM.COM")
 		WebDriverWait(browser, 1000)
 
 		company = browser.find_element(By.NAME, 'company')
-		company.clear()
 		company.send_keys("SELENIUM CONTACT TESTING INC")
 		WebDriverWait(browser, 1000)
 
 		phone = browser.find_element(By.NAME, 'telephone')
-		phone.clear()
 		phone.send_keys("1234567890")
 		WebDriverWait(browser, 1000)
 
 		comments = browser.find_element(By.NAME, 'message')
-		comments.clear()
 		comments.send_keys("SELENIUM CONTACT TESTING")
 		WebDriverWait(browser, 1000)
 
 		browser.find_element(By.ID, 'submit-form').click()
 		time.sleep(1)
-		response_element = browser.find_element(By.ID, 'msg')
-		response = response_element.text
+		time.sleep(2)
 
-		if response_text == 'Request sent successfully':
-			logger.info(f"Contact email: {response_text}")
+		try:
+			response_element = browser.find_element(By.ID, 'msg')
+			response = response_element.text
+			time.sleep(1)
+		except Exception as e:
+			response = None
+			logger.exception(f"{response}-- {e}")
+
+		if response == 'Request sent successfully':
+			logger.info(f"Contact email: {response}")
 		else:
-			logger.error(f"**CONTACT EMAIL NOT SENT** {response_text}")
+			logger.error(f"**CONTACT EMAIL NOT SENT** {response}")
 
 	WebDriverWait(browser, 1000)
 
@@ -131,4 +138,5 @@ def browse(browser, MAIL_TEST: bool, site: str) -> object:
 
 	logger.info(f"Navigation Bar links tested. Mail test: {MAIL_TEST}")
 
-	return browser
+	browser.close()
+	# return browser
