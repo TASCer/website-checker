@@ -1,3 +1,4 @@
+import blog_home
 import create_browser
 import datetime as dt
 import logging
@@ -32,7 +33,4 @@ if __name__ == "__main__":
 	BROWSER = create_browser.selenium_firefox()
 	home_page_links = nav_bar_links.browse(BROWSER, MAIL_TEST, test_tascs_site)
 	# hoa_community = hoa_home.browse(BROWSER, test_hoa_site)
-	# BROWSER.quit()
-
-
-
+	# blog_home.browse(BROWSER, test_tascs_site+'/blog')
