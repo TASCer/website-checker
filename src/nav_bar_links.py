@@ -1,11 +1,12 @@
 import datetime as dt
 import logging
 import my_secrets
-import time
+# import time
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import ElementNotSelectableException
+from selenium.webdriver.support import expected_conditions as EC
 
 
 now: dt = dt.date.today()
@@ -18,13 +19,13 @@ def browse(browser, MAIL_TEST: bool, site: str) -> object:
 	try:
 		browser.get(site)
 		WebDriverWait(browser, 1000)
-		logger.info(f"Testing navigation bar links for: {site}. Email test: {MAIL_TEST}")
+		logger.info(f"Navigating menu bar links for: {site}. Test Forms? {str(MAIL_TEST).upper()}")
 	except Exception as e:
 		logger.error(e)
 
 	if MAIL_TEST and site == 'https://tascs.test':
-		logger.info("TESTING SEND MAIL FROM CONSULT FORM")
-		logger.info(f"**HARD CODED ANSWER FOR captcha: {my_secrets.test_home_url}**")
+		logger.info("SENDING EMAIL FROM CONSULT FORM")
+		logger.info(f"\t\tHARD CODED captcha: {my_secrets.test_home_url}**")
 
 		try:
 
@@ -59,12 +60,13 @@ def browse(browser, MAIL_TEST: bool, site: str) -> object:
 			WebDriverWait(browser, 1000)
 
 			browser.find_element(By.NAME, 'submit').click()
-			time.sleep(1)
-			time.sleep(2)
+
 			try:
-				response_element = browser.find_element(By.ID, 'msg')
+				response_element = WebDriverWait(browser, 20).until(
+					EC.presence_of_element_located((By.ID, "msg")))
+
 				response = response_element.text
-				time.sleep(1)
+
 			except Exception as e:
 				response = None
 				logger.exception(f"{response}-- {e}")
@@ -78,10 +80,10 @@ def browse(browser, MAIL_TEST: bool, site: str) -> object:
 		except ElementNotSelectableException as e:
 			logger.error(e)
 
-	time.sleep(5)
-
+	# THESE IN PLAT CAUSE CONTACT ISSUE?
 	# browser.find_element(By.LINK_TEXT, "WHY TASCS?").click()
 	# WebDriverWait(browser, 1000)
+	#
 	# browser.find_element(By.LINK_TEXT, "SOLUTIONS").click()
 	# WebDriverWait(browser, 1000)
 
@@ -90,8 +92,7 @@ def browse(browser, MAIL_TEST: bool, site: str) -> object:
 	WebDriverWait(browser, 1000)
 
 	if MAIL_TEST:
-		# WebDriverWait(browser, 1000)
-		logger.info("TESTING SEND MAIL FROM CONTACT FORM")
+		logger.info("SENDING EMAIL FROM CONTACT FORM")
 		name = browser.find_element(By.NAME, 'name')
 		name.send_keys("SELENIUM CONTACT TEST")
 		WebDriverWait(browser, 1000)
@@ -113,21 +114,22 @@ def browse(browser, MAIL_TEST: bool, site: str) -> object:
 		WebDriverWait(browser, 1000)
 
 		browser.find_element(By.ID, 'submit-form').click()
-		time.sleep(1)
-		time.sleep(2)
 
 		try:
-			response_element = browser.find_element(By.ID, 'msg')
+
+			response_element = WebDriverWait(browser, 10).until(
+				EC.presence_of_element_located((By.ID, "msg")))
+
 			response = response_element.text
-			time.sleep(1)
+
 		except Exception as e:
 			response = None
 			logger.exception(f"{response}-- {e}")
 
 		if response == 'Request sent successfully':
-			logger.info(f"CONTACT result: {response}")
+			logger.info(f"\t\t CONTACT result: {response}")
 		else:
-			logger.error(f"\t\t-- CONTACT result: {response} --")
+			logger.error(f"\t\t CONTACT result: {response} --")
 
 	WebDriverWait(browser, 1000)
 
@@ -139,4 +141,3 @@ def browse(browser, MAIL_TEST: bool, site: str) -> object:
 	logger.info("FINISHED SELENIUM WEBSITE NAVBAR TESTING")
 
 	browser.close()
-	# return browser
