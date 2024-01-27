@@ -70,10 +70,10 @@ def browse(browser, MAIL_TEST: bool, site: str) -> object:
 				logger.exception(f"{response}-- {e}")
 
 			if response == 'Request sent successfully':
-				logger.info(f"CONSULT email: {response}")
+				logger.info(f"CONSULT response: {response}")
 
 			else:
-				logger.error(f"**CONSULT EMAIL NOT SENT** {response}")
+				logger.error(f"\t\t-- CONSULT result: {response} --")
 
 		except ElementNotSelectableException as e:
 			logger.error(e)
@@ -125,9 +125,9 @@ def browse(browser, MAIL_TEST: bool, site: str) -> object:
 			logger.exception(f"{response}-- {e}")
 
 		if response == 'Request sent successfully':
-			logger.info(f"Contact email: {response}")
+			logger.info(f"CONTACT result: {response}")
 		else:
-			logger.error(f"**CONTACT EMAIL NOT SENT** {response}")
+			logger.error(f"\t\t-- CONTACT result: {response} --")
 
 	WebDriverWait(browser, 1000)
 
@@ -136,7 +136,7 @@ def browse(browser, MAIL_TEST: bool, site: str) -> object:
 	browser.find_element(By.LINK_TEXT, "HOA").click()
 	WebDriverWait(browser, 1000)
 
-	logger.info(f"Navigation Bar links tested. Mail test: {MAIL_TEST}")
+	logger.info("FINISHED SELENIUM WEBSITE NAVBAR TESTING")
 
 	browser.close()
 	# return browser
