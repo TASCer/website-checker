@@ -1,12 +1,8 @@
 import datetime as dt
 import logging
 import my_secrets
-import time
-
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.common.exceptions import ElementNotSelectableException
-
 
 now: dt = dt.date.today()
 todays_date: str = now.strftime('%D').replace('/', '-')

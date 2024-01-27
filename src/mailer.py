@@ -2,7 +2,7 @@
 import datetime as dt
 import logging
 import my_secrets
-import smtplib, ssl
+import smtplib
 
 from datetime import datetime
 from email import encoders
@@ -14,14 +14,20 @@ from logging import Logger
 now: datetime = dt.datetime.now()
 todays_date: str = now.strftime('%D').replace('/', '-')
 
+email_reciever: list[str] = my_secrets.email_to
+email_sender: str = my_secrets.postfix_mail_from
+mail_server = my_secrets.postfix_mailhost
+email_user = my_secrets.postfix_user
+email_password = my_secrets.postfix_password
+
 
 def send_mail(subject: str, attachment_path: object = None):
     """ Takes a subject (str) and optional file attachment
         Sends email to receiver_email contacts
     """
     logger: Logger = logging.getLogger(__name__)
-    sender_email: str = my_secrets.mail_from
-    receiver_email: list[str] = my_secrets.email_to
+    sender_email: str = email_sender
+    receiver_email: list[str] = email_reciever
 
     msg: MIMEMultipart = MIMEMultipart("alternative")
     msg["Subject"]: str = f"{subject}"
@@ -32,12 +38,12 @@ def send_mail(subject: str, attachment_path: object = None):
         html_attachments: str = """\
           <html>
             <body>
-              <p><b>Python HOA Insights Report Mailer</b></p>
+              <p><b>Python Selenium Tests Report</b></p>
               <br>
-              <p>Please find the bi-monthly community changes report attached.</p>
+              <p>Please find the test results report attached.</p>
               <br>
               <p>Visit below for more information</p>
-              <a href="https://hoa.tascs.locaL">TASCS - HOA</a>       
+              <a href="https://tascs.locaL">TASCS - HOA</a>       
             </body>
           </html>
           """
