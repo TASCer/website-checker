@@ -1,10 +1,9 @@
-import blog_home
 import create_browser
 import datetime as dt
 import logging
+import mailer
 import my_secrets
 import nav_bar_links
-import hoa_home
 from logging import Logger, Formatter
 
 now: dt = dt.date.today()
@@ -34,3 +33,4 @@ if __name__ == "__main__":
 	home_page_links = nav_bar_links.browse(BROWSER, MAIL_TEST, test_tascs_site)
 	# hoa_community = hoa_home.browse(BROWSER, test_hoa_site)
 	# blog_home.browse(BROWSER, test_tascs_site+'/blog')
+	mailer.send_mail("Python web testing complete")
