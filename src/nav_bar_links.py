@@ -80,12 +80,6 @@ def browse(browser, MAIL_TEST: bool, site: str) -> object:
 		except ElementNotSelectableException as e:
 			logger.error(e)
 
-	# THESE IN PLAT CAUSE CONTACT ISSUE?
-	# browser.find_element(By.LINK_TEXT, "WHY TASCS?").click()
-	# WebDriverWait(browser, 1000)
-	#
-	# browser.find_element(By.LINK_TEXT, "SOLUTIONS").click()
-	# WebDriverWait(browser, 1000)
 
 	browser.find_element(By.LINK_TEXT, "CONTACT").click()
 	browser.get(site + '/contact-us')
@@ -139,5 +133,12 @@ def browse(browser, MAIL_TEST: bool, site: str) -> object:
 	WebDriverWait(browser, 1000)
 
 	logger.info("FINISHED SELENIUM WEBSITE NAVBAR TESTING")
+
+	# THESE IN PLAT CAUSE CONTACT ISSUE? Mved seems to work now
+	browser.find_element(By.LINK_TEXT, "WHY TASCS?").click()
+	WebDriverWait(browser, 1000)
+
+	browser.find_element(By.LINK_TEXT, "SOLUTIONS").click()
+	WebDriverWait(browser, 1000)
 
 	browser.close()
