@@ -1,4 +1,4 @@
-my_secrets.py
+src/my_secrets.py
 geckodriver.log
 *.log
 /.idea
