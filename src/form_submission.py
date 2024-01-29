@@ -19,9 +19,12 @@ def submit_consult(browser, site: str) -> object:
 	try:
 		browser.get(site)
 		WebDriverWait(browser, 1000)
-		logger.info(f"Navigating menu bar links for: {site}.")
+
 	except Exception as e:
 		logger.error(e)
+
+	if site == 'https://tascs.net':
+		return browser
 
 	logger.info("SENDING EMAIL FROM CONSULT FORM")
 	logger.info(f"\t\tHARD CODED captcha: {my_secrets.test_home_url}**")
@@ -83,8 +86,8 @@ def submit_consult(browser, site: str) -> object:
 
 	browser.find_element(By.LINK_TEXT, "CONTACT").click()
 	WebDriverWait(browser, 3000)
-	browser.close
 
+	return browser
 
 def submit_contact(browser, site: str) -> object:
 	try:
@@ -133,7 +136,12 @@ def submit_contact(browser, site: str) -> object:
 	else:
 		logger.error(f"\t\t CONTACT result: {response} --")
 
-	WebDriverWait(browser, 1000)
+	return browser
+
+
+
+
+
 
 	# browser.find_element(By.LINK_TEXT, "BLOG").click()
 	# WebDriverWait(browser, 1000)

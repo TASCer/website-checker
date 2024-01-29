@@ -1,5 +1,6 @@
 import create_browser
 import datetime as dt
+import form_submission
 import hoa_home
 import logging
 import mailer
@@ -28,12 +29,14 @@ test_tascs_site = my_secrets.test_home_url
 local_tascs_site = my_secrets.local_home_url
 test_hoa_site = my_secrets.test_hoa_url
 
-MAIL_TEST: bool = True
 
 if __name__ == "__main__":
 	logger.info("STARTED SELENIUM WEBSITE TESTING...")
 	BROWSER = create_browser.selenium_firefox()
-	home_page_links = nav_bar_links.browse(BROWSER, MAIL_TEST, test_tascs_site)
-	# hoa_community = hoa_home.browse(BROWSER, test_hoa_site)
+	# home_page_links = nav_bar_links.browse(BROWSER, test_tascs_site)
+	form_submission.submit_contact(browser=BROWSER, site=test_tascs_site)
+	form_submission.submit_consult(browser=BROWSER, site=test_tascs_site)
+
+	hoa_community = hoa_home.browse(BROWSER, test_hoa_site)
 	# blog_home.browse(BROWSER, test_tascs_site+'/blog')
 	# mailer.send_mail("Python web testing complete")
