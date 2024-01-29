@@ -30,6 +30,7 @@ def browse(browser, MAIL_TEST: bool, site: str) -> object:
 		try:
 
 			browser.find_element(By.ID, "refresh-captcha").click()
+			WebDriverWait(browser, 1000)
 
 			fname = browser.find_element(By.NAME, 'firstname')
 			fname.send_keys("SELENIUM CONSULT")
@@ -60,6 +61,7 @@ def browse(browser, MAIL_TEST: bool, site: str) -> object:
 			WebDriverWait(browser, 1000)
 
 			browser.find_element(By.NAME, 'submit').click()
+			WebDriverWait(browser, 1000)
 
 			try:
 				response_element = WebDriverWait(browser, 20).until(
@@ -72,7 +74,7 @@ def browse(browser, MAIL_TEST: bool, site: str) -> object:
 				logger.exception(f"{response}-- {e}")
 
 			if response == 'Request sent successfully':
-				logger.info(f"CONSULT response: {response}")
+				logger.info(f"\t\tCONSULT response: {response}")
 
 			else:
 				logger.error(f"\t\t-- CONSULT result: {response} --")
