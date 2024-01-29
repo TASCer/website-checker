@@ -1,5 +1,6 @@
 import create_browser
 import datetime as dt
+import hoa_home
 import logging
 import mailer
 import my_secrets
@@ -12,7 +13,9 @@ todays_date: str = now.strftime('%D').replace('/', '-')
 # LOGGING
 root_logger: Logger = logging.getLogger()
 root_logger.setLevel(logging.INFO)
-fh = logging.FileHandler(f'./{todays_date}.log')
+
+# NEEDED TO ABSOLUTE FOR SCHEDULED TASKS
+fh = logging.FileHandler(f'D:\PycharmProjects\Selenium\{todays_date}.log')
 fh.setLevel(logging.DEBUG)
 formatter: Formatter = Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 fh.setFormatter(formatter)
@@ -33,4 +36,4 @@ if __name__ == "__main__":
 	home_page_links = nav_bar_links.browse(BROWSER, MAIL_TEST, test_tascs_site)
 	# hoa_community = hoa_home.browse(BROWSER, test_hoa_site)
 	# blog_home.browse(BROWSER, test_tascs_site+'/blog')
-	mailer.send_mail("Python web testing complete")
+	# mailer.send_mail("Python web testing complete")

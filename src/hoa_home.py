@@ -25,11 +25,11 @@ def browse(browser, site: str) -> object:
 	# 	browser.find_element(By.LINK_TEXT, "Legacy Parc South (LPS)").click()   # "Neighboring Communities"
 	# except Exception as e:
 	# 		logger.error(e)
-	time.sleep(6)
+	# time.sleep(6)
 
-	communities = browser.find_element(By.ID, "legend")#.click()
+	communities = browser.find_element(By.ID, "TS")#.click()
 	print(communities.text)
-	time.sleep(11)
+	# time.sleep(11)
 	# 	fname = browser.find_element(By.NAME, 'firstname')
 	# 	fname.clear()
 	# 	fname.send_keys("SELENIUM CONSULT")
