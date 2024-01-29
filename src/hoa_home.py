@@ -28,7 +28,7 @@ def browse(browser, site: str) -> object:
 	# time.sleep(6)
 
 	communities = browser.find_element(By.ID, "TS")#.click()
-	print(communities.text)
+	return  communities.text
 	# time.sleep(11)
 	# 	fname = browser.find_element(By.NAME, 'firstname')
 	# 	fname.clear()

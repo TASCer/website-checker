@@ -35,11 +35,14 @@ if __name__ == "__main__":
 	logger.info("STARTED SELENIUM WEBSITE TESTING...")
 	BROWSER = create_browser.selenium_firefox()
 	# home_page_links = nav_bar_links.browse(BROWSER, test_tascs_site)
-	# form_submission.submit_contact(browser=BROWSER, site=test_tascs_site)
-	# form_submission.submit_consult(browser=BROWSER, site=test_tascs_site)
+	form_submission.submit_contact(browser=BROWSER, site=test_tascs_site)
+	form_submission.submit_consult(browser=BROWSER, site=test_tascs_site)
 
 	last_rentals_update = hoa_home.browse(BROWSER, test_hoa_site)
 	last_rentals_update = last_rentals_update.replace("\n"," " )
 	logger.info(f"Last HOA DB Update: {last_rentals_update}")
 	blog_home.browse(BROWSER, test_tascs_site+'/blog')
 	# mailer.send_mail(f"Python web testing complete")
+
+
+	BROWSER.close()

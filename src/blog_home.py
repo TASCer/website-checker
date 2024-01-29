@@ -27,6 +27,7 @@ def browse(browser, site: str) -> object:
 
 	blog_entries = browser.find_elements(By.CLASS_NAME, "entry-title")
 	blog_titles = [e.text for e in blog_entries]
+	print(blog_titles)
 	print(len(blog_titles))
 	# 	fname = browser.find_element(By.NAME, 'firstname')
 	# 	fname.clear()
@@ -72,3 +73,5 @@ def browse(browser, site: str) -> object:
 	# 		logger.error("**CONSULT EMAIL NOT SENT**")
 	# except Exception as e:
 	# 	logger.error(e)
+
+	return browser
