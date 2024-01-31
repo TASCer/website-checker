@@ -17,7 +17,7 @@ def selenium_firefox() -> Service:
 
 		options.add_argument("--start-maximized")
 
-		logger.info(f"FIREFOX service created with options: {options.arguments}")
+		logger.info(f"FIREFOX browser/service created w/options: {options.arguments}")
 
 		ff_browser = webdriver.Firefox(service=service, options=options)
 
