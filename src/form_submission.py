@@ -31,8 +31,8 @@ def submit_consult(browser, site: str) -> object:
 
 	try:
 
-		browser.find_element(By.ID, "refresh-captcha").click()
-		WebDriverWait(browser, 1000)
+		# browser.find_element(By.ID, "refresh-captcha").click()
+		# WebDriverWait(browser, 1000)
 
 		fname = browser.find_element(By.NAME, 'firstname')
 		fname.send_keys("SELENIUM CONSULT")
@@ -116,20 +116,18 @@ def submit_contact(browser, site: str) -> object:
 
 	comments = browser.find_element(By.NAME, 'message')
 	comments.send_keys("SELENIUM CONTACT TESTING")
-	WebDriverWait(browser, 1000)
-
-	browser.find_element(By.ID, 'submit-form').click()
+	# WebDriverWait(browser, 1000)
 
 	try:
-
+		browser.find_element(By.ID, 'submit-form').click()
 		response_element = WebDriverWait(browser, 15).until(
 			EC.presence_of_element_located((By.ID, "msg")))
 
 		response = response_element.text
 
 	except Exception as e:
-		response = None
-		logger.exception(f"{response}-- {e}")
+		response = "No message"
+		logger.exception(f"{response}: {e}")
 
 	if response == 'Request sent successfully':
 		logger.info(f"\t\t CONTACT result: {response}")
