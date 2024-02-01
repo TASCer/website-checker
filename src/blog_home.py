@@ -19,16 +19,11 @@ def browse(browser, site: str) -> object:
 	except Exception as e:
 		logger.error(e)
 
-	# try:
-	# 	browser.find_element(By.LINK_TEXT, "Legacy Parc South (LPS)").click()   # "Neighboring Communities"
-	# except Exception as e:
-	# 		logger.error(e)
-	# time.sleep(6)
 
 	blog_entries = browser.find_elements(By.CLASS_NAME, "entry-title")
 	blog_titles = [e.text for e in blog_entries]
 	print(blog_titles)
-	print(len(blog_titles))
+	logger.info(f"First Page Blog Count: {len(blog_titles)}")
 	# 	fname = browser.find_element(By.NAME, 'firstname')
 	# 	fname.clear()
 	# 	fname.send_keys("SELENIUM CONSULT")

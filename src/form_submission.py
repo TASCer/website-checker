@@ -1,13 +1,12 @@
 import datetime as dt
 import logging
 import my_secrets
-# import time
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import ElementNotSelectableException
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support import expected_conditions as EC
-
 
 now: dt = dt.date.today()
 todays_date: str = now.strftime('%D').replace('/', '-')
@@ -20,74 +19,70 @@ def submit_consult(browser, site: str) -> object:
 		browser.get(site)
 		WebDriverWait(browser, 1000)
 
-	except Exception as e:
+	except TimeoutException as e:
 		logger.error(e)
 
 	if site == 'https://tascs.net':
-		return browser
+		logger.warning(f"PROD SITE {site} HAS CAPTCHA IN PLAY, SKIPPING")
+		return None
 
-	logger.info("SENDING EMAIL FROM CONSULT FORM")
-	logger.info(f"\t\tHARD CODED captcha: {my_secrets.test_home_url}**")
-
-	try:
-
-		# browser.find_element(By.ID, "refresh-captcha").click()
-		# WebDriverWait(browser, 1000)
-
-		fname = browser.find_element(By.NAME, 'firstname')
-		fname.send_keys("SELENIUM CONSULT")
-		WebDriverWait(browser, 1000)
-
-		lname = browser.find_element(By.NAME, 'lastname')
-		lname.send_keys("TESTER")
-		WebDriverWait(browser, 1000)
-
-		email = browser.find_element(By.NAME, 'email')
-		email.send_keys("TESTER@CONSULTFORM.COM")
-		WebDriverWait(browser, 1000)
-
-		company = browser.find_element(By.NAME, 'company')
-		company.send_keys("SELENIUM CONSULT TESTING INC.")
-		WebDriverWait(browser, 1000)
-
-		phone = browser.find_element(By.NAME, 'telephone')
-		phone.send_keys("1234567890")
-		WebDriverWait(browser, 1000)
-
-	except ElementNotSelectableException as e:
-		logger.error(e)
-
-	try:
-		captcha = browser.find_element(By.NAME, 'captcha')
-		captcha.send_keys('17')
-		WebDriverWait(browser, 1000)
-
-		browser.find_element(By.NAME, 'submit').click()
-		WebDriverWait(browser, 1000)
+	else:
+		logger.info("SENDING EMAIL FROM CONSULT FORM")
+		logger.info(f"\t\tHARD CODED captcha: {my_secrets.test_home_url}**")
 
 		try:
-			response_element = WebDriverWait(browser, 20).until(
-				EC.presence_of_element_located((By.ID, "msg")))
 
-			response = response_element.text
+			fname = browser.find_element(By.NAME, 'firstname')
+			fname.send_keys("SELENIUM CONSULT")
+			WebDriverWait(browser, 1000)
 
-		except Exception as e:
-			response = None
-			logger.exception(f"{response}-- {e}")
+			lname = browser.find_element(By.NAME, 'lastname')
+			lname.send_keys("TESTER")
+			WebDriverWait(browser, 1000)
 
-		if response == 'Request sent successfully':
-			logger.info(f"\t\tCONSULT response: {response}")
+			email = browser.find_element(By.NAME, 'email')
+			email.send_keys("TESTER@CONSULTFORM.COM")
+			WebDriverWait(browser, 1000)
 
-		else:
-			logger.error(f"\t\t-- CONSULT result: {response} --")
+			company = browser.find_element(By.NAME, 'company')
+			company.send_keys("SELENIUM CONSULT TESTING INC.")
+			WebDriverWait(browser, 1000)
 
-	except ElementNotSelectableException as e:
-		logger.error(e)
+			phone = browser.find_element(By.NAME, 'telephone')
+			phone.send_keys("1234567890")
+			WebDriverWait(browser, 1000)
 
-	browser.find_element(By.LINK_TEXT, "CONTACT").click()
-	WebDriverWait(browser, 3000)
+		except ElementNotSelectableException as e:
+			logger.error(e)
 
-	return browser
+		try:
+			captcha = browser.find_element(By.NAME, 'captcha')
+			captcha.send_keys('17')
+			WebDriverWait(browser, 1000)
+
+			browser.find_element(By.NAME, 'submit').click()
+			WebDriverWait(browser, 1000)
+
+			try:
+				# browser.find_element(By.ID, 'submit-form').click()
+				submit_response = WebDriverWait(browser, 15).until(
+					EC.text_to_be_present_in_element((By.ID, 'msg'), text_="Request sent successfully")
+				)
+
+				logger.info(f"\t\t CONSULT email sent? {submit_response}")
+
+				return browser
+
+			except Exception as e:
+				# submit_response = response = "No message"
+				logger.exception(f"CONSULT email not sent: {e}")
+
+		except ElementNotSelectableException as e:
+			logger.error(e)
+
+		browser.find_element(By.LINK_TEXT, "CONTACT").click()
+		WebDriverWait(browser, 3000)
+
 
 def submit_contact(browser, site: str) -> object:
 	try:
@@ -95,7 +90,7 @@ def submit_contact(browser, site: str) -> object:
 		WebDriverWait(browser, 1000)
 		logger.info("SENDING EMAIL FROM CONTACT FORM")
 
-	except Exception as e:
+	except TimeoutException as e:
 		logger.error(e)
 
 	name = browser.find_element(By.NAME, 'name')
@@ -116,42 +111,17 @@ def submit_contact(browser, site: str) -> object:
 
 	comments = browser.find_element(By.NAME, 'message')
 	comments.send_keys("SELENIUM CONTACT TESTING")
-	# WebDriverWait(browser, 1000)
 
 	try:
 		browser.find_element(By.ID, 'submit-form').click()
-		response_wait = WebDriverWait(browser, 15).until(
-			EC.presence_of_element_located((By.ID,'msg')))
+		submit_response = WebDriverWait(browser, 15).until(
+			EC.text_to_be_present_in_element((By.ID, 'msg'), text_="Request sent successfully")
+		)
 
-		response = response_wait.text
+		logger.info(f"\t\t CONTACT email sent? {submit_response}")
+
+		return browser
 
 	except Exception as e:
-		response = "No message"
-		logger.exception(f"{response}: {e}")
-
-	if response == 'Request sent successfully':
-		logger.info(f"\t\t CONTACT result: {response}")
-	else:
-		logger.error(f"\t\t CONTACT result: {response} --")
-
-	return browser
-
-
-
-
-
-
-	# browser.find_element(By.LINK_TEXT, "BLOG").click()
-	# WebDriverWait(browser, 1000)
-	# browser.find_element(By.LINK_TEXT, "HOA").click()
-	# WebDriverWait(browser, 1000)
-	#
-	# logger.info("FINISHED SELENIUM WEBSITE NAVBAR TESTING")
-	#
-	# browser.find_element(By.LINK_TEXT, "WHY TASCS?").click()
-	# WebDriverWait(browser, 1000)
-	#
-	# browser.find_element(By.LINK_TEXT, "SOLUTIONS").click()
-	# WebDriverWait(browser, 1000)
-
-	# browser.close()
+		submit_response = None
+		logger.exception(f"Contact not sent: {e}")
