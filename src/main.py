@@ -30,19 +30,20 @@ test_tascs_site = my_secrets.test_home_url
 local_tascs_site = my_secrets.local_home_url
 test_hoa_site = my_secrets.test_hoa_url
 
+site2test = test_tascs_site
 
 if __name__ == "__main__":
-	logger.info("STARTED SELENIUM WEBSITE TESTING...")
+	logger.info(f"STARTED SELENIUM TESTING FOR SITE: {site2test}...")
 	BROWSER = create_browser.selenium_firefox()
-	# home_page_links = nav_bar_links.browse(BROWSER, test_tascs_site)
-	form_submission.submit_contact(browser=BROWSER, site=test_tascs_site)
-	form_submission.submit_consult(browser=BROWSER, site=test_tascs_site)
+	home_page_links = nav_bar_links.browse(BROWSER, site= site2test)
+	form_submission.submit_contact(browser=BROWSER, site= site2test)
+	# form_submission.submit_consult(browser=BROWSER, site= site2test)
 
-	last_rentals_update = hoa_home.browse(BROWSER, test_hoa_site)
-	last_rentals_update = last_rentals_update.replace("\n"," " )
+	last_rentals = hoa_home.browse(BROWSER, site2test)
+	last_rentals_update = last_rentals.replace("\n"," " )
 	logger.info(f"Last HOA DB Update: {last_rentals_update}")
-	blog_home.browse(BROWSER, test_tascs_site+'/blog')
-	# mailer.send_mail(f"Python web testing complete")
+	blog_titles = blog_home.browse(BROWSER, site2test+'/blog')
+	mailer.send_mail(f"Python web testing complete")
 
 
 	BROWSER.close()
