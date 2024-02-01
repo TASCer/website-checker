@@ -120,10 +120,10 @@ def submit_contact(browser, site: str) -> object:
 
 	try:
 		browser.find_element(By.ID, 'submit-form').click()
-		response_element = WebDriverWait(browser, 15).until(
-			EC.presence_of_element_located((By.ID, "msg")))
+		response_wait = WebDriverWait(browser, 15).until(
+			EC.presence_of_element_located((By.ID,'msg')))
 
-		response = response_element.text
+		response = response_wait.text
 
 	except Exception as e:
 		response = "No message"
