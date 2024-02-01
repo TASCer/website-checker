@@ -15,7 +15,7 @@ todays_date: str = now.strftime('%D').replace('/', '-')
 logger = logging.getLogger(__name__)
 
 menu = {
-		# 'WHY': 'why-tasc',
+		'WHY': 'why-tasc',
 		'SOLUTIONS': 'solutions',
 		'CONTACT': 'contact-us',
 		'BLOG': 'blog',
@@ -32,10 +32,11 @@ def browse(browser, site: str) -> object:
 		logger.error(e)
 
 	for k,v in menu.items():
+		# print(k)
 		print(v)
-		browser.get(f"{site}/{v}").click()
-		browser.close
-
+		browser.get(f"{site}/{v}")
+		# browser.close
+	return browser
 	# navbar_items = browser.find_elements(By.TAG_NAME, 'a')
 	# print(navbar_items)
 	# for item in navbar_items:

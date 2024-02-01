@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 def browse(browser, site: str) -> object:
 	try:
 		# searching this even though click elsewhere!!?!
-		browser.get(site+'/lpsMap.php')
+		browser.get(site+'/hoa/lpsMap.php')
 		WebDriverWait(browser, 1000)
 		logger.info(f"Testing navigation bar links for: {site}")
 	except Exception as e:
