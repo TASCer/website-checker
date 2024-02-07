@@ -29,21 +29,31 @@ tascs_site = my_secrets.prod_home_url
 test_tascs_site = my_secrets.test_home_url
 local_tascs_site = my_secrets.local_home_url
 
-site2test = test_tascs_site
+MENU = {
+		'WHY TASCS?': 'why-tasc',
+		'Solutions': 'solutions',
+		'Contact': 'contact-us',
+		'Blog': 'blog',
+		'HOA': 'hoa'
+}
+
+
+site2test = tascs_site
 
 if __name__ == "__main__":
 	logger.info(f"STARTED SELENIUM TESTING FOR SITE: {site2test}...")
 	BROWSER = create_browser.selenium_firefox()
-	home_page_links = nav_bar_links.browse(BROWSER, site= site2test)
-	form_submission.submit_consult(browser=BROWSER, site=site2test)
-	form_submission.submit_contact(browser=BROWSER, site= site2test)
+	nav_bar_links.browse(BROWSER, MENU, site= site2test)
+	# print(home_page_links)
+	contact_response = form_submission.submit_contact(browser=BROWSER, site= site2test)
+	consult_response = form_submission.submit_consult(browser=BROWSER, site=site2test)
 
 
 	last_rentals = hoa_home.browse(BROWSER, site2test)
 	last_rentals_update = last_rentals.replace("\n"," " )
 	logger.info(f"Last HOA DB Update: {last_rentals_update}")
 	blog_titles = blog_home.browse(BROWSER, site2test+'/blog')
-	# mailer.send_mail(f"Python web testing complete")
+	mailer.send_mail(f"Selenium web testing complete: Consult: {consult_response} | Contact: {contact_response}")
 
 
 	BROWSER.close()

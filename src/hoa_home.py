@@ -17,7 +17,7 @@ def browse(browser, site: str) -> object:
 		# searching this even though click elsewhere!!?!
 		browser.get(site+'/hoa/lpsMap.php')
 		WebDriverWait(browser, 1000)
-		logger.info(f"Testing navigation bar links for: {site}")
+		logger.info(f"Testing HOA page for: {site}")
 	except Exception as e:
 		logger.error(e)
 
@@ -27,8 +27,8 @@ def browse(browser, site: str) -> object:
 	# 		logger.error(e)
 	# time.sleep(6)
 
-	communities = browser.find_element(By.ID, "TS")#.click()
-	return  communities.text
+	last_db_update = browser.find_element(By.ID, "TS")#.click()
+	return  last_db_update.text
 	# time.sleep(11)
 	# 	fname = browser.find_element(By.NAME, 'firstname')
 	# 	fname.clear()

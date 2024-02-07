@@ -22,13 +22,11 @@ def submit_consult(browser, site: str) -> object:
 	except TimeoutException as e:
 		logger.error(e)
 
-	if site == 'https://tascs.net':
+	if site == 'https://www.tascs.net':
 		logger.warning(f"PROD SITE {site} HAS CAPTCHA IN PLAY, SKIPPING")
-		return None
 
 	else:
-		logger.info("SENDING EMAIL FROM CONSULT FORM")
-		logger.info(f"\t\tHARD CODED captcha: {my_secrets.test_home_url}**")
+		logger.info(f"SENDING EMAIL FROM CONSULT FORM w/captcha hardcoded for : {site}")
 
 		try:
 
@@ -74,14 +72,13 @@ def submit_consult(browser, site: str) -> object:
 				return browser
 
 			except Exception as e:
-				# submit_response = response = "No message"
-				logger.exception(f"CONSULT email not sent: {e}")
+				submit_response = response = False
+				logger.exception(f"CONSULT email not sent: {submit_response}: {e}")
 
 		except ElementNotSelectableException as e:
 			logger.error(e)
 
-		browser.find_element(By.LINK_TEXT, "CONTACT").click()
-		WebDriverWait(browser, 3000)
+		return submit_response
 
 
 def submit_contact(browser, site: str) -> object:
@@ -120,8 +117,9 @@ def submit_contact(browser, site: str) -> object:
 
 		logger.info(f"\t\t CONTACT email sent? {submit_response}")
 
-		return browser
+		return submit_response
 
 	except Exception as e:
-		submit_response = None
-		logger.exception(f"Contact not sent: {e}")
+		submit_response = False
+		logger.exception(f"Contact not sent: {submit_response}: {e}")
+
