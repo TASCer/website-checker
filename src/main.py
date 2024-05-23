@@ -16,15 +16,14 @@ todays_date: str = now.strftime('%D').replace('/', '-')
 root_logger: Logger = logging.getLogger()
 root_logger.setLevel(logging.INFO)
 
-# NEEDED TO ABSOLUTE FOR SCHEDULED TASKS
+# NEEDED TO ABSOLUTE PATH FOR SCHEDULED TASKS?
 fh = logging.FileHandler(f'D:\PycharmProjects\Selenium\{todays_date}.log')
 fh.setLevel(logging.DEBUG)
-formatter: Formatter = Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+formatter: Formatter = Formatter('%(asctime)s - %(name)s - %{lineno}d - %(levelname)s - %(message)s')
 fh.setFormatter(formatter)
 root_logger.addHandler(fh)
 logger: Logger = logging.getLogger(__name__)
 
-# CHROME = create_browser.my_selenium_chrome()
 tascs_site = my_secrets.prod_home_url
 test_tascs_site = my_secrets.test_home_url
 local_tascs_site = my_secrets.local_home_url
