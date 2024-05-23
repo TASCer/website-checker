@@ -14,8 +14,8 @@ def selenium_firefox() -> Service:
 	try:
 		service = Service(f"{my_secrets.firefox_driver}")
 		options = webdriver.FirefoxOptions()
-
 		options.add_argument("--start-maximized")
+		options.binary_location = r'P:\Firefox\firefox.exe'
 
 		logger.info(f"FIREFOX browser service created w/options: {options.arguments}")
 
@@ -23,8 +23,12 @@ def selenium_firefox() -> Service:
 
 		return ff_browser
 
-	except (FileNotFoundError, WebDriverException) as e:
-		logger.critical(f"{str(e)}")
+	except FileNotFoundError as file_err:
+		logger.exception(file_err)
+		exit()
+
+	except WebDriverException as driver_err:
+		logger.critical(f"{str(driver_err)}")
 		exit()
 
 
