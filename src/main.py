@@ -42,18 +42,15 @@ site2test = tascs_site
 
 if __name__ == "__main__":
 	logger.info(f"STARTED SELENIUM TESTING FOR SITE: {site2test}...")
-	BROWSER = create_browser.selenium_firefox()
-	nav_bar_links.browse(BROWSER, MENU, site= site2test)
-	# print(home_page_links)
-	contact_response = form_submission.submit_contact(browser=BROWSER, site= site2test)
+	BROWSER = create_browser.selenium_chrome()
+	nav_bar_links.browse(BROWSER, MENU, site=site2test)
+	contact_response = form_submission.submit_contact(browser=BROWSER, site=site2test)
 	consult_response = form_submission.submit_consult(browser=BROWSER, site=site2test)
 
-
 	last_rentals = hoa_home.browse(BROWSER, site2test)
-	last_rentals_update = last_rentals.replace("\n"," " )
+	last_rentals_update = last_rentals.replace("\n", " ")
 	logger.info(f"Last HOA DB Update: {last_rentals_update}")
 	blog_titles = blog_home.browse(BROWSER, site2test+'/blog')
 	mailer.send_mail(f"Selenium web testing complete: Consult: {consult_response} | Contact: {contact_response}")
-
 
 	BROWSER.close()
