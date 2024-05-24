@@ -9,7 +9,7 @@ from selenium.webdriver.chrome.service import Service
 logger = logging.getLogger(__name__)
 
 
-def selenium_firefox() -> Service:
+def selenium_firefox() -> webdriver:
 	"""Create and return a selenium Firefox service to be used on pages and forms"""
 	try:
 		service = Service(f"{my_secrets.firefox_driver}")
@@ -32,7 +32,7 @@ def selenium_firefox() -> Service:
 		exit()
 
 
-def selenium_chrome():
+def selenium_chrome() -> webdriver:
 	"""Create and return a selenium Firefox service to be used on pages and forms"""
 	try:
 		service = Service(f"{my_secrets.chrome_driver}")
