@@ -1,14 +1,12 @@
 import datetime as dt
 import logging
-import my_secrets
-import selenium.common.exceptions
+import selenium.common.exceptions as sel_exc
 import time
 
-from selenium.webdriver.common.by import By
+# from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.common.exceptions import ElementNotSelectableException
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import ERROR_URL
+# from selenium.common.exceptions import ElementNotSelectableException
+# from selenium.webdriver.support import expected_conditions as EC
 from typing import Dict
 
 now: dt = dt.date.today()
@@ -17,13 +15,12 @@ todays_date: str = now.strftime('%D').replace('/', '-')
 logger = logging.getLogger(__name__)
 
 
-
-def browse(browser,  nav_menu_links: Dict , site: str,) -> object:
+def browse(browser,  nav_menu_links: Dict, site: str,) -> object:
 	try:
 		browser.get(site)
 		WebDriverWait(browser, 1000)
 		logger.info(f"Navigating menu bar links")
-	except ERROR_URL as e:
+	except sel_exc as e:
 		logger.error(e)
 
 	for title, href in nav_menu_links.items():
@@ -32,11 +29,10 @@ def browse(browser,  nav_menu_links: Dict , site: str,) -> object:
 			browser.get(f"{site}/{href}")
 			time.sleep(10)
 
-		except ERROR_URL as e:
+		except sel_exc as e:
 			logger.exception(e)
 
 	return browser
-
 
 
 	# navbar_items = browser.find_elements(By.TAG_NAME, 'a')
