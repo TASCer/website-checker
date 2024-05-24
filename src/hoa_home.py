@@ -1,7 +1,7 @@
 import datetime as dt
 import logging
-import my_secrets
-import time
+# import my_secrets
+# import time
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -13,11 +13,12 @@ logger = logging.getLogger(__name__)
 
 
 def browse(browser, site: str) -> object:
+
 	try:
-		# searching this even though click elsewhere!!?!
 		browser.get(site+'/hoa/lpsMap.php')
 		WebDriverWait(browser, 1000)
 		logger.info(f"Testing HOA page for: {site}")
+
 	except Exception as e:
 		logger.error(e)
 
@@ -27,8 +28,8 @@ def browse(browser, site: str) -> object:
 	# 		logger.error(e)
 	# time.sleep(6)
 
-	last_db_update = browser.find_element(By.ID, "TS")#.click()
-	return  last_db_update.text
+	last_db_update = browser.find_element(By.ID, "TS")
+	return last_db_update.text
 	# time.sleep(11)
 	# 	fname = browser.find_element(By.NAME, 'firstname')
 	# 	fname.clear()
