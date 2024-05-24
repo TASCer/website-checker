@@ -47,6 +47,7 @@ def send_mail(subject: str, attachment_path: object = None):
             </body>
           </html>
           """
+        # noinspection PyTypeChecker
         with open(attachment_path, "rb") as attachment:
             html: MIMEText = MIMEText(html_attachments, "html")
             part_attachments: MIMEBase = MIMEBase("application", "octet-stream")
@@ -80,6 +81,12 @@ def send_mail(subject: str, attachment_path: object = None):
             logger.info("email sent")
         except smtplib.SMTPException as e:
             logger.exception(f"email not sent {str(e)}")
+
+
+# send_mail("TEST FROM SELENIUM")
+
+
+
 
     # #################################### SSL TESTING
     # context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)   # ssl.create_default_context
