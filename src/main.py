@@ -19,7 +19,7 @@ root_logger.setLevel(logging.INFO)
 # NEEDED TO ABSOLUTE PATH FOR SCHEDULED TASKS?
 fh = logging.FileHandler(f'D:\PycharmProjects\Selenium\{todays_date}.log')
 fh.setLevel(logging.DEBUG)
-formatter: Formatter = Formatter('%(asctime)s - %(name)s - %{lineno}d - %(levelname)s - %(message)s')
+formatter: Formatter = Formatter('%(asctime)s - %(name)s - %(lineno)d - %(levelname)s - %(message)s')
 fh.setFormatter(formatter)
 root_logger.addHandler(fh)
 logger: Logger = logging.getLogger(__name__)
@@ -37,19 +37,31 @@ MENU = {
 }
 
 
-site2test = tascs_site
+site2test = test_tascs_site
+
+
+def main(site: str):
+	BROWSER = create_browser.selenium_firefox()
+	nav_bar_links.browse(BROWSER, MENU, site=site2test)
+	contact_response = form_submission.submit_contact(browser=BROWSER, site=site)
+	consult_response = form_submission.submit_consult(browser=BROWSER, site=site)
+
+	last_rentals = hoa_home.browse(BROWSER, site)
+	last_rentals_update = last_rentals.replace("\n", " ")
+	logger.info(f"Last HOA DB Update: {last_rentals_update}")
+	blog_titles = blog_home.browse(BROWSER, site + '/blog')
+
+	if not contact_response or not consult_response:
+		mailer.send_mail(f"Selenium web testing completed with email errors: {contact_response=} {consult_response=}")
+		logger.warning(f"Selenium web testing completed with email errors")
+
+	if contact_response and consult_response:
+		mailer.send_mail(f"Selenium web testing completed without email errors")
+		logger.info(f"Selenium web testing completed without email errors")
+
+	BROWSER.close()
+
 
 if __name__ == "__main__":
 	logger.info(f"STARTED SELENIUM TESTING FOR SITE: {site2test}...")
-	BROWSER = create_browser.selenium_chrome()
-	nav_bar_links.browse(BROWSER, MENU, site=site2test)
-	contact_response = form_submission.submit_contact(browser=BROWSER, site=site2test)
-	consult_response = form_submission.submit_consult(browser=BROWSER, site=site2test)
-
-	last_rentals = hoa_home.browse(BROWSER, site2test)
-	last_rentals_update = last_rentals.replace("\n", " ")
-	logger.info(f"Last HOA DB Update: {last_rentals_update}")
-	blog_titles = blog_home.browse(BROWSER, site2test+'/blog')
-	mailer.send_mail(f"Selenium web testing complete: Consult: {consult_response} | Contact: {contact_response}")
-
-	BROWSER.close()
+	main(site2test)
