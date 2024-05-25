@@ -1,5 +1,6 @@
 import datetime as dt
 import logging
+import mailer
 import my_secrets
 
 from selenium.webdriver.common.by import By
@@ -26,7 +27,7 @@ def submit_consult(browser, site: str) -> object:
 		logger.warning(f"PROD SITE {site} HAS CAPTCHA IN PLAY, SKIPPING")
 
 	else:
-		logger.info(f"SENDING EMAIL FROM CONSULT FORM w/captcha hardcoded for : {site}")
+		logger.warning(f"SENDING EMAIL FROM CONSULT FORM (w/captcha hardcoded)")
 
 		try:
 
@@ -55,30 +56,37 @@ def submit_consult(browser, site: str) -> object:
 
 		try:
 			captcha = browser.find_element(By.NAME, 'captcha')
-			captcha.send_keys('17')
+			captcha.send_keys('7')
 			WebDriverWait(browser, 1000)
 
 			browser.find_element(By.NAME, 'submit').click()
-			WebDriverWait(browser, 1000)
+			# WebDriverWait(browser, 1000)
 
 			try:
 				# browser.find_element(By.ID, 'submit-form').click()
-				submit_response = WebDriverWait(browser, 15).until(
+				msg = WebDriverWait(browser, 15).until(
 					EC.text_to_be_present_in_element((By.ID, 'msg'), text_="Request sent successfully")
 				)
 
-				logger.info(f"\t\t CONSULT email sent? {submit_response}")
+				if not msg:
+					raise TimeoutException
 
-				return browser
+				# mailer.send_mail(f"Selenium web testing complete")
+				# logger.info(f"\t\tEmail sent")
 
-			except Exception as e:
-				submit_response = response = False
-				logger.exception(f"CONSULT email not sent: {submit_response}: {e}")
+
+			except TimeoutException:
+				logger.error(f"\t\tEmail Failure: Check {site}'s server logs")
+				return False
 
 		except ElementNotSelectableException as e:
 			logger.error(e)
+			return False
 
-		return submit_response
+	logger.info(f"\t\tEmail sent")
+
+	return True
+
 
 
 def submit_contact(browser, site: str) -> object:
@@ -111,15 +119,20 @@ def submit_contact(browser, site: str) -> object:
 
 	try:
 		browser.find_element(By.ID, 'submit-form').click()
-		submit_response = WebDriverWait(browser, 15).until(
+		msg = WebDriverWait(browser, 15).until(
 			EC.text_to_be_present_in_element((By.ID, 'msg'), text_="Request sent successfully")
 		)
+		print(msg)
+		if not msg:
+			raise TimeoutException
+		# mailer.send_mail(f"Selenium web testing complete")
 
-		logger.info(f"\t\t CONTACT email sent? {submit_response}")
 
-		return submit_response
+	except TimeoutException:
+		logger.error(f"\t\tEmail Failure: Check {site}'s server logs")
+		return False
 
-	except Exception as e:
-		submit_response = False
-		logger.exception(f"Contact not sent: {submit_response}: {e}")
 
+	logger.info(f"\t\tEmail sent")
+
+	return msg
