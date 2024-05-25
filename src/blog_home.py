@@ -22,7 +22,6 @@ def browse(browser, site: str) -> object:
 
 	blog_entries = browser.find_elements(By.CLASS_NAME, "entry-title")
 	blog_titles = [e.text for e in blog_entries]
-	print(blog_titles)
 	logger.info(f"First Page Blog Count: {len(blog_titles)}")
 	# 	fname = browser.find_element(By.NAME, 'firstname')
 	# 	fname.clear()
