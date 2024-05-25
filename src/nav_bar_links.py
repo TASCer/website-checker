@@ -26,7 +26,7 @@ def browse(browser,  nav_menu_links: Dict, site: str,) -> object:
 	for title, href in nav_menu_links.items():
 		try:
 			browser.get(f"{site}/{href}")
-			time.sleep(10)
+			time.sleep(5)
 
 		except sel_exc.WebDriverException as e:
 			logger.exception(e)
