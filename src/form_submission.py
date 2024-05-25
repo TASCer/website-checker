@@ -27,7 +27,7 @@ def submit_consult(browser, site: str) -> object:
 		logger.warning(f"PROD SITE {site} HAS CAPTCHA IN PLAY, SKIPPING")
 
 	else:
-		logger.warning(f"SENDING EMAIL FROM CONSULT FORM (w/captcha hardcoded)")
+		logger.info(f"SENDING EMAIL FROM CONSULT FORM (w/captcha hardcoded)")
 
 		try:
 
@@ -116,6 +116,7 @@ def submit_contact(browser, site: str) -> object:
 
 	comments = browser.find_element(By.NAME, 'message')
 	comments.send_keys("SELENIUM CONTACT TESTING")
+	WebDriverWait(browser, 1000)
 
 	try:
 		browser.find_element(By.ID, 'submit-form').click()
@@ -125,8 +126,6 @@ def submit_contact(browser, site: str) -> object:
 		print(msg)
 		if not msg:
 			raise TimeoutException
-		# mailer.send_mail(f"Selenium web testing complete")
-
 
 	except TimeoutException:
 		logger.error(f"\t\tEmail Failure: Check {site}'s server logs")
