@@ -20,16 +20,15 @@ def browse(browser,  nav_menu_links: Dict, site: str,) -> object:
 		browser.get(site)
 		WebDriverWait(browser, 1000)
 		logger.info(f"Navigating menu bar links")
-	except sel_exc as e:
+	except sel_exc.WebDriverException as e:
 		logger.error(e)
 
 	for title, href in nav_menu_links.items():
-		print(href)
 		try:
 			browser.get(f"{site}/{href}")
 			time.sleep(10)
 
-		except sel_exc as e:
+		except sel_exc.WebDriverException as e:
 			logger.exception(e)
 
 	return browser
