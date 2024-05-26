@@ -17,7 +17,7 @@ root_logger: Logger = logging.getLogger()
 root_logger.setLevel(logging.INFO)
 
 # NEEDED TO ABSOLUTE PATH FOR SCHEDULED TASKS?
-fh = logging.FileHandler(f'D:\PycharmProjects\Selenium\{todays_date}.log')
+fh = logging.FileHandler(rf'D:\PycharmProjects\Selenium\{todays_date}.log')
 fh.setLevel(logging.DEBUG)
 formatter: Formatter = Formatter('%(asctime)s - %(name)s - %(lineno)d - %(levelname)s - %(message)s')
 fh.setFormatter(formatter)
@@ -63,5 +63,5 @@ def main(site: str):
 
 
 if __name__ == "__main__":
-	logger.info(f"STARTED SELENIUM TESTING FOR SITE: {site2test}")
+	logger.info(f"STARTED SELENIUM TESTING FOR SITE: {site2test.upper()}")
 	main(site2test)

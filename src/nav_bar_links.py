@@ -19,7 +19,7 @@ def browse(browser,  nav_menu_links: Dict, site: str,) -> object:
 	try:
 		browser.get(site)
 		WebDriverWait(browser, 1000)
-		logger.info(f"Navigating menu bar links")
+		logger.info(f"\tNavigating menu bar links {nav_menu_links}")
 	except sel_exc.WebDriverException as e:
 		logger.error(e)
 

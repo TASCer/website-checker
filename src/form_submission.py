@@ -22,10 +22,10 @@ def submit_consult(browser, site: str) -> object:
 		logger.error(e)
 
 	if site == 'https://www.tascs.net':
-		logger.warning(f"PROD SITE {site} HAS CAPTCHA IN PLAY, SKIPPING")
+		logger.warning(f"\tPROD SITE {site} HAS CAPTCHA IN PLAY, SKIPPING")
 
 	else:
-		logger.info(f"SENDING EMAIL FROM CONSULT FORM (w/captcha hardcoded)")
+		logger.info(f"\tSENDING EMAIL FROM CONSULT FORM (w/captcha hardcoded)")
 
 		try:
 

@@ -17,7 +17,7 @@ def selenium_firefox() -> webdriver:
 		options.add_argument("--start-maximized")
 		options.binary_location = r'P:\Firefox\firefox.exe'
 
-		logger.info(f"FIREFOX browser service created w/options: {options.arguments}")
+		logger.info(f"\tFIREFOX browser service created w/options: {options.arguments}")
 
 		ff_browser = webdriver.Firefox(service=service, options=options)
 
@@ -43,7 +43,7 @@ def selenium_chrome() -> webdriver:
 		options.add_experimental_option("useAutomationExtension", False)
 		options.add_argument("--disable notifications")
 
-		logger.info(f"selenium CHROME service created with options: {options.arguments}")
+		logger.info(f"\tCHROME browser service created w/options: {options.arguments}")
 
 		chr_browser = webdriver.Chrome(service=service, options=options)
 

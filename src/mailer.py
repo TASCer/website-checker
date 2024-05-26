@@ -78,7 +78,7 @@ def send_mail(subject: str, attachment_path: object = None):
     with smtplib.SMTP(my_secrets.postfix_mailhost, 25) as server:
         try:
             server.sendmail(sender_email, receiver_email, msg.as_string())
-            logger.info("email sent")
+            # logger.info("email sent")
         except smtplib.SMTPException as e:
             logger.exception(f"email not sent {str(e)}")
 
