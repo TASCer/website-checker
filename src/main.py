@@ -41,7 +41,7 @@ site2test = test_tascs_site
 
 
 def main(site: str):
-	BROWSER = create_browser.selenium_firefox()
+	BROWSER = create_browser.selenium_chrome()
 	nav_bar_links.browse(BROWSER, MENU, site=site2test)
 	contact_response = form_submission.submit_contact(browser=BROWSER, site=site)
 	consult_response = form_submission.submit_consult(browser=BROWSER, site=site)
@@ -56,12 +56,12 @@ def main(site: str):
 		logger.warning(f"Selenium web testing completed with email errors")
 
 	if contact_response and consult_response:
-		mailer.send_mail(f"Selenium web testing completed without email errors")
-		logger.info(f"Selenium web testing completed without email errors")
+		mailer.send_mail(f"Selenium web testing completed without form email errors")
+		logger.info(f"Selenium web testing completed without form email errors")
 
 	BROWSER.close()
 
 
 if __name__ == "__main__":
-	logger.info(f"STARTED SELENIUM TESTING FOR SITE: {site2test}...")
+	logger.info(f"STARTED SELENIUM TESTING FOR SITE: {site2test}")
 	main(site2test)
