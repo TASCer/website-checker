@@ -1,7 +1,5 @@
 import datetime as dt
 import logging
-import mailer
-import my_secrets
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -71,10 +69,6 @@ def submit_consult(browser, site: str) -> object:
 				if not msg:
 					raise TimeoutException
 
-				# mailer.send_mail(f"Selenium web testing complete")
-				# logger.info(f"\t\tEmail sent")
-
-
 			except TimeoutException:
 				logger.error(f"\t\tEmail Failure: Check {site}'s server logs")
 				return False
@@ -86,7 +80,6 @@ def submit_consult(browser, site: str) -> object:
 	logger.info(f"\t\tEmail sent")
 
 	return True
-
 
 
 def submit_contact(browser, site: str) -> object:
@@ -123,14 +116,13 @@ def submit_contact(browser, site: str) -> object:
 		msg = WebDriverWait(browser, 15).until(
 			EC.text_to_be_present_in_element((By.ID, 'msg'), text_="Request sent successfully")
 		)
-		print(msg)
+
 		if not msg:
 			raise TimeoutException
 
 	except TimeoutException:
 		logger.error(f"\t\tEmail Failure: Check {site}'s server logs")
 		return False
-
 
 	logger.info(f"\t\tEmail sent")
 
