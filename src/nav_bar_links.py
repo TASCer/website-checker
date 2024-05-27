@@ -3,6 +3,7 @@ import logging
 import selenium.common.exceptions as sel_exc
 import time
 
+from mailer import send_mail
 # from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 # from selenium.common.exceptions import ElementNotSelectableException
@@ -19,9 +20,17 @@ def browse(browser,  nav_menu_links: Dict, site: str,) -> object:
 	try:
 		browser.get(site)
 		WebDriverWait(browser, 1000)
-		logger.info(f"\tNavigating menu bar links {nav_menu_links}")
-	except sel_exc.WebDriverException as e:
-		logger.error(e)
+		logger.info(f"\tNavigating menu bar links: {nav_menu_links.values()}")
+	except sel_exc.WebDriverException as err:
+		if 'ERR_CONNECTION_REFUSED' in err.msg:  # CHROME
+			logger.error(f"{err.msg}")
+			send_mail(f"ERROR: SELENIUM {site} - {err.msg}")
+			exit()
+
+		if "Reached error page" in err.msg:  # Firefox
+			logger.error(f"{err.msg}")
+			send_mail(f"ERROR: SELENIUM {site} - {err.msg}")
+			exit()
 
 	for title, href in nav_menu_links.items():
 		try:
