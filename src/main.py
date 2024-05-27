@@ -41,27 +41,27 @@ site2test = test_tascs_site
 
 
 def main(site: str):
-	BROWSER = create_browser.selenium_chrome()
+	BROWSER = create_browser.selenium_firefox()
 	nav_bar_links.browse(BROWSER, MENU, site=site2test)
 	contact_response = form_submission.submit_contact(browser=BROWSER, site=site)
 	consult_response = form_submission.submit_consult(browser=BROWSER, site=site)
 
 	last_rentals = hoa_home.browse(BROWSER, site)
 	last_rentals_update = last_rentals.replace("\n", " ")
-	logger.info(f"Last HOA DB Update: {last_rentals_update}")
-	blog_titles = blog_home.browse(BROWSER, site + '/blog')
+	logger.info(f"\tLast HOA DB Update: {last_rentals_update}")
+	blog_home.browse(BROWSER, site + '/blog')
 
 	if not contact_response or not consult_response:
-		mailer.send_mail(f"Selenium web testing completed with email errors: {contact_response=} {consult_response=}")
-		logger.warning(f"Selenium web testing completed with email errors")
+		mailer.send_mail(f"COMPLETED SELENIUM WEB TESTING WITH FORM ERRORS{contact_response=} {consult_response=}")
+		logger.warning(f"COMPLETED SELENIUM WEB TESTING WITH FORM ERRORS")
 
 	if contact_response and consult_response:
-		mailer.send_mail(f"Selenium web testing completed without form email errors")
-		logger.info(f"Selenium web testing completed without form email errors")
+		mailer.send_mail(f"COMPLETED SELENIUM WEB TESTING WITHOUT FORM ERRORS")
+		logger.info(f"COMPLETED SELENIUM WEB TESTING WITHOUT FORM ERRORS")
 
 	BROWSER.close()
 
 
 if __name__ == "__main__":
-	logger.info(f"STARTED SELENIUM TESTING FOR SITE: {site2test.upper()}")
+	logger.info(f"STARTED SELENIUM WEB TESTING FOR SITE: {site2test.upper()}")
 	main(site2test)

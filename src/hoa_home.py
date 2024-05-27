@@ -1,7 +1,5 @@
 import datetime as dt
 import logging
-# import my_secrets
-# import time
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -17,7 +15,7 @@ def browse(browser, site: str) -> object:
 	try:
 		browser.get(site+'/hoa/lpsMap.php')
 		WebDriverWait(browser, 1000)
-		logger.info(f"Testing HOA page for: {site}")
+		logger.info(f"\tTesting HOA page for: {site}")
 
 	except Exception as e:
 		logger.error(e)

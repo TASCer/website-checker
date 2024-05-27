@@ -86,7 +86,7 @@ def submit_contact(browser, site: str) -> object:
 	try:
 		browser.get(site+'/contact-us')
 		WebDriverWait(browser, 1000)
-		logger.info("SENDING EMAIL FROM CONTACT FORM")
+		logger.info("\tSENDING EMAIL FROM CONTACT FORM")
 
 	except TimeoutException as e:
 		logger.error(e)
