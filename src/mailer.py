@@ -12,13 +12,12 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from logging import Logger
 
-
 now: datetime = dt.datetime.now()
 todays_date: str = now.strftime('%D').replace('/', '-')
 
 email_reciever: list[str] = my_secrets.email_to
 email_sender: str = my_secrets.postfix_mail_from
-mail_server = my_secrets.postfix_mailhost
+email_server = my_secrets.postfix_mailhost
 email_user = my_secrets.postfix_user
 email_password = my_secrets.postfix_password
 
@@ -77,16 +76,22 @@ def send_mail(subject: str, attachment_path: object = None):
         part_basic: MIMEText = MIMEText(html_basic, "html")
         msg.attach(part_basic)
 
-    # WORKING NON SSL 25 or 587
-    # with smtplib.SMTP(my_secrets.postfix_mailhost, 25) as server:
-    #     try:
-    #         server.sendmail(sender_email, receiver_email, msg.as_string())
-    #
-    #     except smtplib.SMTPException as e:
-    #         logger.exception(f"email not sent {str(e)}")
+# WORKING NON SSL 25 or 587
+    try:
+        with smtplib.SMTP(my_secrets.postfix_mailhost, 587) as server:
+            server.ehlo()
+            server.starttls()
+            try:
+                server.login(email_user, email_password)
+            except smtplib.SMTPAuthenticationError as login_err:
+                logger.exception(f"email not sent {str(login_err)}")
+            server.sendmail(email_sender, email_reciever, msg.as_string())
 
-    # #################################### SSL TESTING
-    context = ssl.create_default_context(ssl.PROTOCOL_TLS_CLIENT)   # ssl.create_default_context
+    except smtplib.SMTPException as err:
+        logger.error(f"{login_err}")
+
+# SSL TESTING
+    # context = ssl.create_default_context(ssl.PROTOCOL_TLS_CLIENT)   # ssl.create_default_context
     # context.set_ciphers('TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384')        #("TLS_RSA_WITH_AES_128_CBC_SHA256")     # ("TLS_DHE_RSA_WITH_AES_128_GCM_SHA256")
     # context.hostname_checks_common_name = False
     # context.check_hostname = False
@@ -108,21 +113,21 @@ def send_mail(subject: str, attachment_path: object = None):
 #         # for d in c:
 #         #     print(d)
 #         #     print(type(d))
-    try:
-        with smtplib.SMTP_SSL(my_secrets.postfix_mailhost, 25, context=context) as server:
-            server.login(user=my_secrets.postfix_user, password=my_secrets.postfix_password)  # NTLM issue? wrong version issue .997?
-            server.ehlo("tascslt.tascs.local")
-            server.starttls(context=context)
-            server.sendmail(my_secrets.postfix_mail_from, receiver_email, msg.as_string())
+#     try:
+#         with smtplib.SMTP_SSL(my_secrets.postfix_mailhost, 25, context=context) as server:
+#             server.login(user=my_secrets.postfix_user, password=my_secrets.postfix_password)  # NTLM issue? wrong version issue .997?
+#             server.ehlo("tascslt.tascs.local")
+#             server.starttls(context=context)
+#             server.sendmail(my_secrets.postfix_mail_from, receiver_email, msg.as_string())
+#
+#     except smtplib.SMTPException as e:
+#         print("SMTPERROR", e)
+#     except ssl.SSLCertVerificationError as e:
+#         print(e)
+#     except ssl.SSLError as e:
+#         print("SSLError", str(e))
+#     except ssl.ALERT_DESCRIPTION_HANDSHAKE_FAILURE as e:
+#         print(e)
 
-    except smtplib.SMTPException as e:
-        print("SMTPERROR", e)
-    except ssl.SSLCertVerificationError as e:
-        print(e)
-    except ssl.SSLError as e:
-        print("SSLError", str(e))
-    except ssl.ALERT_DESCRIPTION_HANDSHAKE_FAILURE as e:
-        print(e)
 
-
-send_mail("hello, TLS test on port 587")
+# send_mail("hello, TLS test on port 587")
