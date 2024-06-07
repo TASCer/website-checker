@@ -85,7 +85,7 @@ def submit_consult(browser, site: str) -> object:
 
 def submit_contact(browser, site: str) -> object:
 	try:
-		browser.get(site+'/contact-us')
+		browser.get(site)
 		WebDriverWait(browser, 1000)
 		logger.info("\tSENDING EMAIL FROM CONTACT FORM")
 

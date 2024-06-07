@@ -15,7 +15,7 @@ todays_date: str = now.strftime('%D').replace('/', '-')
 root_logger: Logger = logging.getLogger()
 root_logger.setLevel(logging.INFO)
 
-# NEEDED TO ABSOLUTE PATH FOR SCHEDULED TASKS?
+# NEEDED ABSOLUTE PATH FOR SCHEDULED TASKS?
 fh = logging.FileHandler(rf'D:\PycharmProjects\Selenium\{todays_date}.log')
 fh.setLevel(logging.DEBUG)
 formatter: Formatter = Formatter('%(asctime)s - %(name)s - %(lineno)d - %(levelname)s - %(message)s')
@@ -41,7 +41,7 @@ site2test = test_tascs_site
 def main(site: str):
 	BROWSER = create_browser.selenium_firefox()
 	nav_bar_links.browse(BROWSER, MENU, site=site2test)
-	contact_response = form_submission.submit_contact(browser=BROWSER, site=site)
+	contact_response = form_submission.submit_contact(browser=BROWSER, site=site+'/contact-us')
 	consult_response = form_submission.submit_consult(browser=BROWSER, site=site)
 
 	last_rentals = hoa_home.browse(BROWSER, site)
@@ -50,16 +50,16 @@ def main(site: str):
 	blog_home.browse(BROWSER, site + '/blog')
 
 	if not contact_response or not consult_response:
-		mailer.send_mail(f"COMPLETED SELENIUM WEB TESTING WITH FORM ERRORS{contact_response=} {consult_response=}")
-		logger.warning(f"COMPLETED SELENIUM WEB TESTING WITH FORM ERRORS")
+		mailer.send_mail(f"FORM EMAIL ERROR IN WEB TESTING: {contact_response=} {consult_response=}")
+		logger.warning(f"----- FORM EMAIL ERROR IN COMPLETING WEB TESTING FOR SITE: {site2test.upper()} -----")
 
 	if contact_response and consult_response:
 		mailer.send_mail(f"COMPLETED SELENIUM WEB TESTING WITHOUT FORM ERRORS")
-		logger.info(f"COMPLETED SELENIUM WEB TESTING WITHOUT FORM ERRORS")
+		logger.info(f"***** COMPLETED WEB TESTING FOR SITE: {site2test.upper()} WITHOUT FORM ERRORS *****")
 
 	BROWSER.close()
 
 
 if __name__ == "__main__":
-	logger.info(f"STARTED SELENIUM WEB TESTING FOR SITE: {site2test.upper()}")
+	logger.info(f"***** STARTED WEB TESTING FOR SITE: {site2test.upper()} *****")
 	main(site2test)
