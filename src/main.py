@@ -12,7 +12,6 @@ from logging import Logger, Formatter
 now: dt = dt.date.today()
 todays_date: str = now.strftime('%D').replace('/', '-')
 
-# LOGGING
 root_logger: Logger = logging.getLogger()
 root_logger.setLevel(logging.INFO)
 
@@ -35,7 +34,6 @@ MENU = {
 		'Blog': 'blog',
 		'HOA': 'hoa'
 }
-
 
 site2test = test_tascs_site
 

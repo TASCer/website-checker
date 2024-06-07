@@ -21,7 +21,7 @@ def submit_consult(browser, site: str) -> object:
 	except TimeoutException as e:
 		logger.error(e)
 
-	if site == 'https://www.tascs.net':
+	if site == 'https://tascs.net':
 		logger.warning(f"\tPROD SITE {site} HAS CAPTCHA IN PLAY, SKIPPING")
 
 	else:
@@ -54,14 +54,15 @@ def submit_consult(browser, site: str) -> object:
 
 		try:
 			captcha = browser.find_element(By.NAME, 'captcha')
+			WebDriverWait(browser, 1000)
 			captcha.send_keys('7')
 			WebDriverWait(browser, 1000)
 
 			browser.find_element(By.NAME, 'submit').click()
-			# WebDriverWait(browser, 1000)
+			WebDriverWait(browser, 1000)
 
 			try:
-				# browser.find_element(By.ID, 'submit-form').click()
+				# browser.find_element(By.ID, 'submit-form').click()  # NOT FOUND
 				msg = WebDriverWait(browser, 15).until(
 					EC.text_to_be_present_in_element((By.ID, 'msg'), text_="Request sent successfully")
 				)
@@ -117,10 +118,10 @@ def submit_contact(browser, site: str) -> object:
 			EC.text_to_be_present_in_element((By.ID, 'msg'), text_="Request sent successfully")
 		)
 
-		if not msg:
-			raise TimeoutException
+		# if not msg:
+		# 	raise TimeoutException
 
-	except TimeoutException:
+	except Exception:
 		logger.error(f"\t\tEmail Failure: Check {site}'s server logs")
 		return False
 

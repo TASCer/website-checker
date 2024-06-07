@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 def browse(browser,  nav_menu_links: Dict, site: str,) -> object:
 	try:
 		browser.get(site)
-		WebDriverWait(browser, 1000)
+		WebDriverWait(browser, 500)
 		logger.info(f"\tNavigating menu bar links: {nav_menu_links.values()}")
 	except sel_exc.WebDriverException as err:
 		if 'ERR_CONNECTION_REFUSED' in err.msg:  # CHROME
@@ -35,7 +35,7 @@ def browse(browser,  nav_menu_links: Dict, site: str,) -> object:
 	for title, href in nav_menu_links.items():
 		try:
 			browser.get(f"{site}/{href}")
-			time.sleep(5)
+			time.sleep(1)
 
 		except sel_exc.WebDriverException as e:
 			logger.exception(e)
