@@ -114,15 +114,12 @@ def submit_contact(browser, site: str) -> object:
 
 	try:
 		browser.find_element(By.ID, 'submit-form').click()
-		msg = WebDriverWait(browser, 15).until(
+		msg: bool = WebDriverWait(browser, 15).until(
 			EC.text_to_be_present_in_element((By.ID, 'msg'), text_="Request sent successfully")
 		)
 
-		# if not msg:
-		# 	raise TimeoutException
-
 	except Exception:
-		logger.error(f"\t\tEmail Failure: Check {site}'s server logs")
+		logger.error(f"\t\tEmail Failure: {site} check server logs")
 		return False
 
 	logger.info(f"\t\tEmail sent")
