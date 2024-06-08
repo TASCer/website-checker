@@ -17,19 +17,19 @@ logger = logging.getLogger(__name__)
 
 
 def browse(browser,  nav_menu_links: Dict, site: str,) -> object:
+	logger.info(f"\tNavigating menu bar: {', '.join(list(nav_menu_links.values()))}")
 	try:
 		browser.get(site)
 		WebDriverWait(browser, 500)
-		logger.info(f"\tNavigating menu bar links: {nav_menu_links.values()}")
 	except sel_exc.WebDriverException as err:
 		if 'ERR_CONNECTION_REFUSED' in err.msg:  # CHROME
 			logger.error(f"{err.msg}")
-			send_mail(f"ERROR: SELENIUM {site} - {err.msg}")
+			browser.close()
 			exit()
 
 		if "Reached error page" in err.msg:  # Firefox
 			logger.error(f"{err.msg}")
-			send_mail(f"ERROR: SELENIUM {site} - {err.msg}")
+			browser.close()
 			exit()
 
 	for title, href in nav_menu_links.items():
@@ -41,26 +41,3 @@ def browse(browser,  nav_menu_links: Dict, site: str,) -> object:
 			logger.exception(e)
 
 	return browser
-
-
-	# navbar_items = browser.find_elements(By.TAG_NAME, 'a')
-	# print(navbar_items)
-	# for item in navbar_items:
-	# 	print(item)
-	# 	print(item.title)
-	# WebDriverWait(browser, 1000)
-
-	# browser.find_element(By.LINK_TEXT, "BLOG").click()
-	# WebDriverWait(browser, 1000)
-	# browser.find_element(By.LINK_TEXT, "HOA").click()
-	# WebDriverWait(browser, 1000)
-	#
-	# logger.info("FINISHED SELENIUM WEBSITE NAVBAR TESTING")
-	#
-	# browser.find_element(By.LINK_TEXT, "WHY TASCS?").click()
-	# WebDriverWait(browser, 1000)
-	#
-	# browser.find_element(By.LINK_TEXT, "SOLUTIONS").click()
-	# WebDriverWait(browser, 1000)
-
-	# browser.close()
