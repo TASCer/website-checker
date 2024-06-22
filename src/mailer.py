@@ -13,7 +13,7 @@ from email.mime.text import MIMEText
 from logging import Logger
 
 now: datetime = dt.datetime.now()
-todays_date: str = now.strftime('%D').replace('/', '-')
+todays_date: str = now.strftime("%D").replace("/", "-")
 
 email_reciever: list[str] = my_secrets.email_to
 email_sender: str = my_secrets.postfix_mail_from
@@ -23,8 +23,8 @@ email_password = my_secrets.postfix_password
 
 
 def send_mail(subject: str, attachment_path: object = None):
-    """ Takes a subject (str) and optional file attachment
-        Sends email to receiver_email contacts
+    """Takes a subject (str) and optional file attachment
+    Sends email to receiver_email contacts
     """
     logger: Logger = logging.getLogger(__name__)
     sender_email: str = email_sender
@@ -55,9 +55,7 @@ def send_mail(subject: str, attachment_path: object = None):
             part_attachments.set_payload(attachment.read())
             encoders.encode_base64(part_attachments)
             part_attachments.add_header(
-                "Content-Disposition",
-                "attachment",
-                filename=attachment_path
+                "Content-Disposition", "attachment", filename=attachment_path
             )
             msg.attach(part_attachments)
             msg.attach(html)
@@ -76,7 +74,7 @@ def send_mail(subject: str, attachment_path: object = None):
         part_basic: MIMEText = MIMEText(html_basic, "html")
         msg.attach(part_basic)
 
-# WORKING NON SSL 25 or 587
+    # WORKING NON SSL 25 or 587
     try:
         with smtplib.SMTP(my_secrets.postfix_mailhost, 587) as server:
             server.ehlo()
@@ -90,14 +88,15 @@ def send_mail(subject: str, attachment_path: object = None):
     except smtplib.SMTPException as err:
         logger.error(f"{login_err}")
 
+
 # SSL TESTING
-    # context = ssl.create_default_context(ssl.PROTOCOL_TLS_CLIENT)   # ssl.create_default_context
-    # context.set_ciphers('TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384')        #("TLS_RSA_WITH_AES_128_CBC_SHA256")     # ("TLS_DHE_RSA_WITH_AES_128_GCM_SHA256")
-    # context.hostname_checks_common_name = False
-    # context.check_hostname = False
-    # context.verify_mode = ssl.CERT_NONE
-    # ser_cert = ssl.get_server_certificate((my_secrets.postfix_mailhost, 587))
-    # print(ser_cert)
+# context = ssl.create_default_context(ssl.PROTOCOL_TLS_CLIENT)   # ssl.create_default_context
+# context.set_ciphers('TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384')        #("TLS_RSA_WITH_AES_128_CBC_SHA256")     # ("TLS_DHE_RSA_WITH_AES_128_GCM_SHA256")
+# context.hostname_checks_common_name = False
+# context.check_hostname = False
+# context.verify_mode = ssl.CERT_NONE
+# ser_cert = ssl.get_server_certificate((my_secrets.postfix_mailhost, 587))
+# print(ser_cert)
 #     context.load_default_certs()
 #     ca = context.get_ca_certs()
 #     c = context.get_ciphers()

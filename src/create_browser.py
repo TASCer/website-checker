@@ -10,45 +10,45 @@ logger = logging.getLogger(__name__)
 
 
 def selenium_firefox() -> webdriver:
-	"""Create and return a selenium Firefox service to be used on pages and forms"""
-	try:
-		service = Service(f"{my_secrets.firefox_driver}")
-		options = webdriver.FirefoxOptions()
-		options.add_argument("--start-maximized")
-		options.binary_location = r'P:\Firefox\firefox.exe'
+    """Create and return a selenium Firefox service to be used on pages and forms"""
+    try:
+        service = Service(f"{my_secrets.firefox_driver}")
+        options = webdriver.FirefoxOptions()
+        options.add_argument("--start-maximized")
+        options.binary_location = r"P:\Firefox\firefox.exe"
 
-		logger.info(f"\tFIREFOX browser service created w/options: {options.arguments}")
+        logger.info(f"\tFIREFOX browser service created w/options: {options.arguments}")
 
-		ff_browser = webdriver.Firefox(service=service, options=options)
+        ff_browser = webdriver.Firefox(service=service, options=options)
 
-		return ff_browser
+        return ff_browser
 
-	except FileNotFoundError as file_err:
-		logger.exception(file_err)
-		exit()
+    except FileNotFoundError as file_err:
+        logger.exception(file_err)
+        exit()
 
-	except WebDriverException as driver_err:
-		logger.critical(f"{str(driver_err)}")
-		exit()
+    except WebDriverException as driver_err:
+        logger.critical(f"{str(driver_err)}")
+        exit()
 
 
 def selenium_chrome() -> webdriver:
-	"""Create and return a selenium Firefox service to be used on pages and forms"""
-	try:
-		service = Service(f"{my_secrets.chrome_driver}")
-		options = webdriver.ChromeOptions()
-		options.add_argument("--remote-allow-origins=*")
-		options.add_argument("--start-maximized")
-		options.add_experimental_option("excludeSwitches", ["enable-automation"])
-		options.add_experimental_option("useAutomationExtension", False)
-		options.add_argument("--disable notifications")
+    """Create and return a selenium Firefox service to be used on pages and forms"""
+    try:
+        service = Service(f"{my_secrets.chrome_driver}")
+        options = webdriver.ChromeOptions()
+        options.add_argument("--remote-allow-origins=*")
+        options.add_argument("--start-maximized")
+        options.add_experimental_option("excludeSwitches", ["enable-automation"])
+        options.add_experimental_option("useAutomationExtension", False)
+        options.add_argument("--disable notifications")
 
-		logger.info(f"\tCHROME browser service created w/options: {options.arguments}")
+        logger.info(f"\tCHROME browser service created w/options: {options.arguments}")
 
-		chr_browser = webdriver.Chrome(service=service, options=options)
+        chr_browser = webdriver.Chrome(service=service, options=options)
 
-		return chr_browser
+        return chr_browser
 
-	except (FileNotFoundError, WebDriverException) as e:
-		logger.critical(f"{str(e)}")
-		exit()
+    except (FileNotFoundError, WebDriverException) as e:
+        logger.critical(f"{str(e)}")
+        exit()
