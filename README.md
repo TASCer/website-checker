@@ -1,13 +1,11 @@
 ![TASCS LOGO](./assets/logo.png)
 
 # Selenium Website Testing
-My Selenium solution used to test my website's various html links and forms.
+My Selenium solution used to schedule testing of my various website's html links and forms.
 
-### Using Python 3.11 
+### Using Python 3.11  - *Depdendancies noted in requirements.txt*
 
-#### *Depdendancies noted in requirements.txt*
-
-## TESTS
+#### TESTS
 
 1. Goes through all links in menu bar
 2. Completes 2 html forms to send request e-mail(s)
