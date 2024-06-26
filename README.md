@@ -3,16 +3,18 @@
 # Selenium Website Testing
 My Selenium solution used to test my website's various html links and forms.
 
-## Using Python 3.11 
+### Using Python 3.11 
 
-### Depdendancies noted in requirements.txt
+#### *Depdendancies noted in requirements.txt*
 
-# TESTS
+## TESTS
 
 1. Goes through all links in menu bar
 2. Completes 2 html forms to send request e-mail(s)
-   a. CONTACT form has captcha, not ran on production. Hardcoded in TEST 
-3. Visits HOA site to get last rental rental updated information 
+
+   a. CONTACT form has captcha, not ran on production. Hardcoded in TEST
+
+4. Visits HOA site to get last rental rental updated information 
 4. Visits BLOG site and counts blogs on first page 
 
 src folder contains: 
@@ -21,7 +23,7 @@ src folder contains:
 
 assets folder contains:
 
-        1. sample_log with 1 day of my webserver anonymized logfile (testlog.csv)
+        1. Logo file for README
 
 misc folder contains: 
 
