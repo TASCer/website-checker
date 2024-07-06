@@ -37,7 +37,7 @@ MENU = {
     "HOA": "hoa",
 }
 
-site2test = tascs_site
+site2test = test_tascs_site
 
 
 def main(site: str):
@@ -50,23 +50,27 @@ def main(site: str):
 
     last_rentals = hoa_home.browse(BROWSER, site)
     last_rentals_update = last_rentals.replace("\n", " ")
-    logger.info(f"\tLast HOA DB Update: {last_rentals_update}")
+    logger.info(f"\t\tLast HOA DB Update: {last_rentals_update}")
     blog_home.browse(BROWSER, site + "/blog")
 
-    if not contact_response or not consult_response:
+    if not contact_response and site == tascs_site:
         mailer.send_mail(
-            f"FORM EMAIL ERROR IN WEB TESTING: {contact_response=} {consult_response=}"
+            f"ERROR - CONTACT FORM EMAIL SENDING: {contact_response=} {site}"
         )
-        logger.warning(
-            f"----- FORM EMAIL ERROR IN COMPLETING WEB TESTING FOR SITE: {site2test.upper()} -----"
+        logger.error(
+            f"----- CONTACT FORM EMAIL NOT SENT: {contact_response=} {tascs_site}: {site2test.upper()} -----"
         )
 
-    if contact_response and consult_response:
+    if contact_response and consult_response and site2test == test_tascs_site:
         mailer.send_mail(f"COMPLETED SELENIUM WEB TESTING WITHOUT FORM ERRORS")
         logger.info(
             f"***** COMPLETED WEB TESTING FOR SITE: {site2test.upper()} WITHOUT FORM ERRORS *****"
         )
-
+    else:
+        mailer.send_mail(f"ERROR IN WEB FORM EMAIL SUBMISSION, VIEW LOG")
+        logger.error(
+            f"----- FORM SUBMISSION ERROR FOR SITE: {site.upper()} -----"
+        )
     BROWSER.close()
 
 
