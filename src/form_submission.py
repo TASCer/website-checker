@@ -14,18 +14,20 @@ logger = logging.getLogger(__name__)
 
 
 def submit_consult(browser, site: str) -> object:
+    if site == "https://tascs.net":
+        logger.info(f"\t\tSKIPPING PROD SITE {site} HAS CAPTCHA IN PLAY FOR CONSULT FORM")
+        return False
+
     try:
         browser.get(site)
         WebDriverWait(browser, 1000)
+        # logger.info("\tSENDING EMAIL FROM CONSULT FORM")
 
     except TimeoutException as e:
         logger.error(e)
 
-    if site == "https://tascs.net":
-        logger.warning(f"\tPROD SITE {site} HAS CAPTCHA IN PLAY, SKIPPING")
-
     else:
-        logger.info(f"\tSENDING EMAIL FROM CONSULT FORM (w/captcha hardcoded)")
+        logger.info(f"\tSENDING EMAIL FROM {site} CONSULT FORM (w/captcha hardcoded)")
 
         try:
             fname = browser.find_element(By.NAME, "firstname")
@@ -58,7 +60,7 @@ def submit_consult(browser, site: str) -> object:
             WebDriverWait(browser, 1000)
 
             browser.find_element(By.NAME, "submit").click()
-            WebDriverWait(browser, 1000)
+            WebDriverWait(browser, 3000)
 
             try:
                 # browser.find_element(By.ID, 'submit-form').click()  # NOT FOUND
