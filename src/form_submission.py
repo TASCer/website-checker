@@ -27,7 +27,7 @@ def submit_consult(browser, site: str) -> object:
         logger.error(e)
 
     else:
-        logger.info(f"\tSENDING EMAIL FROM {site} CONSULT FORM (w/captcha hardcoded)")
+        logger.info(f"\tSENDING EMAIL FROM CONSULT FORM (w/captcha hardcoded)")
 
         try:
             fname = browser.find_element(By.NAME, "firstname")
