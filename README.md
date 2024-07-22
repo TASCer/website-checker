@@ -14,7 +14,7 @@ My Selenium solution used to schedule testing of my various website's html links
    a. CONTACT form has captcha, not ran on production. Hardcoded in TEST
 
 4. Visits HOA page to get the last date and time rental data was updated 
-4. Visits BLOG site and counts blogs on first page 
+4. Visits BLOG site and counts blogs on first page and latest blog title
 
 src folder contains: 
 

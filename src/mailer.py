@@ -86,7 +86,7 @@ def send_mail(subject: str, attachment_path: object = None):
             server.sendmail(email_sender, email_reciever, msg.as_string())
 
     except smtplib.SMTPException as err:
-        logger.error(f"{login_err}")
+        logger.error(f"{err}")
 
 
 # SSL TESTING
