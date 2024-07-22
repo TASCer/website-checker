@@ -1,6 +1,9 @@
+#  TODO ADD cli/click/params to pick site to test and what tests
+import argparse
 import blog_home
 import create_browser
 import datetime as dt
+from enum import Enum
 import form_submission
 import hoa_home
 import logging
@@ -25,9 +28,12 @@ fh.setFormatter(formatter)
 root_logger.addHandler(fh)
 logger: Logger = logging.getLogger(__name__)
 
-tascs_site = my_secrets.prod_home_url
-test_tascs_site = my_secrets.test_home_url
-local_tascs_site = my_secrets.local_home_url
+
+class Sites(str, Enum):
+    prod = my_secrets.prod_home_url
+    test = my_secrets.test_home_url
+    local = my_secrets.local_home_url
+
 
 MENU = {
     "WHY TASCS?": "why-tasc",
@@ -37,12 +43,11 @@ MENU = {
     "HOA": "hoa",
 }
 
-site2test = test_tascs_site
 
-
-def main(site: str):
+def main(site: Sites | None) -> None:
+    logger.info(f"***** STARTED WEB TESTING FOR SITE: {site.upper()} *****")
     BROWSER = create_browser.selenium_firefox()
-    nav_bar_links.browse(BROWSER, MENU, site=site2test)
+    nav_bar_links.browse(BROWSER, MENU, site=site)
     contact_response = form_submission.submit_contact(
         browser=BROWSER, site=site + "/contact-us"
     )
@@ -61,22 +66,24 @@ def main(site: str):
             f"----- CONTACT FORM EMAIL NOT SENT: {contact_response=} {site}: {site.upper()} -----"
         )
 
-
-
-    if contact_response and consult_response and site2test == test_tascs_site:
-        mailer.send_mail(f"COMPLETED SELENIUM WEB TESTING ON: {site} WITHOUT FORM ERRORS")
+    if contact_response and consult_response and site == Sites.test:
+        mailer.send_mail(
+            f"COMPLETED SELENIUM WEB TESTING ON: {site} WITHOUT FORM ERRORS"
+        )
         logger.info(
-            f"***** COMPLETED WEB TESTING FOR SITE: {site2test.upper()} WITHOUT FORM ERRORS *****"
+            f"***** COMPLETED WEB TESTING FOR SITE: {site.upper()} WITHOUT FORM ERRORS *****"
         )
 
-    else:
-        mailer.send_mail(f"ERROR IN WEB FORM EMAIL SUBMISSION, VIEW LOG")
-        logger.error(
-            f"----- FORM SUBMISSION ERROR FOR SITE: {site.upper()} -----"
-        )
     BROWSER.close()
 
 
 if __name__ == "__main__":
-    logger.info(f"***** STARTED WEB TESTING FOR SITE: {site2test.upper()} *****")
-    main(site2test)
+    parser = argparse.ArgumentParser(
+        description="Select which website for Selenium to test"
+    )
+    parser.add_argument("site", choices=[c.name for c in Sites])
+
+    args = parser.parse_args()
+    site2test = Sites[args.site].value
+
+    main(site=site2test)
