@@ -1,4 +1,3 @@
-#  TODO ADD cli/click/params to pick site to test and what tests
 import argparse
 import blog_home
 import create_browser
@@ -46,7 +45,7 @@ MENU = {
 
 def main(site: Sites | None) -> None:
     logger.info(f"***** STARTED WEB TESTING FOR SITE: {site.upper()} *****")
-    BROWSER = create_browser.selenium_firefox()
+    BROWSER = create_browser.selenium_chrome()
     nav_bar_links.browse(BROWSER, MENU, site=site)
     contact_response = form_submission.submit_contact(
         browser=BROWSER, site=site + "/contact-us"
