@@ -23,13 +23,11 @@ def submit_consult(browser, site: str) -> object:
     try:
         browser.get(site)
         WebDriverWait(browser, 1000)
-        # logger.info("\tSENDING EMAIL FROM CONSULT FORM")
 
     except TimeoutException as e:
         logger.error(e)
 
     else:
-        # logger.info(f"\tCOMPLETING CONSULT FORM FOR SITE: {site} (captcha hardcoded)")
 
         try:
             fname = browser.find_element(By.NAME, "firstname")
@@ -65,7 +63,6 @@ def submit_consult(browser, site: str) -> object:
             WebDriverWait(browser, 3000)
 
             try:
-                # browser.find_element(By.ID, 'submit-form').click()  # NOT FOUND
                 msg = WebDriverWait(browser, 15).until(
                     EC.text_to_be_present_in_element(
                         (By.ID, "msg"), text_="Request sent successfully"
