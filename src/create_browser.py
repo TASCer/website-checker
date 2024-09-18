@@ -52,3 +52,7 @@ def selenium_chrome() -> webdriver:
     except (FileNotFoundError, WebDriverException) as e:
         logger.critical(f"{str(e)}")
         exit()
+
+
+if __name__ == "__main__":
+    pass
