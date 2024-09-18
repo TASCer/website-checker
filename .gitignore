@@ -2,3 +2,4 @@ src/my_secrets.py
 geckodriver.log
 *.log
 /.idea
+/output
