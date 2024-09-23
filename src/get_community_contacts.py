@@ -5,8 +5,8 @@ import os
 from selenium import webdriver
 from selenium.common.exceptions import ElementNotSelectableException
 from selenium.common.exceptions import TimeoutException
-from selenium.webdriver.chrome.options import Options as COptions
-from selenium.webdriver.chrome.service import Service as CService
+# from selenium.webdriver.chrome.options import Options as COptions
+# from selenium.webdriver.chrome.service import Service as CService
 from selenium.webdriver.firefox.service import Service as FFService
 from selenium.webdriver.firefox.firefox_profile import FirefoxProfile as FFProfile
 from selenium.webdriver.firefox.options import Options as FFOptions
@@ -14,17 +14,31 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-# FILENAME = "HOA Contact List (PDF).pdf"
-# URL = "https://surpriseaz.gov/462/HOA-Community-Contacts"
 
+FILENAME = "HOA Contact List (PDF).pdf"
+URL = my_secrets.hoa_management_pdf_url
+XPATH = "/html/body/div[4]/div/div[2]/div[2]/div[3]/div/div/div[1]/div/div[2]/div[1]/div[2]/div/div/div/div/div[2]/div/div/div/div/div/div/div/div/div/div/div/div[2]/div/ul/li/a"
+
+# TESTING
 TEST_FILENAME = "StrengthLeadershipTest.pdf"
-TEST_URL = "https://tascs.test/why-tasc"
+TEST_URL = my_secrets.test_pdf_url
+TEST_XPATH = "/html/body/div[3]/div/div/div[5]/div/div[2]/ul/li[2]/a"
+
 
 # FF - WORKING headless
-def pdf_download():
-    filepath = os.path.join("../output", TEST_FILENAME)
-    if os.path.exists(filepath):
-        os.remove(filepath)
+def pdf_download(tests: bool):
+    if tests:
+        filepath = os.path.join("../output", TEST_FILENAME)
+        if os.path.exists(filepath):
+            os.remove(filepath)
+        url = TEST_URL
+        xpath = TEST_XPATH
+    else:
+        filepath = os.path.join("../output", FILENAME)
+        if os.path.exists(filepath):
+            os.remove(filepath)
+        url = URL
+        xpath = XPATH
 
     options = FFOptions()
     ff_profile = FFProfile()
@@ -38,7 +52,7 @@ def pdf_download():
     options.set_preference('browser.download.manager.showAlertOnComplete', False)
     options.set_preference('browser.download.manager.useWindow', False)
     options.set_preference('browser.helperApps.neverAsk.saveToDisk', 'application/pdf')
-    options.set_preference('pdfjs.disabled', True) # KEY!!
+    options.set_preference('pdfjs.disabled', True)  # HEADLESS AND THIS NEEDED
     options.set_preference("browser.download.alwaysOpenPanel", False)
     options.binary_location = r"P:\Firefox\firefox.exe"
     options.profile = ff_profile
@@ -47,17 +61,25 @@ def pdf_download():
     service = FFService(f"{my_secrets.firefox_driver}")
 
     ff_browser = webdriver.Firefox(service=service, options=options)
-    ff_browser.get(TEST_URL)
+    ff_browser.get(url)
 
     try:
-        pdf_link = WebDriverWait(ff_browser, 30).until(
-            EC.presence_of_element_located((By.XPATH,
-                # "/html/body/div[4]/div/div[2]/div[2]/div[3]/div/div/div[1]/div/div[2]/div[1]/div[2]/div/div/div/div/div[2]/div/div/div/div/div/div/div/div/div/div/div/div[2]/div/ul/li/a"))) #Surprise
-                "/html/body/div[3]/div/div/div[5]/div/div[2]/ul/li[2]/a")))  # LOCAL strengthfinder report
+        if TESTING:
 
-        pdf_link.click()
-        ff_browser.implicitly_wait(2)
-        ff_browser.close()
+            pdf_link = WebDriverWait(ff_browser, 30).until(
+                EC.presence_of_element_located((By.XPATH, xpath)))
+
+            pdf_link.click()
+            ff_browser.implicitly_wait(2)
+            ff_browser.close()
+
+        else:
+            pdf_link = WebDriverWait(ff_browser, 30).until(
+                EC.presence_of_element_located((By.XPATH, xpath)))
+
+            pdf_link.click()
+            ff_browser.implicitly_wait(2)
+            ff_browser.close()
 
     except (ElementNotSelectableException, TimeoutException) as err:
         print(err)
@@ -103,4 +125,5 @@ def pdf_download():
 
 
 if __name__ == "__main__":
-    pdf_download()
+    TESTING = False
+    pdf_download(TESTING)
