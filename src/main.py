@@ -47,9 +47,7 @@ def main(site: Sites | None) -> None:
     logger.info(f"***** STARTED WEB TESTING FOR SITE: {site.upper()} *****")
     BROWSER = create_browser.selenium_chrome()
     nav_bar_links.browse(BROWSER, MENU, site=site)
-    contact_response = form_submission.submit_contact(
-        browser=BROWSER, site=site + "/contact-us"
-    )
+    contact_response = form_submission.submit_contact(browser=BROWSER, site=site + "/contact-us")
     consult_response = form_submission.submit_consult(browser=BROWSER, site=site)
 
     last_rentals = hoa_home.browse(BROWSER, site)
