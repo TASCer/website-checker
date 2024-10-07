@@ -9,11 +9,12 @@ from selenium.webdriver.chrome.service import Service
 logger = logging.getLogger(__name__)
 
 
-def selenium_firefox() -> webdriver:
+def firefox() -> webdriver:
     """Create and return a selenium Firefox service to be used on pages and forms"""
     try:
         service = Service(f"{my_secrets.firefox_driver}")
         options = webdriver.FirefoxOptions()
+        options.headless = True
         options.add_argument("--start-maximized")
         options.binary_location = r"P:\Firefox\firefox.exe"
 
@@ -32,13 +33,14 @@ def selenium_firefox() -> webdriver:
         exit()
 
 
-def selenium_chrome() -> webdriver:
+def chrome() -> webdriver:
     """Create and return a selenium Firefox service to be used on pages and forms"""
     try:
         service = Service(f"{my_secrets.chrome_driver}")
         options = webdriver.ChromeOptions()
         options.add_argument("--remote-allow-origins=*")
-        options.add_argument("--start-maximized")
+        # options.add_argument("--start-maximized")
+        options.add_argument("--headless=new")
         options.add_experimental_option("excludeSwitches", ["enable-automation"])
         options.add_experimental_option("useAutomationExtension", False)
         options.add_argument("--disable notifications")
