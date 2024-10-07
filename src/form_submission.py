@@ -72,8 +72,8 @@ def submit_consult(browser, site: str) -> object:
                 if not msg:
                     raise TimeoutException
 
-            except TimeoutException:
-                logger.error(f"\t\tEmail Failure: Check {site}'s server logs")
+            except TimeoutException as to_err:
+                logger.error(f"\t\t{to_err}: Check {site}'s server logs")
                 return False
 
         except ElementNotSelectableException as e:
@@ -121,9 +121,16 @@ def submit_contact(browser, site: str) -> object:
                 (By.ID, "msg"), text_="Request sent successfully"
             )
         )
+    except TimeoutException as to_err:
+        logger.error(f"\t\t{to_err}: Check {site}'s server logs")
+        return False
 
-    except Exception:
-        logger.error(f"\t\tEmail Failure: {site} check server logs")
+    except ElementNotSelectableException as elem_err:
+        logger.error(f"\t\tEmail element Failure: Check {site}'s server logs {elem_err}")
+        return False
+
+    except Exception as base_err:
+        logger.error(f"\t\tEmail base Failure: {site} -> {base_err}")
         return False
 
     logger.info("\t\tEmail sent")
