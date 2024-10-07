@@ -39,12 +39,12 @@ def send_mail(subject: str, attachment_path: object = None):
         html_attachments: str = """\
           <html>
             <body>
-              <p><b>Python Selenium Tests Report</b></p>
+              <p><b>Python Selenium Log</b></p>
               <br>
-              <p>Please find the test results report attached.</p>
+              <p>Please find the log file attached.</p>
               <br>
               <p>Visit below for more information</p>
-              <a href="https://tascs.locaL">TASCS - HOA</a>       
+              <a href="https://www.tascs.test">TASCS</a>       
             </body>
           </html>
           """
@@ -63,11 +63,12 @@ def send_mail(subject: str, attachment_path: object = None):
         html_basic: str = """\
             <html>
               <body>
-                <p><b>Python Report Mailer</b>
-                <br>
-                   Visit <a href="https://roadspies.tascs.test">ROADSPIES</a> 
-                   for more information.
-                </p>
+              <p><b>Python Selenium Log</b></p>
+              <br>
+              <p>Please find the log file attached.</p>
+              <br>
+              <p>Visit below for more information</p>
+              <a href="https://www.tascs.test">TASCS</a>       
               </body>
             </html>
             """
@@ -129,4 +130,5 @@ def send_mail(subject: str, attachment_path: object = None):
 #         print(e)
 
 
-# send_mail("hello, TLS test on port 587")
+if __name__ == '__main__':
+    send_mail("hello, TLS test on port 587", "../_oldlogs/10-07-24.log")
