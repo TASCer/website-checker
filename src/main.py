@@ -40,10 +40,10 @@ MENU = {
     "HOA": "hoa",
 }
 
-
+# TODO issue with ff headless?
 def main(site: Sites | None) -> None:
     logger.info(f"***** STARTED WEB TESTING FOR SITE: {site.upper()} *****")
-    BROWSER = create_browser.firefox()
+    BROWSER = create_browser.chrome()
     nav_bar_links.browse(BROWSER, MENU, site=site)
     contact_response = form_submission.submit_contact(browser=BROWSER, site=site + "/contact-us")
     consult_response = form_submission.submit_consult(browser=BROWSER, site=site)
@@ -80,3 +80,5 @@ if __name__ == "__main__":
     site2test = Sites[args.site].value
 
     main(site=site2test)
+    # TESTING
+    # main(Sites.test)
