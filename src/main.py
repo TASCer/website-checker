@@ -20,9 +20,7 @@ root_logger.setLevel(logging.INFO)
 # NEEDED ABSOLUTE PATH FOR SCHEDULED TASKS?
 fh = logging.FileHandler(rf"D:\PycharmProjects\Selenium\{todays_date}.log")
 fh.setLevel(logging.DEBUG)
-formatter: Formatter = Formatter(
-    "%(asctime)s - %(name)s - %(lineno)d - %(levelname)s - %(message)s"
-)
+formatter: Formatter = Formatter("%(asctime)s - %(name)s - %(lineno)d - %(levelname)s - %(message)s")
 fh.setFormatter(formatter)
 root_logger.addHandler(fh)
 logger: Logger = logging.getLogger(__name__)
@@ -45,7 +43,7 @@ MENU = {
 
 def main(site: Sites | None) -> None:
     logger.info(f"***** STARTED WEB TESTING FOR SITE: {site.upper()} *****")
-    BROWSER = create_browser.selenium_chrome()
+    BROWSER = create_browser.firefox()
     nav_bar_links.browse(BROWSER, MENU, site=site)
     contact_response = form_submission.submit_contact(browser=BROWSER, site=site + "/contact-us")
     consult_response = form_submission.submit_consult(browser=BROWSER, site=site)
@@ -56,28 +54,26 @@ def main(site: Sites | None) -> None:
     blog_home.browse(BROWSER, site + "/blog")
 
     if not contact_response:
-        mailer.send_mail(
-            f"ERROR - CONTACT FORM EMAIL SENDING: {contact_response=} {site}"
-        )
-        logger.error(
-            f"----- CONTACT FORM EMAIL NOT SENT: {contact_response=} {site}: {site.upper()} -----"
-        )
+        mailer.send_mail(f"FAIL SENDING CONTACT FORM: {site}", f"../{todays_date}.log")
+        logger.error(f"FAIL SENDING CONTACT FORM: {contact_response=} {site}: {site.upper()} -----")
 
     if contact_response and consult_response and site == Sites.test:
-        mailer.send_mail(
-            f"COMPLETED SELENIUM WEB TESTING ON: {site} WITHOUT FORM ERRORS"
-        )
-        logger.info(
-            f"***** COMPLETED WEB TESTING FOR SITE: {site.upper()} WITHOUT FORM ERRORS *****"
-        )
+        mailer.send_mail(f"SUCCESS TESTING SITE: {site}", f"../{todays_date}.log")
+        logger.info(f"***** SUCCESS TESTING SITE: {site.upper()} *****")
+
+    if not consult_response and site == Sites.test:
+        mailer.send_mail(f"FAIL SENDING CONSULT FORM: {site}", f"../{todays_date}.log")
+        logger.error(f"FAIL SENDING CONSULT FORM: {contact_response=} {site}: {site.upper()} -----")
+
+    # if contact_response and consult_response and site == Sites.test:
+    #     mailer.send_mail(f"SUCCESS TESTING SITE: {site}")
+    #     logger.info(f"***** SUCCESS TESTING SITE: {site.upper()} *****")
 
     BROWSER.close()
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        description="Select which website for Selenium to test"
-    )
+    parser = argparse.ArgumentParser(description="Select which website for Selenium to test")
     parser.add_argument("site", choices=[c.name for c in Sites])
 
     args = parser.parse_args()
