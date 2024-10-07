@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 def browse(browser, site: str) -> object:
     try:
-        browser.get(site + "/hoa/lpsMap.php")
+        browser.get(site + "/hoa/areaMap.php")
         WebDriverWait(browser, 1000)
         logger.info(f"\tTesting HOA page for: {site}")
 
