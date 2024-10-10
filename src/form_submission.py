@@ -22,7 +22,7 @@ def submit_consult(browser, site: str) -> object:
 
     try:
         browser.get(site)
-        WebDriverWait(browser, 1000)
+        WebDriverWait(browser, 10)
 
     except TimeoutException as e:
         logger.error(e)
@@ -32,32 +32,32 @@ def submit_consult(browser, site: str) -> object:
         try:
             fname = browser.find_element(By.NAME, "firstname")
             fname.send_keys("SELENIUM CONSULT")
-            WebDriverWait(browser, 1000)
+            WebDriverWait(browser, 10)
 
             lname = browser.find_element(By.NAME, "lastname")
             lname.send_keys("TESTER")
-            WebDriverWait(browser, 1000)
+            WebDriverWait(browser, 10)
 
             email = browser.find_element(By.NAME, "email")
             email.send_keys("TESTER@CONSULTFORM.COM")
-            WebDriverWait(browser, 1000)
+            WebDriverWait(browser, 10)
 
             company = browser.find_element(By.NAME, "company")
             company.send_keys("SELENIUM CONSULT TESTING INC.")
-            WebDriverWait(browser, 1000)
+            WebDriverWait(browser, 10)
 
             phone = browser.find_element(By.NAME, "telephone")
             phone.send_keys("1234567890")
-            WebDriverWait(browser, 1000)
+            WebDriverWait(browser, 10)
 
         except ElementNotSelectableException as e:
             logger.error(e)
 
         try:
             captcha = browser.find_element(By.NAME, "captcha")
-            WebDriverWait(browser, 1000)
+            WebDriverWait(browser, 10)
             captcha.send_keys("7")
-            WebDriverWait(browser, 1000)
+            WebDriverWait(browser, 10)
 
             browser.find_element(By.NAME, "submit").click()
             WebDriverWait(browser, 3000)
@@ -112,17 +112,18 @@ def submit_contact(browser, site: str) -> object:
 
     comments = browser.find_element(By.NAME, "message")
     comments.send_keys("SELENIUM CONTACT TESTING")
-    WebDriverWait(browser, 1000)
+    WebDriverWait(browser, 10)
 
     try:
         browser.find_element(By.ID, "submit-form").click()
-        msg: bool = WebDriverWait(browser, 15).until(
+        msg: bool = WebDriverWait(browser, 10).until(
             EC.text_to_be_present_in_element(
                 (By.ID, "msg"), text_="Request sent successfully"
             )
         )
+
     except TimeoutException as to_err:
-        logger.error(f"\t\t{to_err}: Check {site}'s server logs")
+        logger.error(f"\t\t{to_err.msg}: Check {site}'s server logs")
         return False
 
     except ElementNotSelectableException as elem_err:
