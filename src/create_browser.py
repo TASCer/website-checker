@@ -14,8 +14,9 @@ def firefox() -> webdriver:
     try:
         service = Service(f"{my_secrets.firefox_driver}")
         options = webdriver.FirefoxOptions()
-        options.headless = True
-        options.add_argument("--start-maximized")
+        # options.headless = True
+        # options.add_argument("--start-maximized")
+        options.add_argument("-headless")
         options.binary_location = r"P:\Firefox\firefox.exe"
 
         logger.info(f"\tFIREFOX browser service created w/options: {options.arguments}")
