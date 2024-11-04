@@ -71,12 +71,11 @@ def main(site: Sites | None) -> None:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Select which website for Selenium to test")
-    parser.add_argument("site", choices=[c.name for c in Sites])
+    parser.add_argument("site", choices=[site.name for site in Sites])
 
     args = parser.parse_args()
     site2test = Sites[args.site].value
 
-    # main(site=site2test)
-    # # TESTING
+    main(site=site2test)
+    # TESTING
     # main(Sites.test)
-    # print([ s.name for s in Sites])
