@@ -79,5 +79,3 @@ if __name__ == "__main__":
     site2test = Sites[args.site].value
 
     main(site=site2test)
-    # TESTING
-    # main(Sites.test)
