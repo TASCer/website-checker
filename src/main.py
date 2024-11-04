@@ -49,9 +49,11 @@ def main(site: Sites | None) -> None:
     contact_response = form_submission.submit_contact(browser=BROWSER, site=site + "/contact-us")
     consult_response = form_submission.submit_consult(browser=BROWSER, site=site)
 
-    last_rentals = hoa_home.browse(BROWSER, site)
-    last_rentals_update: str = str(last_rentals).replace("\n", " ")
-    logger.info(f"\t\tLast HOA DB Update: {last_rentals_update}")
+    timestamp, area_percent_rentals = hoa_home.browse(BROWSER, site)
+    last_data_update: str = str(timestamp).replace("\n", " ")
+    logger.info(f"\t\tHOA DB TIMESTAMP: {last_data_update}")
+    logger.info(f"\t\tAREA RENTAL %: {area_percent_rentals.text}")
+
     blog_home.browse(BROWSER, site + "/blog")
 
     if not contact_response:
