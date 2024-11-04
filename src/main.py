@@ -40,6 +40,7 @@ MENU = {
     "HOA": "hoa",
 }
 
+
 # TODO issue with ff headless?
 def main(site: Sites | None) -> None:
     logger.info(f"***** STARTED WEB TESTING FOR SITE: {site.upper()} *****")
@@ -49,7 +50,7 @@ def main(site: Sites | None) -> None:
     consult_response = form_submission.submit_consult(browser=BROWSER, site=site)
 
     last_rentals = hoa_home.browse(BROWSER, site)
-    last_rentals_update = last_rentals.replace("\n", " ")
+    last_rentals_update: str = str(last_rentals).replace("\n", " ")
     logger.info(f"\t\tLast HOA DB Update: {last_rentals_update}")
     blog_home.browse(BROWSER, site + "/blog")
 
@@ -65,10 +66,6 @@ def main(site: Sites | None) -> None:
         mailer.send_mail(f"FAIL SENDING CONSULT FORM: {site}", f"../{todays_date}.log")
         logger.error(f"FAIL SENDING CONSULT FORM: {contact_response=} {site}: {site.upper()} -----")
 
-    # if contact_response and consult_response and site == Sites.test:
-    #     mailer.send_mail(f"SUCCESS TESTING SITE: {site}")
-    #     logger.info(f"***** SUCCESS TESTING SITE: {site.upper()} *****")
-
     BROWSER.close()
 
 
@@ -79,6 +76,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     site2test = Sites[args.site].value
 
-    main(site=site2test)
-    # TESTING
+    # main(site=site2test)
+    # # TESTING
     # main(Sites.test)
+    # print([ s.name for s in Sites])
