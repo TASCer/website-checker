@@ -17,6 +17,7 @@ def browse(browser, site: str) -> tuple[str]:
     Function vistits the HOA community map to get and return
     -Last db data timestamp
     -Area rental percentage
+    -LPS rental percentage
     :param browser:
     :param site:
     :return:
@@ -29,12 +30,13 @@ def browse(browser, site: str) -> tuple[str]:
     except Exception as e:
         logger.error(e)
 
-    last_db_update = browser.find_element(By.ID, "TS").text
-    area_rental_percent = browser.find_element(By.ID, "TPCT").text
-    select = Select(browser.find_element(By.ID, "community-names"))
-    print(select)
-    select_lps = select.first_selected_option
-    print(select_lps.text)
+    last_db_update: str = browser.find_element(By.ID, "TS").text
+    area_rental_percent: str = browser.find_element(By.ID, "TPCT").text
+    # CANNOT GET THIS TO WORK. SEPERATED LPS TO OWN FILE
+    # select = Select(browser.find_element(By.ID, "community-names"))
+    # print(select)
+    # select_lps = select.first_selected_option
+    # print(select_lps.text)
 
     return last_db_update, area_rental_percent
 
