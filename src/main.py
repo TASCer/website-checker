@@ -50,10 +50,11 @@ def main(site: Sites | None) -> None:
     consult_response = form_submission.submit_consult(browser=BROWSER, site=site)
 
     timestamp, area_percent_rentals = hoa_home.browse(BROWSER, site)
-    last_data_update: str = str(timestamp).replace("\n", " ")
-    logger.info(f"\t\tHOA DB TIMESTAMP: {last_data_update}")
-    logger.info(f"\t\tAREA RENTAL %: {area_percent_rentals.text}")
+    last_timestamp: str = timestamp.replace("\n", " ")
+    logger.info(f"\t\tHOA DB TIMESTAMP: {last_timestamp}")
 
+    logger.info(f"\t\tAREA RENTAL %: {area_percent_rentals}")
+    # logger.info(f"\t\tLPS RENTAL %: {lps_rentals}")
     blog_home.browse(BROWSER, site + "/blog")
 
     if not contact_response:
