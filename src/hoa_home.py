@@ -38,17 +38,6 @@ def browse(browser, site: str) -> tuple[str]:
 
     return last_db_update, area_rental_percent
 
-# GET LPS RENTAL AVG - WORKS. Add to above? NO browser/url issue
-#     try:
-#         browser.get(site + "/hoa/lpsMap.php")
-#         lps_rental_percent = browser.find_element(By.ID, "PCT")   # "Neighboring Communities"
-#     except Exception as e:
-#         logger.error(e)
-#
-#     print(float(lps_rental_percent.text))
-#
-#     return last_db_update.text, float(area_rental_percent.text), float(lps_rental_percent)
-
 
 if __name__ == "__main__":
     BROWSER = create_browser.chrome()
