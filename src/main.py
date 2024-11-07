@@ -10,7 +10,7 @@ import mailer
 import my_secrets
 import nav_bar_links
 from logging import Logger, Formatter
-
+from lps_map import lps_rental_data
 now: dt = dt.date.today()
 todays_date: str = now.strftime("%D").replace("/", "-")
 
@@ -52,9 +52,9 @@ def main(site: Sites | None) -> None:
     timestamp, area_percent_rentals = hoa_home.browse(BROWSER, site)
     last_timestamp: str = timestamp.replace("\n", " ")
     logger.info(f"\t\tHOA DB TIMESTAMP: {last_timestamp}")
-
     logger.info(f"\t\tAREA RENTAL %: {area_percent_rentals}")
-    # logger.info(f"\t\tLPS RENTAL %: {lps_rentals}")
+    lps_rentals = lps_rental_data(BROWSER, site)
+    logger.info(f"\t\tLPS RENTAL %: {lps_rentals}")
     blog_home.browse(BROWSER, site + "/blog")
 
     if not contact_response:
