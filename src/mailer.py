@@ -1,5 +1,3 @@
-# https://www.justintodata.com/send-email-using-python-tutorial/
-import datetime as dt
 import logging
 import my_secrets
 import smtplib
@@ -11,9 +9,6 @@ from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from logging import Logger
-
-now: datetime = dt.datetime.now()
-todays_date: str = now.strftime("%D").replace("/", "-")
 
 email_reciever: list[str] = my_secrets.email_to
 email_sender: str = my_secrets.postfix_mail_from
