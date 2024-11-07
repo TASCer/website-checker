@@ -1,4 +1,3 @@
-import datetime as dt
 import logging
 
 from selenium.webdriver.common.by import By
@@ -6,9 +5,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import ElementNotSelectableException
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support import expected_conditions as EC
-
-now: dt = dt.date.today()
-todays_date: str = now.strftime("%D").replace("/", "-")
 
 logger = logging.getLogger(__name__)
 
