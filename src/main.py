@@ -54,7 +54,9 @@ def main(site: Sites | None) -> None:
     logger.info(f"\t\tHOA DB TIMESTAMP: {last_timestamp}")
     logger.info(f"\t\tAREA RENTAL %: {area_percent_rentals}")
     lps_rentals = lps_rental_data(BROWSER, site)
+    lps_rental_delta = f"{float(area_percent_rentals) - float(lps_rentals)}"
     logger.info(f"\t\tLPS RENTAL %: {lps_rentals}")
+    logger.info(f"LPS RENTAL DELTA: {lps_rental_delta}")
     blog_home.browse(BROWSER, site + "/blog")
 
     if not contact_response:
