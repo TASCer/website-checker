@@ -52,11 +52,20 @@ def main(site: Sites | None) -> None:
     timestamp, area_percent_rentals = hoa_home.browse(BROWSER, site)
     last_timestamp: str = timestamp.replace("\n", " ")
     logger.info(f"\t\tHOA DB TIMESTAMP: {last_timestamp}")
+
+    area_percent_rentals: float = float(area_percent_rentals)
     logger.info(f"\t\tAREA RENTAL %: {area_percent_rentals}")
-    lps_rentals = lps_rental_data(BROWSER, site)
-    lps_rental_delta = f"{float(area_percent_rentals) - float(lps_rentals)}"
-    logger.info(f"\t\tLPS RENTAL %: {lps_rentals}")
-    logger.info(f"LPS RENTAL DELTA: {lps_rental_delta}")
+
+    lps_percent_rentals: float = float(lps_rental_data(BROWSER, site))
+    lps_rental_delta = float(f"{lps_percent_rentals - area_percent_rentals}")
+    logger.info(f"\t\tLPS RENTAL %: {lps_percent_rentals}")
+
+    if lps_rental_delta > 0.0:
+        logger.info(f"LPS RENTAL % is {lps_rental_delta:.2f} HIGHER than community average")
+
+    else:
+        logger.info(f"LPS RENTAL % is {lps_rental_delta:.2f} LOWER than community average")
+
     blog_home.browse(BROWSER, site + "/blog")
 
     if not contact_response:
