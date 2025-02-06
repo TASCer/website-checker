@@ -3,3 +3,5 @@ geckodriver.log
 *.log
 /.idea
 /output
+.venv
+__pycache__
