@@ -3,8 +3,8 @@ import my_secrets
 
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
-from selenium.webdriver.firefox.service import Service
-from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.firefox.service import Service as FService
+from selenium.webdriver.chrome.service import Service as CService
 
 logger = logging.getLogger(__name__)
 
@@ -12,12 +12,10 @@ logger = logging.getLogger(__name__)
 def firefox() -> webdriver:
     """Create and return a selenium Firefox service to be used on pages and forms"""
     try:
-        service = Service(f"{my_secrets.firefox_driver}")
+        service = FService(f"{my_secrets.firefox_driver}")
         options = webdriver.FirefoxOptions()
-        # options.headless = True
-        # options.add_argument("--start-maximized")
-        # options.add_argument("-headless")
-        options.binary_location = r"P:\Firefox\firefox.exe"
+        options.headless = True
+        options.add_argument("-headless")
 
         logger.info(f"\tFIREFOX browser service created w/options: {options.arguments}")
 

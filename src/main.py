@@ -18,7 +18,7 @@ root_logger: Logger = logging.getLogger()
 root_logger.setLevel(logging.INFO)
 
 # NEEDED ABSOLUTE PATH FOR SCHEDULED TASKS?
-fh = logging.FileHandler(rf"D:\PycharmProjects\Selenium\{todays_date}.log")
+fh = logging.FileHandler(rf"{todays_date}.log")
 fh.setLevel(logging.DEBUG)
 formatter: Formatter = Formatter("%(asctime)s - %(name)s - %(lineno)d - %(levelname)s - %(message)s")
 fh.setFormatter(formatter)
@@ -41,10 +41,9 @@ MENU = {
 }
 
 
-# TODO issue with ff headless?
 def main(site: Sites | None) -> None:
     logger.info(f"***** STARTED WEB TESTING FOR SITE: {site.upper()} *****")
-    BROWSER = create_browser.chrome()
+    BROWSER = create_browser.firefox()
     nav_bar_links.browse(BROWSER, MENU, site=site)
     contact_response = form_submission.submit_contact(browser=BROWSER, site=site + "/contact-us")
     consult_response = form_submission.submit_consult(browser=BROWSER, site=site)
