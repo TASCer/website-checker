@@ -68,15 +68,15 @@ def main(site: Sites | None) -> None:
     blog_home.browse(BROWSER, site + "/blog")
 
     if not contact_response:
-        mailer.send_mail(f"FAIL SENDING CONTACT FORM: {site}", f"../{todays_date}.log")
+        mailer.send_mail(f"FAIL SENDING CONTACT FORM: {site}", f"./{todays_date}.log")
         logger.error(f"FAIL SENDING CONTACT FORM: {contact_response=} {site}: {site.upper()} -----")
 
     if contact_response and consult_response and site == Sites.test:
-        mailer.send_mail(f"SUCCESS TESTING SITE: {site}", f"../{todays_date}.log")
+        mailer.send_mail(f"SUCCESS TESTING SITE: {site}", f"./{todays_date}.log")
         logger.info(f"***** SUCCESS TESTING SITE: {site.upper()} *****")
 
     if not consult_response and site == Sites.test:
-        mailer.send_mail(f"FAIL SENDING CONSULT FORM: {site}", f"../{todays_date}.log")
+        mailer.send_mail(f"FAIL SENDING CONSULT FORM: {site}", f"./{todays_date}.log")
         logger.error(f"FAIL SENDING CONSULT FORM: {contact_response=} {site}: {site.upper()} -----")
 
     BROWSER.close()

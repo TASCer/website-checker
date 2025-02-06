@@ -35,7 +35,7 @@ def firefox() -> webdriver:
 def chrome() -> webdriver:
     """Create and return a selenium Firefox service to be used on pages and forms"""
     try:
-        service = Service(f"{my_secrets.chrome_driver}")
+        service = CService(f"{my_secrets.chrome_driver}")
         options = webdriver.ChromeOptions()
         options.add_argument("--remote-allow-origins=*")
         # options.add_argument("--start-maximized")
