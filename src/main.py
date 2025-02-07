@@ -11,6 +11,7 @@ import my_secrets
 import nav_bar_links
 from logging import Logger, Formatter
 from lps_map import lps_rental_data
+
 now: dt = dt.date.today()
 todays_date: str = now.strftime("%D").replace("/", "-")
 
@@ -20,7 +21,9 @@ root_logger.setLevel(logging.INFO)
 # NEEDED ABSOLUTE PATH FOR SCHEDULED TASKS?
 fh = logging.FileHandler(rf"{todays_date}.log")
 fh.setLevel(logging.DEBUG)
-formatter: Formatter = Formatter("%(asctime)s - %(name)s - %(lineno)d - %(levelname)s - %(message)s")
+formatter: Formatter = Formatter(
+    "%(asctime)s - %(name)s - %(lineno)d - %(levelname)s - %(message)s"
+)
 fh.setFormatter(formatter)
 root_logger.addHandler(fh)
 logger: Logger = logging.getLogger(__name__)
@@ -45,7 +48,9 @@ def main(site: Sites | None) -> None:
     logger.info(f"***** STARTED WEB TESTING FOR SITE: {site.upper()} *****")
     BROWSER = create_browser.firefox()
     nav_bar_links.browse(BROWSER, MENU, site=site)
-    contact_response = form_submission.submit_contact(browser=BROWSER, site=site + "/contact-us")
+    contact_response = form_submission.submit_contact(
+        browser=BROWSER, site=site + "/contact-us"
+    )
     consult_response = form_submission.submit_consult(browser=BROWSER, site=site)
 
     timestamp, area_percent_rentals = hoa_home.browse(BROWSER, site)
@@ -53,23 +58,31 @@ def main(site: Sites | None) -> None:
     logger.info(f"\t\tHOA DB TIMESTAMP: {last_timestamp}")
 
     area_percent_rentals: float = float(area_percent_rentals)
+
+    area_percent_rentals: float = float(area_percent_rentals)
     logger.info(f"\t\tAREA RENTAL %: {area_percent_rentals}")
 
-    lps_percent_rentals: float = float(lps_rental_data(BROWSER, site))
+    lps_percent_rentals = float(lps_rental_data(BROWSER, site))
     lps_rental_delta = float(f"{lps_percent_rentals - area_percent_rentals}")
     logger.info(f"\t\tLPS RENTAL %: {lps_percent_rentals}")
 
     if lps_rental_delta > 0.0:
-        logger.info(f"LPS RENTAL % is {lps_rental_delta:.2f} HIGHER than community average")
+        logger.info(
+            f"LPS RENTAL % is {lps_rental_delta:.2f} HIGHER than community average"
+        )
 
     else:
-        logger.info(f"LPS RENTAL % is {lps_rental_delta:.2f} LOWER than community average")
+        logger.info(
+            f"LPS RENTAL % is {lps_rental_delta:.2f} LOWER than community average"
+        )
 
     blog_home.browse(BROWSER, site + "/blog")
 
     if not contact_response:
         mailer.send_mail(f"FAIL SENDING CONTACT FORM: {site}", f"./{todays_date}.log")
-        logger.error(f"FAIL SENDING CONTACT FORM: {contact_response=} {site}: {site.upper()} -----")
+        logger.error(
+            f"FAIL SENDING CONTACT FORM: {contact_response=} {site}: {site.upper()} -----"
+        )
 
     if contact_response and consult_response and site == Sites.test:
         mailer.send_mail(f"SUCCESS TESTING SITE: {site}", f"./{todays_date}.log")
@@ -77,13 +90,17 @@ def main(site: Sites | None) -> None:
 
     if not consult_response and site == Sites.test:
         mailer.send_mail(f"FAIL SENDING CONSULT FORM: {site}", f"./{todays_date}.log")
-        logger.error(f"FAIL SENDING CONSULT FORM: {contact_response=} {site}: {site.upper()} -----")
+        logger.error(
+            f"FAIL SENDING CONSULT FORM: {contact_response=} {site}: {site.upper()} -----"
+        )
 
     BROWSER.close()
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Select which website for Selenium to test")
+    parser = argparse.ArgumentParser(
+        description="Select which website for Selenium to test"
+    )
     parser.add_argument("site", choices=[site.name for site in Sites])
 
     args = parser.parse_args()

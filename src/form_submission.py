@@ -24,7 +24,6 @@ def submit_consult(browser, site: str) -> object:
         logger.error(e)
 
     else:
-
         try:
             fname = browser.find_element(By.NAME, "firstname")
             fname.send_keys("SELENIUM CONSULT")
@@ -123,7 +122,9 @@ def submit_contact(browser, site: str) -> object:
         return False
 
     except ElementNotSelectableException as elem_err:
-        logger.error(f"\t\tEmail element Failure: Check {site}'s server logs {elem_err}")
+        logger.error(
+            f"\t\tEmail element Failure: Check {site}'s server logs {elem_err}"
+        )
         return False
 
     except Exception as base_err:

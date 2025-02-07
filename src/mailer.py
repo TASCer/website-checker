@@ -125,5 +125,5 @@ def send_mail(subject: str, attachment_path: object = None):
 #         print(e)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     send_mail("hello, TLS test on port 587", "../_oldlogs/10-07-24.log")
