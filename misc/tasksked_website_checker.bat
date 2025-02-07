@@ -1,4 +1,4 @@
-cd /D "D:\PycharmProjects\Selenium\src"
+cd /D "D:\PycharmProjects\website-checker\src"
 echo %cd%
 call conda activate website-checker311
 python.exe "main.py" %1
