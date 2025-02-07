@@ -3,8 +3,6 @@
 # Selenium Website Testing
 My Selenium solution used to schedule testing of my various website's html links and forms.
 
-##### Using Python 3.11.10
-##### *Depdendancies noted in requirements.txt*
 
 #### TESTS
 
@@ -28,4 +26,6 @@ assets folder contains:
 misc folder contains: 
 
         1. Windows batch file for launching Scheduled Tasks 
-        1. Shell script for launching cron job 
+        2. Shell script for launching cron job 
+        3. gecko driver for Firefox
+        4. my_secrets.py trmplate for environment variables
