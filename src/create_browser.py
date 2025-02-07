@@ -1,5 +1,6 @@
 import logging
 import my_secrets
+import platform
 
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
@@ -11,8 +12,16 @@ logger = logging.getLogger(__name__)
 
 def firefox() -> webdriver:
     """Create and return a selenium Firefox service to be used on pages and forms"""
+
+    if platform.system() == "Windows":
+        FF_DRIVER = my_secrets.firefox_driver_win
+        print("WIN")
+    if platform.system() == "Linux":
+        FF_DRIVER = my_secrets.firefox_driver_linux
+        print("LIN")
+
     try:
-        service = FService(f"{my_secrets.firefox_driver}")
+        service = FService(FF_DRIVER)
         options = webdriver.FirefoxOptions()
         options.headless = True
         options.add_argument("-headless")
@@ -34,8 +43,15 @@ def firefox() -> webdriver:
 
 def chrome() -> webdriver:
     """Create and return a selenium Firefox service to be used on pages and forms"""
+    if platform.system() == "Windows":
+        CH_DRIVER = my_secrets.chrome_driver_win
+
+    if platform.system() == "Linux":
+        CH_DRIVER = my_secrets.chrome_driver_lin
+        print("LIN")
+
     try:
-        service = CService(f"{my_secrets.chrome_driver}")
+        service = CService(CH_DRIVER)
         options = webdriver.ChromeOptions()
         options.add_argument("--remote-allow-origins=*")
         # options.add_argument("--start-maximized")
