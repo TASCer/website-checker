@@ -28,3 +28,4 @@ assets folder contains:
 misc folder contains: 
 
         1. Windows batch file for launching Scheduled Tasks 
+        1. Shell script for launching cron job 
