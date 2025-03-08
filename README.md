@@ -1,7 +1,7 @@
 ![TASCS LOGO](./assets/logo.png)
 
-# Selenium Website Testing
-My Selenium solution used to schedule testing of my various website's html links and forms.
+# Website Testing using Selenium
+My solution utilized to schedule testing of my various website's html links and forms.
 
 
 #### TESTS
@@ -26,6 +26,6 @@ assets folder contains:
 misc folder contains: 
 
         1. Windows batch file for launching Scheduled Tasks 
-        2. Shell script for launching cron job 
+        2. Shell scripts for launching cron jobs 
         3. gecko driver for Firefox
         4. my_secrets.py trmplate for environment variables

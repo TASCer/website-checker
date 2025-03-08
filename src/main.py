@@ -2,13 +2,14 @@ import argparse
 import blog_home
 import create_browser
 import datetime as dt
-from enum import Enum
 import form_submission
 import hoa_home
 import logging
 import mailer
 import my_secrets
 import nav_bar_links
+
+from enum import Enum
 from logging import Logger, Formatter
 from lps_map import lps_rental_data
 
@@ -18,7 +19,6 @@ todays_date: str = now.strftime("%D").replace("/", "-")
 root_logger: Logger = logging.getLogger()
 root_logger.setLevel(logging.INFO)
 
-# NEEDED ABSOLUTE PATH FOR SCHEDULED TASKS?
 fh = logging.FileHandler(rf"{todays_date}.log")
 fh.setLevel(logging.DEBUG)
 formatter: Formatter = Formatter(
