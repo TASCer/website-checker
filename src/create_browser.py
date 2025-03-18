@@ -15,16 +15,17 @@ def firefox() -> webdriver:
 
     if platform.system() == "Windows":
         FF_DRIVER = my_secrets.firefox_driver_win
-
+        BINARY_LOCATION = r"P:\Firefox\firefox.exe"
     if platform.system() == "Linux":
         FF_DRIVER = my_secrets.firefox_driver_linux
-
+        BINARY_LOCATION = ""
     try:
         service = FService(FF_DRIVER)
         options = webdriver.FirefoxOptions()
         options.headless = True
         options.add_argument("-headless")
-        options.binary_location = r"P:\Firefox\firefox.exe"
+        
+        options.binary_location = BINARY_LOCATION
 
         logger.info(f"\tFIREFOX browser service created w/options: {options.arguments}")
 
