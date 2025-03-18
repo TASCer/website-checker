@@ -1,6 +1,6 @@
 ![TASCS LOGO](./assets/logo.png)
 
-# Website Testing using Selenium
+# Website Testing Using Selenium
 My solution utilized to schedule testing of my various website's html links and forms.
 
 
