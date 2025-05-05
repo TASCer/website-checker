@@ -1,3 +1,5 @@
+# TODO Implement Selenium Manager
+# https://www.browserstack.com/guide/python-selenium-webdriver-manager
 import logging
 import my_secrets
 import platform
@@ -24,7 +26,7 @@ def firefox() -> webdriver:
         options = webdriver.FirefoxOptions()
         options.headless = True
         options.add_argument("-headless")
-        
+
         options.binary_location = BINARY_LOCATION
 
         logger.info(f"\tFIREFOX browser service created w/options: {options.arguments}")
