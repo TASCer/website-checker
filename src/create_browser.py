@@ -8,6 +8,7 @@ from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.firefox.service import Service as FService
 from selenium.webdriver.chrome.service import Service as CService
+from typing import Literal
 
 logger = logging.getLogger(__name__)
 
@@ -19,8 +20,8 @@ def firefox() -> webdriver:
         FF_DRIVER = my_secrets.firefox_driver_win
         BINARY_LOCATION = r"P:\Firefox\firefox.exe"
     if platform.system() == "Linux":
-        FF_DRIVER = my_secrets.firefox_driver_linux
-        BINARY_LOCATION = ""
+        FF_DRIVER: str = my_secrets.firefox_driver_linux
+        BINARY_LOCATION: Literal[""] = ""
     try:
         service = FService(FF_DRIVER)
         options = webdriver.FirefoxOptions()
@@ -47,17 +48,16 @@ def firefox() -> webdriver:
 def chrome() -> webdriver:
     """Create and return a selenium Firefox service to be used on pages and forms"""
     if platform.system() == "Windows":
-        CH_DRIVER = my_secrets.chrome_driver_win
+        CH_DRIVER: str = my_secrets.chrome_driver_win
 
     if platform.system() == "Linux":
-        CH_DRIVER = my_secrets.chrome_driver_lin
+        CH_DRIVER: str = my_secrets.chrome_driver_lin
         print("LIN")
 
     try:
         service = CService(CH_DRIVER)
         options = webdriver.ChromeOptions()
         options.add_argument("--remote-allow-origins=*")
-        # options.add_argument("--start-maximized")
         options.add_argument("--headless=new")
         options.add_experimental_option("excludeSwitches", ["enable-automation"])
         options.add_experimental_option("useAutomationExtension", False)

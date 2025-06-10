@@ -12,6 +12,7 @@ import nav_bar_links
 from enum import Enum
 from logging import Logger, Formatter
 from lps_map import lps_rental_data
+from selenium import webdriver
 
 now: dt = dt.date.today()
 todays_date: str = now.strftime("%D").replace("/", "-")
@@ -46,12 +47,12 @@ MENU = {
 
 def main(site: Sites | None) -> None:
     logger.info(f"***** STARTED WEB TESTING FOR SITE: {site.upper()} *****")
-    BROWSER = create_browser.firefox()
+    BROWSER: webdriver = create_browser.firefox()
     nav_bar_links.browse(BROWSER, MENU, site=site)
-    contact_response = form_submission.submit_contact(
+    contact_response: bool = form_submission.submit_contact(
         browser=BROWSER, site=site + "/contact-us"
     )
-    consult_response = form_submission.submit_consult(browser=BROWSER, site=site)
+    consult_response: bool = form_submission.submit_consult(browser=BROWSER, site=site)
 
     timestamp, area_percent_rentals = hoa_home.browse(BROWSER, site)
     last_timestamp: str = timestamp.replace("\n", " ")
