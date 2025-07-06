@@ -36,7 +36,7 @@ class Sites(str, Enum):
     local = my_secrets.local_home_url
 
 
-MENU = {
+MENU: dict[str, str] = {
     "WHY TASCS?": "why-tasc",
     "Solutions": "solutions",
     "Contact": "contact-us",
@@ -105,6 +105,6 @@ if __name__ == "__main__":
     parser.add_argument("site", choices=[site.name for site in Sites])
 
     args = parser.parse_args()
-    site2test = Sites[args.site].value
+    site2test: str = Sites[args.site].value
 
     main(site=site2test)
