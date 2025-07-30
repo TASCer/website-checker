@@ -8,9 +8,10 @@ import platform
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.firefox.service import Service as FirefoxService
-# from selenium.webdriver.chrome.service import Service as ChromeService
+from selenium.webdriver.chrome.service import Service as ChromeService
 from typing import Literal
 from webdriver_manager.firefox import GeckoDriverManager
+from webdriver_manager.chrome import ChromeDriverManager
 
 logger = logging.getLogger(__name__)
 
@@ -20,12 +21,10 @@ def firefox() -> webdriver.Firefox:
     
     try:
         options = webdriver.FirefoxOptions()
-        options.headless = True
         options.add_argument("-headless")
 
         firefox_browser = webdriver.Firefox(options=options,
-        service=FirefoxService(GeckoDriverManager().install())
-    )
+        service=FirefoxService(GeckoDriverManager().install()))
 
         logger.info(f"\tFIREFOX browser service created w/options: {options.arguments}")
 
@@ -40,31 +39,27 @@ def firefox() -> webdriver.Firefox:
         exit()
 
 
-# def chrome() -> webdriver:
-#     """Create and return a selenium Firefox service to be used on pages and forms"""
+def chrome() -> webdriver.Chrome:
+    """Create and return a selenium Firefox service to be used on pages and forms"""
 
-#     chrome_browser = webdriver.Chrome(
-#         service=ChromeService(ChromeDriverManager().install())
-#     )
+  
+    try:
+        options = webdriver.ChromeOptions()
+        options.add_argument("--remote-allow-origins=*")
+        options.add_argument("--headless=new")
+        options.add_experimental_option("excludeSwitches", ["enable-automation"])
+        options.add_experimental_option("useAutomationExtension", False)
+        options.add_argument("--disable notifications")
+        chrome_browser = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install())
+    )
 
-#     try:
-#         # service = ChromeService(CH_DRIVER)
-#         options = webdriver.ChromeOptions()
-#         options.add_argument("--remote-allow-origins=*")
-#         options.add_argument("--headless=new")
-#         options.add_experimental_option("excludeSwitches", ["enable-automation"])
-#         options.add_experimental_option("useAutomationExtension", False)
-#         options.add_argument("--disable notifications")
+        logger.info(f"\tCHROME browser service created w/options: {options.arguments}")
 
-#         logger.info(f"\tCHROME browser service created w/options: {options.arguments}")
+        return chrome_browser
 
-#         # chr_browser = webdriver.Chrome(service=service, options=options)
-
-#         return chrome_browser
-
-#     except (FileNotFoundError, WebDriverException) as e:
-#         logger.critical(f"{str(e)}")
-#         exit()
+    except (FileNotFoundError, WebDriverException) as e:
+        logger.critical(f"{str(e)}")
+        exit()
 
 
 if __name__ == "__main__":
