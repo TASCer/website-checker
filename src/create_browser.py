@@ -6,8 +6,8 @@ import platform
 
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
-from selenium.webdriver.firefox.service import Service as FService
-from selenium.webdriver.chrome.service import Service as CService
+from selenium.webdriver.firefox.service import Service as FirefoxService
+from selenium.webdriver.chrome.service import Service as ChromeService
 from typing import Literal
 
 logger = logging.getLogger(__name__)
@@ -17,13 +17,13 @@ def firefox() -> webdriver:
     """Create and return a selenium Firefox service to be used on pages and forms"""
 
     if platform.system() == "Windows":
-        FF_DRIVER = my_secrets.firefox_driver_win
+        FIREFOX_DRIVER = my_secrets.firefox_driver_win
         BINARY_LOCATION = r"P:\Firefox\firefox.exe"
     if platform.system() == "Linux":
-        FF_DRIVER: str = my_secrets.firefox_driver_linux
+        FIREFOX_DRIVER: str = my_secrets.firefox_driver_linux
         BINARY_LOCATION: Literal[""] = ""
     try:
-        service = FService(FF_DRIVER)
+        service = FirefoxService(FIREFOX_DRIVER)
         options = webdriver.FirefoxOptions()
         options.headless = True
         options.add_argument("-headless")
@@ -48,14 +48,14 @@ def firefox() -> webdriver:
 def chrome() -> webdriver:
     """Create and return a selenium Firefox service to be used on pages and forms"""
     if platform.system() == "Windows":
-        CH_DRIVER: str = my_secrets.chrome_driver_win
+        CHROME_DRIVER: str = my_secrets.chrome_driver_win
 
     if platform.system() == "Linux":
-        CH_DRIVER: str = my_secrets.chrome_driver_lin
-        print("LIN")
+        CHROME_DRIVER: str = my_secrets.chrome_driver_lin
+        print("LINUX")
 
     try:
-        service = CService(CH_DRIVER)
+        service = ChromeService(CHROME_DRIVER)
         options = webdriver.ChromeOptions()
         options.add_argument("--remote-allow-origins=*")
         options.add_argument("--headless=new")
