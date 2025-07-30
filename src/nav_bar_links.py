@@ -19,12 +19,12 @@ def browse(
         browser.get(site)
         WebDriverWait(browser, 500)
     except sel_exc.WebDriverException as err:
-        if "ERR_CONNECTION_REFUSED" in err.msg:  # CHROME
+        if "ERR_CONNECTION_REFUSED" in str(err.msg):  # CHROME
             logger.error(f"{err.msg}")
             browser.close()
             exit()
 
-        if "Reached error page" in err.msg:  # Firefox
+        if "Reached error page" in str(err.msg):  # Firefox
             logger.error(f"{err.msg}")
             browser.close()
             exit()

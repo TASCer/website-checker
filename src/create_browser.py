@@ -25,7 +25,6 @@ def firefox() -> webdriver.Firefox:
     try:
         service = FirefoxService(FIREFOX_DRIVER)
         options = webdriver.FirefoxOptions()
-        options.headless = True
         options.add_argument("-headless")
 
         options.binary_location = BINARY_LOCATION
@@ -45,7 +44,7 @@ def firefox() -> webdriver.Firefox:
         exit()
 
 
-def chrome() -> webdriver:
+def chrome() -> webdriver.Chrome:
     """Create and return a selenium Firefox service to be used on pages and forms"""
     if platform.system() == "Windows":
         CHROME_DRIVER: str = my_secrets.chrome_driver_win

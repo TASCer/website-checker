@@ -80,7 +80,7 @@ def submit_consult(browser, site: str) -> bool:
     return True
 
 
-def submit_contact(browser, site: str) -> object:
+def submit_contact(browser, site: str) -> bool:
     logger.info("\tCOMPLETING CONTACT FORM")
     try:
         browser.get(site)

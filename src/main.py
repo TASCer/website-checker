@@ -21,7 +21,7 @@ todays_date: str = now.strftime("%D").replace("/", "-")
 root_logger: Logger = logging.getLogger()
 root_logger.setLevel(logging.INFO)
 
-fh = logging.FileHandler(rf"{todays_date}.log")
+fh = logging.FileHandler(rf"../{todays_date}.log")
 fh.setLevel(logging.DEBUG)
 formatter: Formatter = Formatter(
     "%(asctime)s - %(name)s - %(lineno)d - %(levelname)s - %(message)s"
