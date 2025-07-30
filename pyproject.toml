@@ -1,13 +1,13 @@
 [project]
 name = "website-checker"
-version = "0.1.0"
+version = "1.0.0"
 description = "testing of my various websites html links and forms."
 readme = "README.md"
 requires-python = ">=3.13"
-dependencies = [
-    "selenium>=4.27.1",
-    "webdriver-manager>=4.0.2",
-]
+dependencies = ["selenium>=4.27.1", "webdriver-manager>=4.0.2"]
 
 [dependency-groups]
-dev = ["ruff>=0.9.5"]
+dev = [
+    "ruff>=0.9.5",
+    "ty>=0.0.1a16",
+]
