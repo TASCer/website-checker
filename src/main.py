@@ -9,12 +9,13 @@ import mailer
 import my_secrets
 import nav_bar_links
 
+from datetime import datetime
 from enum import Enum
 from logging import Logger, Formatter
 from lps_map import lps_rental_data
 from selenium import webdriver
 
-now: dt = dt.date.today()
+now: datetime = dt.date.today()
 todays_date: str = now.strftime("%D").replace("/", "-")
 
 root_logger: Logger = logging.getLogger()
@@ -45,7 +46,7 @@ MENU: dict[str, str] = {
 }
 
 
-def main(site: Sites | None) -> None:
+def main(site) -> None:
     logger.info(f"***** STARTED WEB TESTING FOR SITE: {site.upper()} *****")
     BROWSER: webdriver = create_browser.firefox()
     nav_bar_links.browse(BROWSER, MENU, site=site)

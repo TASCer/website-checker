@@ -15,7 +15,7 @@ from webdriver_manager.firefox import GeckoDriverManager
 logger = logging.getLogger(__name__)
 
 
-def firefox() -> webdriver:
+def firefox() -> webdriver.Firefox:
     """Create and return a selenium Firefox service to be used on pages and forms"""
     
     try:

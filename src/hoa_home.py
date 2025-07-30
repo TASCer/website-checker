@@ -2,17 +2,18 @@ import datetime as dt
 import logging
 import create_browser
 
+from datetime import datetime
 from my_secrets import test_home_url
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait, Select
 
-now: dt = dt.date.today()
+now: datetime = dt.date.today()
 todays_date: str = now.strftime("%D").replace("/", "-")
 
 logger = logging.getLogger(__name__)
 
 
-def browse(browser, site: str) -> tuple[str]:
+def browse(browser, site: str) -> tuple[str, str]:
     """
     Function vistits the HOA community map to get and return
     -Last db data timestamp

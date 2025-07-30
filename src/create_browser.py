@@ -13,7 +13,7 @@ from typing import Literal
 logger = logging.getLogger(__name__)
 
 
-def firefox() -> webdriver:
+def firefox() -> webdriver.Firefox:
     """Create and return a selenium Firefox service to be used on pages and forms"""
 
     if platform.system() == "Windows":

@@ -9,7 +9,7 @@ from selenium.webdriver.support import expected_conditions as EC
 logger = logging.getLogger(__name__)
 
 
-def submit_consult(browser, site: str) -> object:
+def submit_consult(browser, site: str) -> bool:
     logger.info("\tCOMPLETING CONSULT")
 
     if site == "https://tascs.net":
