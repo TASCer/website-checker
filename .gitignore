@@ -5,3 +5,4 @@ geckodriver.log
 /output
 .venv
 __pycache__
+src/test-manager.py
