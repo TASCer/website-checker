@@ -7,17 +7,27 @@ My solution utilized to schedule testing of my various website's html links and 
 #### TEST STEPS
 
 1. Goes through all links in menu bar
-2. Completes the two html php forms to send request e-mail(s)
+1. Completes the two html php forms to send request e-mail(s)
 
    a. CONTACT form has captcha, not ran on production. Hardcoded in TEST
 
-4. Visits HOA page to get the last date and time rental data was updated 
-4. Visits HOA and gets area and Legacy Parc Rental Percentages 
-5. Visits BLOG site and gets count of blogs on first page and latest blog title
+1. Visits HOA page to get:
+   a. The last date and time rental data was updated 
+
+   b. Legacy Parc rental percentage
+
+   c. Rental percentage for all monitored communities 
+
+1. Visits BLOG site to get:
+
+   a. Count of blogs on first page
+   
+   b. Latest blog post title
 
 src folder contains: 
 
 1. Python files needed to run tests
+   - A managed option (create_broswer_managed) for creating driver/browser using [webdriver-manager](https://pypi.org/project/webdriver-manager/)
 
 assets folder contains:
 
