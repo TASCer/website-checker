@@ -18,13 +18,14 @@ logger = logging.getLogger(__name__)
 
 def firefox() -> webdriver.Firefox:
     """Create and return a selenium Firefox service to be used on pages and forms"""
-    
+
     try:
         options = webdriver.FirefoxOptions()
         options.add_argument("-headless")
 
-        firefox_browser = webdriver.Firefox(options=options,
-        service=FirefoxService(GeckoDriverManager().install()))
+        firefox_browser = webdriver.Firefox(
+            options=options, service=FirefoxService(GeckoDriverManager().install())
+        )
 
         logger.info(f"\tFIREFOX browser service created w/options: {options.arguments}")
 
@@ -42,7 +43,6 @@ def firefox() -> webdriver.Firefox:
 def chrome() -> webdriver.Chrome:
     """Create and return a selenium Firefox service to be used on pages and forms"""
 
-  
     try:
         options = webdriver.ChromeOptions()
         options.add_argument("--remote-allow-origins=*")
@@ -50,8 +50,9 @@ def chrome() -> webdriver.Chrome:
         options.add_experimental_option("excludeSwitches", ["enable-automation"])
         options.add_experimental_option("useAutomationExtension", False)
         options.add_argument("--disable notifications")
-        chrome_browser = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install())
-    )
+        chrome_browser = webdriver.Chrome(
+            service=ChromeService(ChromeDriverManager().install())
+        )
 
         logger.info(f"\tCHROME browser service created w/options: {options.arguments}")
 
