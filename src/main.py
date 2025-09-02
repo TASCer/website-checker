@@ -1,6 +1,7 @@
 import argparse
 import blog_home
 import create_browser
+import create_browser_managed
 import datetime as dt
 import form_submission
 import hoa_home
@@ -48,7 +49,7 @@ MENU: dict[str, str] = {
 
 def main(site) -> None:
     logger.info(f"***** STARTED WEB TESTING FOR SITE: {site.upper()} *****")
-    BROWSER: webdriver.Firefox = create_browser.firefox()
+    BROWSER: webdriver.Firefox = create_browser_managed.firefox()
     nav_bar_links.browse(BROWSER, MENU, site=site)
     contact_response: bool = form_submission.submit_contact(
         browser=BROWSER, site=site + "/contact-us"
@@ -87,11 +88,11 @@ def main(site) -> None:
         )
 
     if contact_response and consult_response and site == Sites.test:
-        mailer.send_mail(f"SUCCESS TESTING SITE: {site}", f"./{todays_date}.log")
+        mailer.send_mail(f"SUCCESS TESTING SITE: {site}", f"../{todays_date}.log")
         logger.info(f"***** SUCCESS TESTING SITE: {site.upper()} *****")
 
     if not consult_response and site == Sites.test:
-        mailer.send_mail(f"FAIL SENDING CONSULT FORM: {site}", f"./{todays_date}.log")
+        mailer.send_mail(f"FAIL SENDING CONSULT FORM: {site}", f"../{todays_date}.log")
         logger.error(
             f"FAIL SENDING CONSULT FORM: {contact_response=} {site}: {site.upper()} -----"
         )
