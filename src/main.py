@@ -88,7 +88,7 @@ def main(site) -> None:
         )
 
     if contact_response and consult_response and site == Sites.test:
-        mailer.send_mail(f"SUCCESS TESTING SITE: {site}", f"../{todays_date}.log")
+        mailer.send_mail(f"SUCCESS TESTING SITE: {site}")
         logger.info(f"***** SUCCESS TESTING SITE: {site.upper()} *****")
 
     if not consult_response and site == Sites.test:
