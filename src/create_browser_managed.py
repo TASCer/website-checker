@@ -1,10 +1,9 @@
-# TODO Implement Selenium Manager - FF working, need to istall chromium to test
+# TODO Implement Selenium Manager - FF working, need to istall chromium to test if needed
 # https://www.browserstack.com/guide/python-selenium-webdriver-
 # https://pypi.org/project/webdriver-manager/
 import logging
-# import my_secrets
-# import platform
 
+from logging import Logger
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.firefox.service import Service as FirefoxService
@@ -13,12 +12,14 @@ from typing import Literal
 from webdriver_manager.firefox import GeckoDriverManager
 from webdriver_manager.chrome import ChromeDriverManager
 
-logger = logging.getLogger(__name__)
+logger: Logger = logging.getLogger(__name__)
 
 
 def firefox() -> webdriver.Firefox:
-    """Create and return a selenium Firefox service to be used on pages and forms"""
-
+    """
+    Function creates a FIREFOX Selenium webdriver to be used with web pages and forms.
+    Returns created FIREFOX Selenium webdriver.
+    """
     try:
         options = webdriver.FirefoxOptions()
         options.add_argument("-headless")
@@ -41,8 +42,10 @@ def firefox() -> webdriver.Firefox:
 
 
 def chrome() -> webdriver.Chrome:
-    """Create and return a selenium Firefox service to be used on pages and forms"""
-
+    """
+    Function creates a CHROMIUM Selenium webdriver to be used with web pages and forms.
+    Returns created CHROMIUM Selenium webdriver.
+    """
     try:
         options = webdriver.ChromeOptions()
         options.add_argument("--remote-allow-origins=*")
