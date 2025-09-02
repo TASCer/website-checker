@@ -1,7 +1,7 @@
 import logging
 import my_secrets
 import smtplib
-import ssl
+# import ssl
 
 from email import encoders
 from email.mime.base import MIMEBase

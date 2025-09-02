@@ -5,7 +5,7 @@ import create_browser
 from datetime import datetime
 from my_secrets import test_home_url
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait, Select
+from selenium.webdriver.support.ui import WebDriverWait
 
 now: datetime = dt.date.today()
 todays_date: str = now.strftime("%D").replace("/", "-")
