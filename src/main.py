@@ -1,7 +1,7 @@
 import argparse
 import blog_home
 
-# import create_browser
+# import create_browser # backup in case managed doesn't work
 import create_browser_managed
 import datetime as dt
 import form_submission
@@ -39,7 +39,7 @@ class Sites(str, Enum):
     local = my_secrets.local_home_url
 
 
-MENU: dict[str, str] = {
+SITE_MENU: dict[str, str] = {
     "WHY TASCS?": "why-tasc",
     "Solutions": "solutions",
     "Contact": "contact-us",
@@ -49,9 +49,14 @@ MENU: dict[str, str] = {
 
 
 def main(site) -> None:
+    """
+    Function controls the application
+
+    :param site: website to check
+    """
     logger.info(f"***** STARTED WEB TESTING FOR SITE: {site.upper()} *****")
     BROWSER: webdriver.Firefox = create_browser_managed.firefox()
-    nav_bar_links.browse(BROWSER, MENU, site=site)
+    nav_bar_links.browse(BROWSER, SITE_MENU, site=site)
     contact_response: bool = form_submission.submit_contact(
         browser=BROWSER, site=site + "/contact-us"
     )
@@ -89,8 +94,8 @@ def main(site) -> None:
         )
 
     if contact_response and consult_response and site == Sites.test:
-        mailer.send_mail(f"SUCCESS TESTING SITE: {site}")
-        logger.info(f"***** SUCCESS TESTING SITE: {site.upper()} *****")
+        mailer.send_mail(f"SUCCESS: {site}")
+        logger.info(f"***** SUCCESS: {site.upper()} *****")
 
     if not consult_response and site == Sites.test:
         mailer.send_mail(f"FAIL SENDING CONSULT FORM: {site}", f"../{todays_date}.log")

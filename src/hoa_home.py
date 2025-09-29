@@ -15,13 +15,10 @@ logger = logging.getLogger(__name__)
 
 def browse(browser, site: str) -> tuple[str, str]:
     """
-    Function vistits the HOA community map to get and return
-    -Last db data timestamp
-    -Area rental percentage
-    -LPS rental percentage
+    Function browses the HOA site and links to get information.
     :param browser:
     :param site:
-    :return:
+    :return: area rental percentage, LPS rental percentage
     """
     try:
         browser.get(site + "/hoa/areaMap.php")
