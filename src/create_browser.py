@@ -1,5 +1,3 @@
-# TODO Implement Selenium Manager
-# https://www.browserstack.com/guide/python-selenium-webdriver-manager
 import logging
 import my_secrets
 import platform
