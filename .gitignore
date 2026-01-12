@@ -6,3 +6,4 @@ geckodriver.log
 .venv
 __pycache__
 src/test-manager.py
+issues.txt
