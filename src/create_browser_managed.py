@@ -1,6 +1,4 @@
-# TODO Implement Selenium Manager - FF working, need to istall chromium to test if needed
-# https://www.browserstack.com/guide/python-selenium-webdriver-
-# https://pypi.org/project/webdriver-manager/
+# TODO Implement Selenium Manager for Chrome - FF working.
 import logging
 
 from logging import Logger

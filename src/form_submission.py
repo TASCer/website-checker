@@ -1,12 +1,13 @@
 import logging
 
+from logging import Logger
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import ElementNotSelectableException
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support import expected_conditions as EC
 
-logger = logging.getLogger(__name__)
+logger: Logger = logging.getLogger(__name__)
 
 
 def submit_consult(browser, site: str) -> bool:
@@ -58,7 +59,7 @@ def submit_consult(browser, site: str) -> bool:
             WebDriverWait(browser, 3000)
 
             try:
-                msg = WebDriverWait(browser, 15).until(
+                msg: bool = WebDriverWait(browser, 15).until(
                     EC.text_to_be_present_in_element(
                         (By.ID, "msg"), text_="Request sent successfully"
                     )
