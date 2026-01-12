@@ -1,7 +1,8 @@
+# TODO Make into a pytest - https://medium.com/@sayalidhoot07/creating-a-selenium-pytest-framework-from-scratch-6fadd32f9574
 import argparse
 import blog_home
 
-# import create_browser # backup in case managed doesn't work
+# import create_browser # backup in case create_browser_managed.py doesn't work
 import create_browser_managed
 import datetime as dt
 import form_submission
@@ -94,6 +95,10 @@ def main(site) -> None:
         )
 
     if contact_response and consult_response and site == Sites.test:
+        mailer.send_mail(f"SUCCESS: {site}")
+        logger.info(f"***** SUCCESS: {site.upper()} *****")
+
+    if contact_response and not consult_response and site == Sites.prod:
         mailer.send_mail(f"SUCCESS: {site}")
         logger.info(f"***** SUCCESS: {site.upper()} *****")
 
