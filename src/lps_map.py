@@ -8,6 +8,13 @@ logger = logging.getLogger(__name__)
 
 
 def lps_rental_data(browser, site: str) -> str:
+    """
+    Function gets current rental percent from site
+
+    :param browser:
+    :param site: url
+    :return: percentage of rentals
+    """
     try:
         browser.get(site + "/hoa/lpsMap.php")
         lps_rental_percent = browser.find_element(By.ID, "PCT")
