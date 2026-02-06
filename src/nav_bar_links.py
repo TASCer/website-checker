@@ -14,6 +14,14 @@ def browse(
     nav_menu_links: Dict,
     site: str,
 ) -> object:
+    """
+    Function browses through the site navigation bar links
+
+    :param browser: 
+    :param nav_menu_links: html links found in navigation bar
+    :param site: url
+    :return: browser
+    """
     logger.info(f"\tNavigating menu bar: {', '.join(list(nav_menu_links.values()))}")
     try:
         browser.get(site)
@@ -29,7 +37,7 @@ def browse(
             browser.close()
             exit()
 
-    for title, href in nav_menu_links.items():
+    for _, href in nav_menu_links.items():
         try:
             browser.get(f"{site}/{href}")
             time.sleep(1)
