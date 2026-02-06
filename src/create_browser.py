@@ -12,8 +12,11 @@ logger = logging.getLogger(__name__)
 
 
 def firefox() -> webdriver.Firefox:
-    """Create and return a selenium Firefox service to be used on pages and forms"""
+    """
+    Function creates a selenium Firefox driver to be used on pages and forms
 
+    :return: Firefox driver
+    """
     if platform.system() == "Windows":
         FIREFOX_DRIVER = my_secrets.firefox_driver_win
         BINARY_LOCATION = r"P:\Firefox\firefox.exe"
@@ -43,7 +46,11 @@ def firefox() -> webdriver.Firefox:
 
 
 def chrome() -> webdriver.Chrome:
-    """Create and return a selenium Firefox service to be used on pages and forms"""
+    """
+    Function creates a Selenium Chrome driver to be used on pages and forms
+
+    :return: Chrome driver
+    """
     if platform.system() == "Windows":
         CHROME_DRIVER: str = my_secrets.chrome_driver_win
 

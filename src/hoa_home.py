@@ -17,7 +17,7 @@ def browse(browser, site: str) -> tuple[str, str]:
     """
     Function browses the HOA site and links to get information.
     :param browser:
-    :param site:
+    :param site: url
     :return: area rental percentage, LPS rental percentage
     """
     try:
@@ -36,6 +36,7 @@ def browse(browser, site: str) -> tuple[str, str]:
 
 if __name__ == "__main__":
     import create_browser, create_browser_managed
-    BROWSER = create_browser_managed.chrome() #cannot find chrome binary
+
+    BROWSER = create_browser_managed.chrome()  # cannot find chrome binary
     site2test = test_home_url
     print(browse(BROWSER, site2test))

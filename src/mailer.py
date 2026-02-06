@@ -17,8 +17,11 @@ email_password = my_secrets.postfix_password
 
 
 def send_mail(subject: str, attachment_path: object = None):
-    """Takes a subject (str) and optional file attachment
-    Sends email to receiver_email contacts
+    """
+    Function sends out email messages.
+
+    :param subject:
+    :param attachment_path: path to file, defaults to None
     """
     logger: Logger = logging.getLogger(__name__)
     sender_email: str = email_sender

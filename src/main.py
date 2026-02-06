@@ -53,7 +53,7 @@ def main(site) -> None:
     """
     Function controls the application
 
-    :param site: website to check
+    :param site: website url to check
     """
     logger.info(f"***** STARTED WEB TESTING FOR SITE: {site.upper()} *****")
     BROWSER: webdriver.Firefox = create_browser_managed.firefox()

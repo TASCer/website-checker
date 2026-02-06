@@ -15,7 +15,8 @@ logger: Logger = logging.getLogger(__name__)
 def firefox() -> webdriver.Firefox:
     """
     Function creates a FIREFOX Selenium webdriver to be used with web pages and forms.
-    Returns created FIREFOX Selenium webdriver.
+
+    :return: Firefox driver
     """
     try:
         options = webdriver.FirefoxOptions()
@@ -41,7 +42,8 @@ def firefox() -> webdriver.Firefox:
 def chrome() -> webdriver.Chrome:
     """
     Function creates a CHROMIUM Selenium webdriver to be used with web pages and forms.
-    Returns created CHROMIUM Selenium webdriver.
+
+    :return: Chromium driver
     """
     try:
         options = webdriver.ChromeOptions()

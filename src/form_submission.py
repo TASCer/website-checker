@@ -11,6 +11,14 @@ logger: Logger = logging.getLogger(__name__)
 
 
 def submit_consult(browser, site: str) -> bool:
+    """
+    Function fills out and submits a Request Consultation form.
+
+    :param browser:
+    :param site: url
+    :raises TimeoutException:
+    :return: True if no issues
+    """
     logger.info("\tCOMPLETING CONSULT")
 
     if site == "https://tascs.net":
@@ -82,6 +90,14 @@ def submit_consult(browser, site: str) -> bool:
 
 
 def submit_contact(browser, site: str) -> bool:
+    """
+    Function fills out and submits a Request Contact form.
+
+    :param browser:
+    :param site: url
+    :raises TimeoutException:
+    :return: True if no issues
+    """
     logger.info("\tCOMPLETING CONTACT FORM")
     try:
         browser.get(site)
