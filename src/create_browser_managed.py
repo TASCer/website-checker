@@ -1,10 +1,11 @@
-# TODO Implement Selenium Manager for Chrome - FF working.
+# TODO TEST NON HEADLESS FF. Chrome WORKS! and FF headless works with managed drivers
 import logging
 
 from logging import Logger
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.firefox.service import Service as FirefoxService
+from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.firefox import GeckoDriverManager
 from webdriver_manager.chrome import ChromeDriverManager
@@ -46,13 +47,13 @@ def chrome() -> webdriver.Chrome:
     :return: Chromium driver
     """
     try:
-        options = webdriver.ChromeOptions()
+        options = ChromeOptions()
         options.add_argument("--remote-allow-origins=*")
         options.add_argument("--headless=new")
         options.add_experimental_option("excludeSwitches", ["enable-automation"])
         options.add_experimental_option("useAutomationExtension", False)
         options.add_argument("--disable notifications")
-        chrome_browser = webdriver.Chrome(
+        chrome_browser = webdriver.Chrome(options=options,
             service=ChromeService(ChromeDriverManager().install())
         )
 

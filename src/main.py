@@ -65,7 +65,7 @@ def main(site) -> None:
     :param site: website url to check
     """
     logger.info(f"***** STARTED WEB TESTING FOR SITE: {site.upper()} *****")
-    BROWSER: webdriver.Firefox = create_browser_managed.firefox()
+    BROWSER: webdriver = create_browser_managed.chrome()
 
     nav_bar_links.browse(BROWSER, SITE_MENU, site=site)
     contact_response: bool = form_submission.submit_contact(
