@@ -1,4 +1,5 @@
 # TODO Make into a pytest - https://medium.com/@sayalidhoot07/creating-a-selenium-pytest-framework-from-scratch-6fadd32f9574
+# TODO "test different screen sizes selenium python"
 import argparse
 import blog_home
 
@@ -40,6 +41,14 @@ class Sites(str, Enum):
     local = my_secrets.local_home_url
 
 
+screen_sizes = [
+    (1920, 671), # MyDesktop - MAIN
+    (1600, 491),  # MyLaptop
+    (479, 960)    # MyMobile (Alcatel 5059R)
+    # (1920, 1080), # MyDesktop - MAIN
+]
+
+
 SITE_MENU: dict[str, str] = {
     "WHY TASCS?": "why-tasc",
     "Solutions": "solutions",
@@ -47,6 +56,13 @@ SITE_MENU: dict[str, str] = {
     "Blog": "blog",
     "HOA": "hoa",
 }
+
+
+# def get_site_menu(browser) -> list:
+
+
+
+
 
 
 def main(site) -> None:
@@ -57,6 +73,11 @@ def main(site) -> None:
     """
     logger.info(f"***** STARTED WEB TESTING FOR SITE: {site.upper()} *****")
     BROWSER: webdriver.Firefox = create_browser_managed.firefox()
+
+    # live_menu = get_site_menu(BROWSER)
+
+
+    
     nav_bar_links.browse(BROWSER, SITE_MENU, site=site)
     contact_response: bool = form_submission.submit_contact(
         browser=BROWSER, site=site + "/contact-us"
