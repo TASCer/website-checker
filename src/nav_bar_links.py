@@ -17,7 +17,7 @@ def browse(
     """
     Function browses through the site navigation bar links
 
-    :param browser: 
+    :param browser:
     :param nav_menu_links: html links found in navigation bar
     :param site: url
     :return: browser

@@ -67,7 +67,6 @@ def main(site) -> None:
     logger.info(f"***** STARTED WEB TESTING FOR SITE: {site.upper()} *****")
     BROWSER: webdriver.Firefox = create_browser_managed.firefox()
 
-
     nav_bar_links.browse(BROWSER, SITE_MENU, site=site)
     contact_response: bool = form_submission.submit_contact(
         browser=BROWSER, site=site + "/contact-us"
