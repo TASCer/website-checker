@@ -42,9 +42,9 @@ class Sites(str, Enum):
 
 
 screen_sizes = [
-    (1920, 671), # MyDesktop - MAIN
+    (1920, 671),  # MyDesktop - MAIN
     (1600, 491),  # MyLaptop
-    (479, 960)    # MyMobile (Alcatel 5059R)
+    (479, 960),  # MyMobile (Alcatel 5059R)
     # (1920, 1080), # MyDesktop - MAIN
 ]
 
@@ -58,13 +58,6 @@ SITE_MENU: dict[str, str] = {
 }
 
 
-# def get_site_menu(browser) -> list:
-
-
-
-
-
-
 def main(site) -> None:
     """
     Function controls the application
@@ -74,10 +67,7 @@ def main(site) -> None:
     logger.info(f"***** STARTED WEB TESTING FOR SITE: {site.upper()} *****")
     BROWSER: webdriver.Firefox = create_browser_managed.firefox()
 
-    # live_menu = get_site_menu(BROWSER)
 
-
-    
     nav_bar_links.browse(BROWSER, SITE_MENU, site=site)
     contact_response: bool = form_submission.submit_contact(
         browser=BROWSER, site=site + "/contact-us"
