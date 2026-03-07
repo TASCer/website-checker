@@ -1,9 +1,6 @@
-src/my_secrets.py
-geckodriver.log
 *.log
-/.idea
 /output
 .venv
 __pycache__
-src/test-manager.py
 issues.txt
+.env
