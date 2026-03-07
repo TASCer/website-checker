@@ -51,15 +51,15 @@ def chrome() -> webdriver.Chrome:
         # working settings
         options.add_argument("--headless=new")
         # options.add_argument("--window-size=480,960")
-        
+
         # unknown settings affects
         # options.add_argument("--remote-allow-origins=*")
         # options.add_experimental_option("excludeSwitches", ["enable-automation"])
         # options.add_experimental_option("useAutomationExtension", False)
         # options.add_argument("--disable notifications")
 
-        chrome_browser = webdriver.Chrome(options=options,
-            service=ChromeService(ChromeDriverManager().install())
+        chrome_browser = webdriver.Chrome(
+            options=options, service=ChromeService(ChromeDriverManager().install())
         )
 
         logger.info(f"\tCHROME browser service created w/options: {options.arguments}")
