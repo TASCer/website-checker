@@ -1,19 +1,23 @@
+# TODO FIX MULTI RECIPIENTS LIST ISSUE with JSON. SEE other project
 import logging
-import my_secrets
+import os
 import smtplib
 # import ssl
 
+from dotenv import load_dotenv
 from email import encoders
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from logging import Logger
 
-email_reciever: list[str] = my_secrets.email_to
-email_sender: str = my_secrets.postfix_mail_from
-email_server = my_secrets.postfix_mailhost
-email_user = my_secrets.postfix_user
-email_password = my_secrets.postfix_password
+load_dotenv()
+
+email_reciever: list[str] = os.getenv("EMAIL_RECIPIENTS")
+email_sender: str = os.getenv("EMAIL_FROM")
+email_server: str | None = os.getenv("EMAIL_HOST")
+email_user: str | None = os.getenv("EMAIL_USER")
+email_password: str | None = os.getenv("EMAIL_PASSWORD")
 
 
 def send_mail(subject: str, attachment_path: object = None):
@@ -28,9 +32,9 @@ def send_mail(subject: str, attachment_path: object = None):
     receiver_email: list[str] = email_reciever
 
     msg: MIMEMultipart = MIMEMultipart("alternative")
-    msg["Subject"]: str = f"{subject}"
-    msg["From"]: str = sender_email
-    msg["To"]: str = receiver_email[0]
+    msg["Subject"] = f"{subject}"
+    msg["From"] = sender_email
+    msg["To"] = receiver_email[0]
 
     if attachment_path:
         html_attachments: str = """\
@@ -74,7 +78,7 @@ def send_mail(subject: str, attachment_path: object = None):
 
     # WORKING NON SSL 25 or 587
     try:
-        with smtplib.SMTP(my_secrets.postfix_mailhost, 587) as server:
+        with smtplib.SMTP(os.getenv("EMAIL_HOST"), 587) as server:
             server.ehlo()
             server.starttls()
             try:

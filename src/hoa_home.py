@@ -3,7 +3,6 @@ import logging
 
 from datetime import datetime
 from logging import Logger
-from my_secrets import test_home_url
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 
@@ -32,11 +31,3 @@ def browse(browser, site: str) -> tuple[str, str]:
     area_rental_percent: str = browser.find_element(By.ID, "TPCT").text
 
     return last_db_update, area_rental_percent
-
-
-if __name__ == "__main__":
-    import create_browser, create_browser_managed
-
-    BROWSER = create_browser_managed.chrome()  # cannot find chrome binary
-    site2test = test_home_url
-    print(browse(BROWSER, site2test))

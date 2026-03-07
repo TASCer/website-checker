@@ -3,17 +3,18 @@
 import argparse
 import blog_home
 
-# import create_browser # backup in case create_browser_managed.py doesn't work
-import create_browser_managed
+
+import create_browser_driver
 import datetime as dt
 import form_submission
 import hoa_home
+import os
 import logging
 import mailer
-import my_secrets
 import nav_bar_links
 
 from datetime import datetime
+from dotenv import load_dotenv
 from enum import Enum
 from logging import Logger, Formatter
 from lps_map import lps_rental_data
@@ -34,11 +35,13 @@ fh.setFormatter(formatter)
 root_logger.addHandler(fh)
 logger: Logger = logging.getLogger(__name__)
 
+load_dotenv()
+
 
 class Sites(str, Enum):
-    prod = my_secrets.prod_home_url
-    test = my_secrets.test_home_url
-    local = my_secrets.local_home_url
+    prod = os.getenv("PROD_HOME_URL")
+    test = os.getenv("TEST_HOME_URL")
+    intra = os.getenv("INTRA_HOME_URL")
 
 
 screen_sizes = [
@@ -65,7 +68,7 @@ def main(site) -> None:
     :param site: website url to check
     """
     logger.info(f"***** STARTED WEB TESTING FOR SITE: {site.upper()} *****")
-    BROWSER: webdriver = create_browser_managed.firefox()
+    BROWSER = create_browser_driver.firefox()
 
     nav_bar_links.browse(BROWSER, SITE_MENU, site=site)
     contact_response: bool = form_submission.submit_contact(
