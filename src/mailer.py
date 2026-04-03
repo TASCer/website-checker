@@ -1,4 +1,5 @@
 # TODO FIX MULTI RECIPIENTS LIST ISSUE with JSON. SEE other project
+import json
 import logging
 import os
 import smtplib
@@ -13,11 +14,11 @@ from logging import Logger
 
 load_dotenv()
 
-email_reciever: list[str] = os.getenv("EMAIL_RECIPIENTS")
-email_sender: str = os.getenv("EMAIL_FROM")
-email_server: str | None = os.getenv("EMAIL_HOST")
-email_user: str | None = os.getenv("EMAIL_USER")
-email_password: str | None = os.getenv("EMAIL_PASSWORD")
+email_reciever: list[str] = json.loads(os.environ["EMAIL_RECIPIENTS"])
+email_sender: str = os.environ["EMAIL_FROM"]
+email_server: str | None = os.environ["EMAIL_HOST"]
+email_user: str | None = os.environ["EMAIL_USER"]
+email_password: str | None = os.environ["EMAIL_PASSWORD"]
 
 
 def send_mail(subject: str, attachment_path: object = None):
@@ -132,4 +133,4 @@ def send_mail(subject: str, attachment_path: object = None):
 
 
 if __name__ == "__main__":
-    send_mail("hello, TLS test on port 587", "../_oldlogs/10-07-24.log")
+    send_mail("hello, TLS test on port 587")
