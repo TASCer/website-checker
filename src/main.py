@@ -18,7 +18,6 @@ from dotenv import load_dotenv
 from enum import Enum
 from logging import Logger, Formatter
 from lps_map import lps_rental_data
-from selenium import webdriver
 
 now: datetime = dt.date.today()
 todays_date: str = now.strftime("%D").replace("/", "-")
