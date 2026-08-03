@@ -13,13 +13,13 @@ import logging
 import mailer
 import nav_bar_links
 
-from datetime import datetime
+from datetime import date
 from dotenv import load_dotenv
 from enum import Enum
 from logging import Logger, Formatter
 from lps_map import lps_rental_data
 
-now: datetime = dt.date.today()
+now: date = dt.date.today()
 todays_date: str = now.strftime("%D").replace("/", "-")
 
 root_logger: Logger = logging.getLogger()
