@@ -1,14 +1,15 @@
 # TODO TEST NON HEADLESS FF. Chrome WORKS! and FF headless works with managed drivers
 import logging
-
+import sys
 from logging import Logger
+
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
-from selenium.webdriver.firefox.service import Service as FirefoxService
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.chrome.service import Service as ChromeService
-from webdriver_manager.firefox import GeckoDriverManager
+from selenium.webdriver.firefox.service import Service as FirefoxService
 from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.firefox import GeckoDriverManager
 
 logger: Logger = logging.getLogger(__name__)
 
@@ -31,13 +32,13 @@ def firefox() -> webdriver.Firefox:
 
         return firefox_browser
 
-    except FileNotFoundError as file_err:
-        logger.exception(file_err)
-        exit()
+    except FileNotFoundError:
+        logger.exception("file not found")
+        sys.exit()
 
     except WebDriverException as driver_err:
-        logger.critical(f"{str(driver_err)}")
-        exit()
+        logger.critical(f"{driver_err!s}")
+        sys.exit()
 
 
 def chrome() -> webdriver.Chrome:
@@ -67,8 +68,8 @@ def chrome() -> webdriver.Chrome:
         return chrome_browser
 
     except (FileNotFoundError, WebDriverException) as e:
-        logger.critical(f"{str(e)}")
-        exit()
+        logger.critical(f"{e!s}")
+        sys.exit()
 
 
 if __name__ == "__main__":

@@ -1,25 +1,30 @@
 # TODO Make into a pytest - https://medium.com/@sayalidhoot07/creating-a-selenium-pytest-framework-from-scratch-6fadd32f9574
 # TODO "test different screen sizes selenium python"
 import argparse
-import blog_home
-
-
-import create_browser_driver
 import datetime as dt
+import logging
+import os
+
+# from datetime import date
+from enum import Enum
+from logging import Formatter, Logger
+from pathlib import Path
+
+from dotenv import load_dotenv
+
+import blog_home
+import create_browser_driver
 import form_submission
 import hoa_home
-import os
-import logging
 import mailer
 import nav_bar_links
-
-from datetime import date
-from dotenv import load_dotenv
-from enum import Enum
-from logging import Logger, Formatter
 from lps_map import lps_rental_data
 
-now: date = dt.date.today()
+# now: date = dt.date.today()
+
+
+now = dt.datetime.now().astimezone().date()
+
 todays_date: str = now.strftime("%D").replace("/", "-")
 
 root_logger: Logger = logging.getLogger()
@@ -101,7 +106,9 @@ def main(site) -> None:
     blog_home.browse(BROWSER, site + "/blog")
 
     if not contact_response:
-        mailer.send_mail(f"FAIL SENDING CONTACT FORM: {site}", f"./{todays_date}.log")
+        mailer.send_mail(
+            f"FAIL SENDING CONTACT FORM: {site}", Path(f"../{todays_date}.log")
+        )
         logger.error(
             f"FAIL SENDING CONTACT FORM: {contact_response=} {site}: {site.upper()} -----"
         )
@@ -115,7 +122,9 @@ def main(site) -> None:
         logger.info(f"***** SUCCESS: {site.upper()} *****")
 
     if not consult_response and site == Sites.test:
-        mailer.send_mail(f"FAIL SENDING CONSULT FORM: {site}", f"../{todays_date}.log")
+        mailer.send_mail(
+            f"FAIL SENDING CONSULT FORM: {site}", Path(f"../{todays_date}.log")
+        )
         logger.error(
             f"FAIL SENDING CONSULT FORM: {contact_response=} {site}: {site.upper()} -----"
         )

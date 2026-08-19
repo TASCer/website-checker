@@ -1,11 +1,10 @@
 import logging
-
 from logging import Logger
+
+from selenium.common.exceptions import ElementNotSelectableException, TimeoutException
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.common.exceptions import ElementNotSelectableException
-from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
 logger: Logger = logging.getLogger(__name__)
 
@@ -144,9 +143,6 @@ def submit_contact(browser, site: str) -> bool:
         )
         return False
 
-    except Exception as base_err:
-        logger.error(f"\t\tEmail base Failure: {site} -> {base_err}")
-        return False
 
     logger.info("\t\tEmail sent")
 

@@ -1,12 +1,12 @@
 import datetime as dt
 import logging
-
 from datetime import date
 from logging import Logger
+
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 
-now: date = dt.date.today()
+now = dt.datetime.now().astimezone().date()
 todays_date: str = now.strftime("%D").replace("/", "-")
 
 logger: Logger = logging.getLogger(__name__)
