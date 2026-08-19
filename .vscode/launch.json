@@ -7,7 +7,7 @@
 
         {
             "name": "Python: MAIN",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "cwd": "${workspaceFolder}/src",
             "program": "main.py",
@@ -18,7 +18,7 @@
 
         {
             "name": "Python: TEST",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "cwd": "${workspaceFolder}/src",
             "program": "test.py",

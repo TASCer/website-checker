@@ -4,7 +4,6 @@
 
 My solution utilized to schedule testing of my various website's html links and forms.
 
-
 ## STEPS
 
 1. Goes through all links in menu bar of Home Page
@@ -40,6 +39,5 @@ assets folder contains:
 misc folder contains:
 
 1. Windows batch file for launching Scheduled Tasks
-2. Shell scripts for launching cron PROD and TEST jobs
-3. gecko driver for Firefox (used for non-managed create_browser.py)
-4. .env template for environment variables
+1. Shell scripts for launching cron PROD and TEST jobs
+1. .env template for environment variables (template.env)
