@@ -36,7 +36,7 @@ def browse(
             browser.close()
             sys.exit()
 
-    for _, href in nav_menu_links.items():
+    for href in nav_menu_links.values():
         try:
             browser.get(f"{site}/{href}")
             time.sleep(1)
