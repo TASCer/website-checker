@@ -6,6 +6,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
+from mailer import email_server
+
 logger: Logger = logging.getLogger(__name__)
 
 
@@ -75,8 +77,10 @@ def submit_consult(browser, site: str) -> bool:
                 if not msg:
                     raise TimeoutException
 
-            except TimeoutException as to_err:
-                logger.error(f"\t\t{to_err}: Check {site}'s server logs")
+            except TimeoutException:
+                logger.exception(
+                    f"\t\temail not sent: Check {site}'s server logs", exc_info=False
+                )
                 return False
 
         except ElementNotSelectableException as e:
@@ -133,16 +137,13 @@ def submit_contact(browser, site: str) -> bool:
             )
         )
 
-    except TimeoutException as to_err:
-        logger.error(f"\t\t{to_err.msg}: Check {site}'s server logs")
+    except TimeoutException:
+        logger.exception(f"\t\tCheck {email_server}'s logs", TimeoutException.args)
         return False
 
-    except ElementNotSelectableException as elem_err:
-        logger.error(
-            f"\t\tEmail element Failure: Check {site}'s server logs {elem_err}"
-        )
+    except ElementNotSelectableException:
+        logger.exception(f"\t\tEmail element Failure: Check {site}'s server logs")
         return False
-
 
     logger.info("\t\tEmail sent")
 

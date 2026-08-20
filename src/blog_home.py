@@ -1,11 +1,11 @@
 import datetime as dt
 import logging
 
-from datetime import date
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 
-now: date = dt.date.today()
+now = dt.datetime.now().astimezone().date()
 todays_date: str = now.strftime("%D").replace("/", "-")
 
 logger = logging.getLogger(__name__)
@@ -24,8 +24,8 @@ def browse(browser, site: str) -> object:
         WebDriverWait(browser, 1000)
         logger.info(f"\tTesting Blog page for: {site}")
 
-    except Exception as e:
-        logger.error(e)
+    except TimeoutException:
+        logger.error("timed out")
 
     blog_entries = browser.find_elements(By.CLASS_NAME, "entry-title")
 
