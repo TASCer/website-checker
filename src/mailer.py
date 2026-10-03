@@ -3,6 +3,8 @@ import json
 import logging
 import os
 import smtplib
+
+# import ssl
 from email import encoders
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
@@ -10,26 +12,29 @@ from email.mime.text import MIMEText
 from logging import Logger
 from pathlib import Path
 
-# import ssl
 from dotenv import load_dotenv
 
 load_dotenv()
 
-email_reciever: list[str] = json.loads(os.environ["EMAIL_RECIPIENTS"])
+logger: Logger = logging.getLogger(__name__)
+
+
+email_reciever: list[str] = [
+    "todd@tascs.test"
+]  # json.loads(os.environ["EMAIL_RECIPIENTS"])
 email_sender: str = os.environ["EMAIL_FROM"]
 email_server: str = os.environ["EMAIL_HOST"]
 email_user: str = os.environ["EMAIL_USER"]
 email_password: str = os.environ["EMAIL_PASSWORD"]
 
 
-def send_mail(subject: str, attachment_path: Path | None = None) -> None:
+def send_mail(subject: str, attachment_path: Path | None) -> None:
     """
     Function sends out email messages.
 
     :param subject:
     :param attachment_path: path to file, defaults to None
     """
-    logger: Logger = logging.getLogger(__name__)
     sender_email: str = email_sender
     receiver_email: list[str] = email_reciever
 
@@ -37,6 +42,8 @@ def send_mail(subject: str, attachment_path: Path | None = None) -> None:
     msg["Subject"] = f"{subject}"
     msg["From"] = sender_email
     msg["To"] = receiver_email[0]
+
+    print(attachment_path, type(attachment_path))
 
     if attachment_path:
         html_attachments: str = """\
@@ -51,7 +58,6 @@ def send_mail(subject: str, attachment_path: Path | None = None) -> None:
             </body>
           </html>
           """
-        # noinspection PyTypeChecker
         with open(attachment_path, "rb") as attachment:
             html: MIMEText = MIMEText(html_attachments, "html")
             part_attachments: MIMEBase = MIMEBase("application", "octet-stream")
@@ -80,9 +86,9 @@ def send_mail(subject: str, attachment_path: Path | None = None) -> None:
 
     # WORKING NON SSL 25 or 587 w/o login
     try:
-        with smtplib.SMTP(email_server, 587) as server:
-            server.ehlo()
-            server.starttls()
+        with smtplib.SMTP(email_server, 25) as server:
+            # server.ehlo()
+            # server.starttls()
             # try:
             #     server.login(email_user, email_password)
             # except smtplib.SMTPAuthenticationError:
@@ -134,4 +140,4 @@ def send_mail(subject: str, attachment_path: Path | None = None) -> None:
 
 
 if __name__ == "__main__":
-    send_mail("hello, TLS test on port 587", attachment_path=Path("./08-19-26.log"))
+    send_mail("hello, test on port 587 w/auth and TLS", attachment_path=Path("./08-19-26.log"))

@@ -114,11 +114,11 @@ def main(site) -> None:
         )
 
     if contact_response and consult_response and site == Sites.test:
-        mailer.send_mail(f"SUCCESS: {site}")
+        mailer.send_mail(f"SUCCESS: {site}", None)
         logger.info(f"***** SUCCESS: {site.upper()} *****")
 
     if contact_response and not consult_response and site == Sites.prod:
-        mailer.send_mail(f"SUCCESS: {site}")
+        mailer.send_mail(f"SUCCESS: {site}", None)
         logger.info(f"***** SUCCESS: {site.upper()} *****")
 
     if not consult_response and site == Sites.test:
@@ -126,7 +126,7 @@ def main(site) -> None:
             f"FAIL SENDING CONSULT FORM: {site}", Path(f"../{todays_date}.log")
         )
         logger.error(
-            f"FAIL SENDING CONSULT FORM: {contact_response=} {site}: {site.upper()} -----"
+            f"FAIL SENDING CONSULT FORM: {consult_response=} {site}: {site.upper()} -----"
         )
 
     BROWSER.close()
