@@ -43,9 +43,9 @@ load_dotenv()
 
 
 class Sites(str, Enum):
-    prod = os.getenv("PROD_HOME_URL")
-    test = os.getenv("TEST_HOME_URL")
-    intra = os.getenv("INTRA_HOME_URL")
+    prod = os.environ["PROD_HOME_URL"]
+    test = os.environ["TEST_HOME_URL"]
+    intra = os.environ["INTRANET_HOME_URL"]
 
 
 screen_sizes = [
@@ -130,6 +130,7 @@ def main(site) -> None:
         )
 
     BROWSER.close()
+    BROWSER.quit()
 
 
 if __name__ == "__main__":
