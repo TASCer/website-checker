@@ -4,13 +4,12 @@ import argparse
 import datetime as dt
 import logging
 import os
-
-# from datetime import date
 from enum import Enum
 from logging import Formatter, Logger
 from pathlib import Path
 
 from dotenv import load_dotenv
+from selenium.webdriver.firefox.webdriver import WebDriver
 
 import blog_home
 import create_browser_driver
@@ -19,9 +18,6 @@ import hoa_home
 import mailer
 import nav_bar_links
 from lps_map import lps_rental_data
-
-# now: date = dt.date.today()
-
 
 now = dt.datetime.now().astimezone().date()
 
@@ -72,7 +68,7 @@ def main(site) -> None:
     :param site: website url to check
     """
     logger.info(f"***** STARTED WEB TESTING FOR SITE: {site.upper()} *****")
-    BROWSER = create_browser_driver.firefox()
+    BROWSER: WebDriver = create_browser_driver.firefox()
 
     nav_bar_links.browse(BROWSER, SITE_MENU, site=site)
     contact_response: bool = form_submission.submit_contact(
@@ -85,8 +81,7 @@ def main(site) -> None:
     logger.info(f"\t\tHOA DB TIMESTAMP: {last_timestamp}")
 
     area_percent_rentals: float = float(area_percent_rentals)
-
-    area_percent_rentals: float = float(area_percent_rentals)
+    # area_percent_rentals: float = float(area_percent_rentals)
     logger.info(f"\t\tAREA RENTAL %: {area_percent_rentals}")
 
     lps_percent_rentals = float(lps_rental_data(BROWSER, site))
@@ -107,7 +102,8 @@ def main(site) -> None:
 
     if not contact_response:
         mailer.send_mail(
-            f"FAIL SENDING CONTACT FORM: {site}", Path(f"../{todays_date}.log")
+            f"FAIL SENDING CONTACT FORM: {site}",
+            attachment_path=Path(f"../{todays_date}.log"),
         )
         logger.error(
             f"FAIL SENDING CONTACT FORM: {contact_response=} {site}: {site.upper()} -----"

@@ -140,4 +140,6 @@ def send_mail(subject: str, attachment_path: Path | None) -> None:
 
 
 if __name__ == "__main__":
-    send_mail("hello, test on port 587 w/auth and TLS", attachment_path=Path("./08-19-26.log"))
+    send_mail(
+        "hello, test on port 587 w/auth and TLS", attachment_path=Path("./08-19-26.log")
+    )
