@@ -20,6 +20,22 @@ def browse(browser, site: str) -> tuple[str, str]:
     :param site: url
     :return: area rental percentage, LPS rental percentage
     """
+    # TODO ESTING GETTING TITLE FROM LIMESURVEY PAGE/APP. NEED INSTALLED IN TEST!!!!
+    # try:
+    #     browser.get(f"{site}/hoa")
+    #     survey_link_location = browser.find_element(By.ID, "middlebox")
+    #     print(survey_link_location)
+    #     survey_link = survey_link_location.find_element(
+    #         By.LINK_TEXT, "Community Member Survey"
+    #     )
+    #     survey_link.click()
+    #     survey_active: str = browser.find_element(By.ID, "TPCT").text
+
+    #     logger.info(f"\tTesting HOA page for: {site}")
+
+    # except TimeoutException:
+    #     logger.exception("time out")
+
     try:
         browser.get(site + "/hoa/areaMap.php")
         WebDriverWait(browser, 1000)
