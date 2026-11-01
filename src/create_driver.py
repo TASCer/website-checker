@@ -1,4 +1,5 @@
 # TODO TEST NON HEADLESS FF. Chrome WORKS! and FF headless works with managed drivers
+# from selenium.webdriver.chrome.webdriver import WebDriver
 import logging
 import sys
 from logging import Logger
@@ -7,6 +8,7 @@ from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.chrome.service import Service as ChromeService
+from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.firefox.service import Service as FirefoxService
 
 # from selenium.webdriver.firefox.webdriver import WebDriver
@@ -74,11 +76,10 @@ def chrome() -> webdriver.Chrome:
         sys.exit()
 
 
-def create(browser):
+def create_for(browser) -> webdriver.Firefox | webdriver.Chrome:
     match browser:
         case "firefox":
             BROWSER = firefox()
-
         case "chrome":
             BROWSER = chrome()
 
