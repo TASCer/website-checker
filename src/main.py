@@ -11,7 +11,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 import blog_home
-import create_browser_driver
+import create_driver
 import form_submission
 import hoa_home
 import mailer
@@ -81,7 +81,7 @@ def main(site: str, browser: str) -> None:
     :param site: website url to check
     """
     logger.info(f"***** STARTED: WEBSITE TESTING ON: {site.upper()} *****")
-    BROWSER = create_browser_driver.create(browser=browser)
+    BROWSER = create_driver.create_for(browser=browser)
 
     nav_bar_links.browse(BROWSER, SITE_MENU, site=site)
     contact_response: bool = form_submission.submit_contact(
