@@ -9,7 +9,6 @@ from logging import Formatter, Logger
 from pathlib import Path
 
 from dotenv import load_dotenv
-from selenium.webdriver.firefox.webdriver import WebDriver
 
 import blog_home
 import create_browser_driver
@@ -39,9 +38,23 @@ load_dotenv()
 
 
 class Sites(str, Enum):
+    """
+     Class specifies the base HTML URL for website domains to be tested
+
+    EXAMPLE: https://site.tested.com
+
+    """
+
     prod = os.environ["PROD_HOME_URL"]
     test = os.environ["TEST_HOME_URL"]
     intra = os.environ["INTRANET_HOME_URL"]
+
+
+class Browsers(str, Enum):
+    firefox = "firefox"
+    chrome = "chrome"
+    chromium = "chromium"
+    edge = "edge"
 
 
 screen_sizes = [
@@ -61,14 +74,14 @@ SITE_MENU: dict[str, str] = {
 }
 
 
-def main(site) -> None:
+def main(site: str, browser: str) -> None:
     """
     Function controls the application
 
     :param site: website url to check
     """
-    logger.info(f"***** STARTED WEB TESTING FOR SITE: {site.upper()} *****")
-    BROWSER: WebDriver = create_browser_driver.firefox()
+    logger.info(f"***** STARTED: WEBSITE TESTING ON: {site.upper()} *****")
+    BROWSER = create_browser_driver.create(browser=browser)
 
     nav_bar_links.browse(BROWSER, SITE_MENU, site=site)
     contact_response: bool = form_submission.submit_contact(
@@ -76,15 +89,14 @@ def main(site) -> None:
     )
     consult_response: bool = form_submission.submit_consult(browser=BROWSER, site=site)
 
-    timestamp, area_percent_rentals = hoa_home.browse(BROWSER, site)
+    timestamp, area_percent_rentals = hoa_home.browse(browser=BROWSER, site=site)
     last_timestamp: str = timestamp.replace("\n", " ")
     logger.info(f"\t\tHOA DB TIMESTAMP: {last_timestamp}")
 
     area_percent_rentals: float = float(area_percent_rentals)
-    # area_percent_rentals: float = float(area_percent_rentals)
     logger.info(f"\t\tAREA RENTAL %: {area_percent_rentals}")
 
-    lps_percent_rentals = float(lps_rental_data(BROWSER, site))
+    lps_percent_rentals = float(lps_rental_data(browser=BROWSER, site=site))
     lps_rental_delta = float(f"{lps_percent_rentals - area_percent_rentals}")
     logger.info(f"\t\tLPS RENTAL %: {lps_percent_rentals}")
 
@@ -131,11 +143,25 @@ def main(site) -> None:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Select which website for Selenium to test"
+        prog="website-checker",
+        description="Select website and browser for Selenium to check",
+        epilog="TESTING!!!!",
     )
-    parser.add_argument("site", choices=[site.name for site in Sites])
+    parser.add_argument(
+        "site",
+        choices=[site.name for site in Sites],
+        help="please enter the URL of the website to check",
+        default="test",
+    )
+    parser.add_argument(
+        "browser",
+        choices=[browser.name for browser in Browsers],
+        help="please enter the browser you to use in the check",
+        default="firefox",
+    )
 
     args = parser.parse_args()
     site2test: str = Sites[args.site].value
+    site2test_browser = Browsers[args.browser].value
 
-    main(site=site2test)
+    main(site=site2test, browser=site2test_browser)

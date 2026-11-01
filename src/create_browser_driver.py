@@ -8,6 +8,8 @@ from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.firefox.service import Service as FirefoxService
+
+# from selenium.webdriver.firefox.webdriver import WebDriver
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
 
@@ -70,6 +72,17 @@ def chrome() -> webdriver.Chrome:
     except (FileNotFoundError, WebDriverException) as e:
         logger.critical(f"{e!s}")
         sys.exit()
+
+
+def create(browser):
+    match browser:
+        case "firefox":
+            BROWSER = firefox()
+
+        case "chrome":
+            BROWSER = chrome()
+
+    return BROWSER
 
 
 if __name__ == "__main__":
