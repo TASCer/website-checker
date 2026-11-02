@@ -8,7 +8,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 logger = logging.getLogger(__name__)
 
 
-def browse(
+def check(
     browser,
     nav_menu_links: dict,
     site: str,
