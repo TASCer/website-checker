@@ -11,7 +11,7 @@ todays_date: str = now.strftime("%D").replace("/", "-")
 logger = logging.getLogger(__name__)
 
 
-def browse(browser, site: str) -> object:
+def check(browser, site: str) -> object:
     """
     Function browses the blog site and determines count of entries and latest title.
 

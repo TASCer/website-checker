@@ -13,7 +13,7 @@ todays_date: str = now.strftime("%D").replace("/", "-")
 logger: Logger = logging.getLogger(__name__)
 
 
-def browse(browser, site: str) -> tuple[str, str]:
+def check(browser, site: str) -> tuple[str, str]:
     """
     Function browses the HOA site and links to get information.
     :param browser:

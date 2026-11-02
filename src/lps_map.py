@@ -6,7 +6,7 @@ from selenium.webdriver.common.by import By
 logger = logging.getLogger(__name__)
 
 
-def lps_rental_data(browser, site: str) -> str:
+def check_lps_rental(browser, site: str) -> str:
     """
     Function gets current rental percent from site
 

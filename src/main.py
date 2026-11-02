@@ -14,9 +14,9 @@ import blog_home
 import create_driver
 import form_submission
 import hoa_home
+import home_nav_bar
 import mailer
-import nav_bar_links
-from lps_map import lps_rental_data
+from lps_map import check_lps_rental
 
 now = dt.datetime.now().astimezone().date()
 
@@ -57,7 +57,7 @@ class Browsers(str, Enum):
     edge = "edge"
 
 
-screen_sizes = [
+SCREEN_SIZES = [
     (1920, 671),  # MyDesktop - MAIN
     (1600, 491),  # MyLaptop
     (479, 960),  # MyMobile (Alcatel 5059R)
@@ -79,24 +79,25 @@ def main(site: str, browser: str) -> None:
     Function controls the application
 
     :param site: website url to check
+    :param browser: browser to check with
     """
-    logger.info(f"***** STARTED: WEBSITE TESTING ON: {site.upper()} *****")
+    logger.info(f"***** STARTED: WEBSITE CHECKING ON: {site.upper()} *****")
     BROWSER = create_driver.create_for(browser=browser)
 
-    nav_bar_links.browse(BROWSER, SITE_MENU, site=site)
+    home_nav_bar.check(browser=BROWSER, nav_menu_links=SITE_MENU, site=site)
     contact_response: bool = form_submission.submit_contact(
         browser=BROWSER, site=site + "/contact-us"
     )
     consult_response: bool = form_submission.submit_consult(browser=BROWSER, site=site)
 
-    timestamp, area_percent_rentals = hoa_home.browse(browser=BROWSER, site=site)
+    timestamp, area_percent_rentals = hoa_home.check(browser=BROWSER, site=site)
     last_timestamp: str = timestamp.replace("\n", " ")
     logger.info(f"\t\tHOA DB TIMESTAMP: {last_timestamp}")
 
     area_percent_rentals: float = float(area_percent_rentals)
     logger.info(f"\t\tAREA RENTAL %: {area_percent_rentals}")
 
-    lps_percent_rentals = float(lps_rental_data(browser=BROWSER, site=site))
+    lps_percent_rentals = float(check_lps_rental(browser=BROWSER, site=site))
     lps_rental_delta = float(f"{lps_percent_rentals - area_percent_rentals}")
     logger.info(f"\t\tLPS RENTAL %: {lps_percent_rentals}")
 
@@ -110,7 +111,7 @@ def main(site: str, browser: str) -> None:
             f"LPS RENTAL % is {lps_rental_delta:.2f} LOWER than community average"
         )
 
-    blog_home.browse(BROWSER, site + "/blog")
+    blog_home.check(BROWSER, site + "/blog")
 
     if not contact_response:
         mailer.send_mail(
@@ -148,13 +149,13 @@ if __name__ == "__main__":
         epilog="TESTING!!!!",
     )
     parser.add_argument(
-        "site",
+        "--site",
         choices=[site.name for site in Sites],
         help="please enter the URL of the website to check",
         default="test",
     )
     parser.add_argument(
-        "browser",
+        "--browser",
         choices=[browser.name for browser in Browsers],
         help="please enter the browser you to use in the check",
         default="firefox",

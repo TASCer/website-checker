@@ -1,5 +1,3 @@
-# TODO TEST NON HEADLESS FF. Chrome WORKS! and FF headless works with managed drivers
-# from selenium.webdriver.chrome.webdriver import WebDriver
 import logging
 import sys
 from logging import Logger
@@ -8,10 +6,7 @@ from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.chrome.service import Service as ChromeService
-from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.firefox.service import Service as FirefoxService
-
-# from selenium.webdriver.firefox.webdriver import WebDriver
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
 
@@ -28,13 +23,13 @@ def firefox() -> webdriver.Firefox:
         options = webdriver.FirefoxOptions()
         options.add_argument("-headless")
 
-        firefox_browser = webdriver.Firefox(
+        driver = webdriver.Firefox(
             options=options, service=FirefoxService(GeckoDriverManager().install())
         )
 
-        logger.info(f"\tFIREFOX browser service created w/options: {options.arguments}")
+        logger.info(f"\tFIREFOX driver created w/options: {options.arguments}")
 
-        return firefox_browser
+        return driver
 
     except FileNotFoundError:
         logger.exception("file not found")
@@ -63,13 +58,13 @@ def chrome() -> webdriver.Chrome:
         # options.add_experimental_option("useAutomationExtension", False)
         # options.add_argument("--disable notifications")
 
-        chrome_browser = webdriver.Chrome(
+        driver = webdriver.Chrome(
             options=options, service=ChromeService(ChromeDriverManager().install())
         )
 
         logger.info(f"\tCHROME browser service created w/options: {options.arguments}")
 
-        return chrome_browser
+        return driver
 
     except (FileNotFoundError, WebDriverException) as e:
         logger.critical(f"{e!s}")
@@ -79,11 +74,11 @@ def chrome() -> webdriver.Chrome:
 def create_for(browser) -> webdriver.Firefox | webdriver.Chrome:
     match browser:
         case "firefox":
-            BROWSER = firefox()
+            driver = firefox()
         case "chrome":
-            BROWSER = chrome()
+            driver = chrome()
 
-    return BROWSER
+    return driver
 
 
 if __name__ == "__main__":

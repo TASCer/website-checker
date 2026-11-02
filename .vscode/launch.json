@@ -7,7 +7,7 @@
     "configurations": [
 
         {
-            "name": "Python: MAIN",
+            "name": "Py: MAIN",
             "type": "debugpy",
             "request": "launch",
             "cwd": "${workspaceFolder}/src",
@@ -18,7 +18,7 @@
         },
 
         {
-            "name": "Python: TEST",
+            "name": "Py: TEST",
             "type": "debugpy",
             "request": "launch",
             "cwd": "${workspaceFolder}/src",
