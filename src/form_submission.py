@@ -11,11 +11,11 @@ from mailer import email_server
 logger: Logger = logging.getLogger(__name__)
 
 
-def submit_consult(browser, site: str) -> bool:
+def submit_consult(driver, site: str) -> bool:
     """
     Function fills out and submits a Request Consultation form.
 
-    :param browser:
+    :param driver:
     :param site: url
     :raises TimeoutException:
     :return: True if no issues
@@ -27,48 +27,48 @@ def submit_consult(browser, site: str) -> bool:
         return False
 
     try:
-        browser.get(site)
-        WebDriverWait(browser, 10)
+        driver.get(site)
+        WebDriverWait(driver, 10)
 
     except TimeoutException as e:
         logger.error(e)
 
     else:
         try:
-            fname = browser.find_element(By.NAME, "firstname")
+            fname = driver.find_element(By.NAME, "firstname")
             fname.send_keys("SELENIUM CONSULT")
-            WebDriverWait(browser, 10)
+            WebDriverWait(driver, 10)
 
-            lname = browser.find_element(By.NAME, "lastname")
+            lname = driver.find_element(By.NAME, "lastname")
             lname.send_keys("TESTER")
-            WebDriverWait(browser, 10)
+            WebDriverWait(driver, 10)
 
-            email = browser.find_element(By.NAME, "email")
+            email = driver.find_element(By.NAME, "email")
             email.send_keys("TESTER@CONSULTFORM.COM")
-            WebDriverWait(browser, 10)
+            WebDriverWait(driver, 10)
 
-            company = browser.find_element(By.NAME, "company")
+            company = driver.find_element(By.NAME, "company")
             company.send_keys("SELENIUM CONSULT TESTING INC.")
-            WebDriverWait(browser, 10)
+            WebDriverWait(driver, 10)
 
-            phone = browser.find_element(By.NAME, "telephone")
+            phone = driver.find_element(By.NAME, "telephone")
             phone.send_keys("1234567890")
-            WebDriverWait(browser, 10)
+            WebDriverWait(driver, 10)
 
         except ElementNotSelectableException as e:
             logger.error(e)
 
         try:
-            captcha = browser.find_element(By.NAME, "captcha")
-            WebDriverWait(browser, 10)
+            captcha = driver.find_element(By.NAME, "captcha")
+            WebDriverWait(driver, 10)
             captcha.send_keys("7")
-            WebDriverWait(browser, 10)
+            WebDriverWait(driver, 10)
 
-            browser.find_element(By.NAME, "submit").click()
-            WebDriverWait(browser, 3000)
+            driver.find_element(By.NAME, "submit").click()
+            WebDriverWait(driver, 3000)
 
             try:
-                msg: bool = WebDriverWait(browser, 15).until(
+                msg: bool = WebDriverWait(driver, 15).until(
                     EC.text_to_be_present_in_element(
                         (By.ID, "msg"), text_="Request sent successfully"
                     )
@@ -92,46 +92,46 @@ def submit_consult(browser, site: str) -> bool:
     return True
 
 
-def submit_contact(browser, site: str) -> bool:
+def submit_contact(driver, site: str) -> bool:
     """
     Function fills out and submits a Request Contact form.
 
-    :param browser:
+    :param driver:
     :param site: url
     :raises TimeoutException:
     :return: True if no issues
     """
     logger.info("\tCOMPLETING CONTACT FORM")
     try:
-        browser.get(site)
-        WebDriverWait(browser, 1000)
+        driver.get(site)
+        WebDriverWait(driver, 1000)
 
     except TimeoutException as e:
         logger.error(e)
 
-    name = browser.find_element(By.NAME, "name")
+    name = driver.find_element(By.NAME, "name")
     name.send_keys("SELENIUM CONTACT TEST")
-    WebDriverWait(browser, 1000)
+    WebDriverWait(driver, 1000)
 
-    email = browser.find_element(By.NAME, "email")
+    email = driver.find_element(By.NAME, "email")
     email.send_keys("TESTER@CONTACTFORM.COM")
-    WebDriverWait(browser, 1000)
+    WebDriverWait(driver, 1000)
 
-    company = browser.find_element(By.NAME, "company")
+    company = driver.find_element(By.NAME, "company")
     company.send_keys("SELENIUM CONTACT TESTING INC")
-    WebDriverWait(browser, 1000)
+    WebDriverWait(driver, 1000)
 
-    phone = browser.find_element(By.NAME, "telephone")
+    phone = driver.find_element(By.NAME, "telephone")
     phone.send_keys("1234567890")
-    WebDriverWait(browser, 1000)
+    WebDriverWait(driver, 1000)
 
-    comments = browser.find_element(By.NAME, "message")
+    comments = driver.find_element(By.NAME, "message")
     comments.send_keys("SELENIUM CONTACT TESTING")
-    WebDriverWait(browser, 10)
+    WebDriverWait(driver, 10)
 
     try:
-        browser.find_element(By.ID, "submit-form").click()
-        msg: bool = WebDriverWait(browser, 10).until(
+        driver.find_element(By.ID, "submit-form").click()
+        msg: bool = WebDriverWait(driver, 10).until(
             EC.text_to_be_present_in_element(
                 (By.ID, "msg"), text_="Request sent successfully"
             )

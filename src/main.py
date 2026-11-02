@@ -74,30 +74,27 @@ SITE_MENU: dict[str, str] = {
 }
 
 
-def main(site: str, browser: str) -> None:
+def main(site: str, driver) -> None:
     """
     Function controls the application
 
     :param site: website url to check
-    :param browser: browser to check with
+    :param driver: driver to check with
     """
-    logger.info(f"***** STARTED: WEBSITE CHECKING ON: {site.upper()} *****")
-    BROWSER = create_driver.create_for(browser=browser)
+    home_nav_bar.check(driver, nav_menu_links=SITE_MENU, site=site)
+    # contact_response: bool = form_submission.submit_contact(
+    #     driver=driver, site=site + "/contact-us"
+    # )
+    # consult_response: bool = form_submission.submit_consult(driver, site)
 
-    home_nav_bar.check(browser=BROWSER, nav_menu_links=SITE_MENU, site=site)
-    contact_response: bool = form_submission.submit_contact(
-        browser=BROWSER, site=site + "/contact-us"
-    )
-    consult_response: bool = form_submission.submit_consult(browser=BROWSER, site=site)
-
-    timestamp, area_percent_rentals = hoa_home.check(browser=BROWSER, site=site)
+    timestamp, area_percent_rentals = hoa_home.check(driver, site)
     last_timestamp: str = timestamp.replace("\n", " ")
-    logger.info(f"\t\tHOA DB TIMESTAMP: {last_timestamp}")
+    logger.info(f"\t\tHOA DB {last_timestamp=}")
 
     area_percent_rentals: float = float(area_percent_rentals)
     logger.info(f"\t\tAREA RENTAL %: {area_percent_rentals}")
 
-    lps_percent_rentals = float(check_lps_rental(browser=BROWSER, site=site))
+    lps_percent_rentals = float(check_lps_rental(driver, site))
     lps_rental_delta = float(f"{lps_percent_rentals - area_percent_rentals}")
     logger.info(f"\t\tLPS RENTAL %: {lps_percent_rentals}")
 
@@ -111,58 +108,61 @@ def main(site: str, browser: str) -> None:
             f"LPS RENTAL % is {lps_rental_delta:.2f} LOWER than community average"
         )
 
-    blog_home.check(BROWSER, site + "/blog")
+    blog_home.check(driver, site + "/blog")
 
-    if not contact_response:
-        mailer.send_mail(
-            f"FAIL SENDING CONTACT FORM: {site}",
-            attachment_path=Path(f"../{todays_date}.log"),
-        )
-        logger.error(
-            f"FAIL SENDING CONTACT FORM: {contact_response=} {site}: {site.upper()} -----"
-        )
+    # if not contact_response:
+    #     mailer.send_mail(
+    #         f"FAIL SENDING CONTACT FORM: {site}",
+    #         attachment_path=Path(f"../{todays_date}.log"),
+    #     )
+    #     logger.error(
+    #         f"FAIL SENDING CONTACT FORM: {contact_response=} {site}: {site.upper()} -----"
+    #     )
 
-    if contact_response and consult_response and site == Sites.test:
-        mailer.send_mail(f"SUCCESS: {site}", None)
-        logger.info(f"***** SUCCESS: {site.upper()} *****")
+    # if contact_response and consult_response and site == Sites.test:
+    #     mailer.send_mail(f"SUCCESS: {site}", None)
+    #     logger.info(f"***** SUCCESS: {site.upper()} *****")
 
-    if contact_response and not consult_response and site == Sites.prod:
-        mailer.send_mail(f"SUCCESS: {site}", None)
-        logger.info(f"***** SUCCESS: {site.upper()} *****")
+    # if contact_response and not consult_response and site == Sites.prod:
+    #     mailer.send_mail(f"SUCCESS: {site}", None)
+    #     logger.info(f"***** SUCCESS: {site.upper()} *****")
 
-    if not consult_response and site == Sites.test:
-        mailer.send_mail(
-            f"FAIL SENDING CONSULT FORM: {site}", Path(f"../{todays_date}.log")
-        )
-        logger.error(
-            f"FAIL SENDING CONSULT FORM: {consult_response=} {site}: {site.upper()} -----"
-        )
+    # if not consult_response and site == Sites.test:
+    #     mailer.send_mail(
+    #         f"FAIL SENDING CONSULT FORM: {site}", Path(f"../{todays_date}.log")
+    #     )
+    #     logger.error(
+    #         f"FAIL SENDING CONSULT FORM: {consult_response=} {site}: {site.upper()} -----"
+    #     )
 
-    BROWSER.close()
-    BROWSER.quit()
+    driver.close()
+    driver.quit()
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         prog="website-checker",
-        description="Select website and browser for Selenium to check",
-        epilog="TESTING!!!!",
+        description="Select website URL and browser to test",
+        epilog="i.e 'uv run main,py prod chrome')",
     )
     parser.add_argument(
         "--site",
         choices=[site.name for site in Sites],
-        help="please enter the URL of the website to check",
+        help="please enter the URL of the website to test",
         default="test",
     )
     parser.add_argument(
         "--browser",
         choices=[browser.name for browser in Browsers],
-        help="please enter the browser you to use in the check",
+        help="please enter the browser you want to use for the web driver",
         default="firefox",
     )
 
     args = parser.parse_args()
-    site2test: str = Sites[args.site].value
+    site2test_url: str = Sites[args.site].value
     site2test_browser = Browsers[args.browser].value
+    logger.info(f"\t\t\t\t***STARTING WEBSITE TESTING***")
+    logger.info(f"{site2test_url=} with {site2test_browser=}")
+    browser_driver = create_driver.create_for(site2test_browser)
 
-    main(site=site2test, browser=site2test_browser)
+    main(site=site2test_url, driver=browser_driver)
