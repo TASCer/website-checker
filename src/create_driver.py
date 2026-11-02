@@ -27,8 +27,6 @@ def firefox() -> webdriver.Firefox:
             options=options, service=FirefoxService(GeckoDriverManager().install())
         )
 
-        logger.info(f"\tFIREFOX driver created w/options: {options.arguments}")
-
         return driver
 
     except FileNotFoundError:
@@ -51,7 +49,6 @@ def chrome() -> webdriver.Chrome:
         # working settings
         options.add_argument("--headless=new")
         # options.add_argument("--window-size=480,960")
-
         # unknown settings affects
         # options.add_argument("--remote-allow-origins=*")
         # options.add_experimental_option("excludeSwitches", ["enable-automation"])

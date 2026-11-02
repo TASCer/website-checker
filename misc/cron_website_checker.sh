@@ -6,9 +6,6 @@
 # Date:         2026-11-02
 # Version:      1.0
 # Usage:        ./script_name.sh [arguments]
-#
-# Load environment variables from .env
-# NEEDED??
 
 cd /home/todd/python_projects/website-checker/src
 
