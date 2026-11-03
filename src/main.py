@@ -82,10 +82,10 @@ def main(site: str, driver) -> None:
     :param driver: driver to check with
     """
     home_nav_bar.check(driver, nav_menu_links=SITE_MENU, site=site)
-    # contact_response: bool = form_submission.submit_contact(
-    #     driver=driver, site=site + "/contact-us"
-    # )
-    # consult_response: bool = form_submission.submit_consult(driver, site)
+    contact_response: bool = form_submission.submit_contact(
+        driver=driver, site=site + "/contact-us"
+    )
+    consult_response: bool = form_submission.submit_consult(driver, site)
 
     timestamp, area_percent_rentals = hoa_home.check(driver, site)
     last_timestamp: str = timestamp.replace("\n", " ")
@@ -110,30 +110,30 @@ def main(site: str, driver) -> None:
 
     blog_home.check(driver, site + "/blog")
 
-    # if not contact_response:
-    #     mailer.send_mail(
-    #         f"FAIL SENDING CONTACT FORM: {site}",
-    #         attachment_path=Path(f"../{todays_date}.log"),
-    #     )
-    #     logger.error(
-    #         f"FAIL SENDING CONTACT FORM: {contact_response=} {site}: {site.upper()} -----"
-    #     )
+    if not contact_response:
+        mailer.send_mail(
+            f"FAIL SENDING CONTACT FORM: {site}",
+            attachment_path=Path(f"../{todays_date}.log"),
+        )
+        logger.error(
+            f"FAIL SENDING CONTACT FORM: {contact_response=} {site}: {site.upper()} -----"
+        )
 
-    # if contact_response and consult_response and site == Sites.test:
-    #     mailer.send_mail(f"SUCCESS: {site}", None)
-    #     logger.info(f"***** SUCCESS: {site.upper()} *****")
+    if contact_response and consult_response and site == Sites.test:
+        mailer.send_mail(f"SUCCESS: {site}", None)
+        logger.info("\t\t\t\t***** COMPLETED WEBSITE TESTING *****")
 
-    # if contact_response and not consult_response and site == Sites.prod:
-    #     mailer.send_mail(f"SUCCESS: {site}", None)
-    #     logger.info(f"***** SUCCESS: {site.upper()} *****")
+    if contact_response and not consult_response and site == Sites.prod:
+        mailer.send_mail(f"SUCCESS: {site}", None)
+        logger.info("\t\t\t\t***** COMPLETED WEBSITE TESTING *****")
 
-    # if not consult_response and site == Sites.test:
-    #     mailer.send_mail(
-    #         f"FAIL SENDING CONSULT FORM: {site}", Path(f"../{todays_date}.log")
-    #     )
-    #     logger.error(
-    #         f"FAIL SENDING CONSULT FORM: {consult_response=} {site}: {site.upper()} -----"
-    #     )
+    if not consult_response and site == Sites.test:
+        mailer.send_mail(
+            f"FAIL SENDING CONSULT FORM: {site}", Path(f"../{todays_date}.log")
+        )
+        logger.error(
+            f"FAIL SENDING CONSULT FORM: {consult_response=} {site}: {site.upper()} -----"
+        )
 
     driver.close()
     driver.quit()
@@ -142,7 +142,7 @@ def main(site: str, driver) -> None:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         prog="website-checker",
-        description="Select website URL and browser to test",
+        description="select site and browser to test",
         epilog="i.e 'uv run main,py prod chrome')",
     )
     parser.add_argument(
@@ -164,6 +164,6 @@ if __name__ == "__main__":
     logger.info("\t\t\t\t***STARTING WEBSITE TESTING***")
     logger.info(f"{site2test_url=} with {site2test_browser=}")
     browser_driver = create_driver.create_for(site2test_browser)
-    logger.info(f"{site2test_browser} options {browser_driver.options.arguments}")  #
+    logger.info(f"{site2test_browser} options {browser_driver.options.arguments}")
 
     main(site=site2test_url, driver=browser_driver)

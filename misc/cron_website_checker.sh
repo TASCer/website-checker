@@ -5,7 +5,7 @@
 # Author:       TASC LLC
 # Date:         2026-11-02
 # Version:      1.0
-# Usage:        ./script_name.sh [arguments]
+# Usage:        ./website_checker.sh [arguments]
 
 cd /home/todd/python_projects/website-checker/src
 

@@ -43,7 +43,7 @@ def send_mail(subject: str, attachment_path: Path | None) -> None:
     msg["From"] = sender_email
     msg["To"] = receiver_email[0]
 
-    print(attachment_path, type(attachment_path))
+    # print(attachment_path, type(attachment_path))
 
     if attachment_path:
         html_attachments: str = """\
