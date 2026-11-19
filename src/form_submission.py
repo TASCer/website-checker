@@ -20,7 +20,7 @@ def submit_consult(driver, site: str) -> bool:
     :raises TimeoutException:
     :return: True if no issues
     """
-    logger.info("\tCOMPLETING CONSULT")
+    logger.info("\tcompleting CONSULT form ...")
 
     if site == "https://tascs.net":
         logger.info(f"\t\tSKIPPING: {site} HAS CAPTCHA IN PLAY FOR CONSULT FORM")
@@ -87,7 +87,7 @@ def submit_consult(driver, site: str) -> bool:
             logger.error(e)
             return False
 
-    logger.info("\t\tEmail sent")
+    logger.info("\t\temail sent!")
 
     return True
 
@@ -101,7 +101,7 @@ def submit_contact(driver, site: str) -> bool:
     :raises TimeoutException:
     :return: True if no issues
     """
-    logger.info("\tCOMPLETING CONTACT FORM")
+    logger.info("\tcompleting CONTACT form ...")
     try:
         driver.get(site)
         WebDriverWait(driver, 1000)
@@ -145,6 +145,6 @@ def submit_contact(driver, site: str) -> bool:
         logger.exception(f"\t\tEmail element Failure: Check {site}'s server logs")
         return False
 
-    logger.info("\t\tEmail sent")
+    logger.info("\t\temail sent!")
 
     return msg
