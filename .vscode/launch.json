@@ -5,28 +5,32 @@
     // argparse defaults = ["test", "firefox"]
     "version": "0.2.0",
     "configurations": [
-
         {
             "name": "Py: MAIN",
             "type": "debugpy",
             "request": "launch",
             "cwd": "${workspaceFolder}/src",
             "program": "main.py",
-            // "args": ["prod", "firefox"],
+            "args": [
+                "--site",
+                "test",
+                "--browser",
+                "firefox"
+            ],
             "console": "integratedTerminal",
             "justMyCode": true
         },
-
         {
             "name": "Py: TEST",
             "type": "debugpy",
             "request": "launch",
             "cwd": "${workspaceFolder}/src",
             "program": "test.py",
-            "args": ["test"],
+            "args": [
+                "test"
+            ],
             "console": "integratedTerminal",
             "justMyCode": true
         }
-
     ]
 }
