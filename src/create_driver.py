@@ -38,8 +38,6 @@ def firefox() -> webdriver.Firefox:
         sys.exit()
 
 
-# Message: no such element: Unable to locate element: {"method":"css selector","selector":"[name="name"]"}
-# (Session info: chrome=158.0.8127.36); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#nosuchelementexception
 def chrome() -> webdriver.Chrome:
     """
     Function creates a CHROMIUM Selenium webdriver to be used with web pages and forms.
@@ -49,14 +47,15 @@ def chrome() -> webdriver.Chrome:
     try:
         options = ChromeOptions()
         # working settings
-        options.add_argument("--headless=new")
+        # options.add_argument("--headless=new")
+
+        # TESTING
         # options.add_argument("--window-size=480,960")
         # unknown settings affects
-        options.add_argument("--remote-allow-origins=*")
-        options.add_experimental_option("excludeSwitches", ["enable-automation"])
-        options.add_experimental_option("useAutomationExtension", False)
-        options.add_argument("--disable notifications")
-
+        # options.add_argument("--remote-allow-origins=*")
+        # options.add_experimental_option("excludeSwitches", ["enable-automation"])
+        # options.add_experimental_option("useAutomationExtension", True)
+        # options.add_argument("--disable notifications")
         driver = webdriver.Chrome(
             options=options, service=ChromeService(ChromeDriverManager().install())
         )

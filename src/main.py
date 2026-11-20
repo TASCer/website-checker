@@ -1,5 +1,6 @@
 # TODO Make into a pytest - https://medium.com/@sayalidhoot07/creating-a-selenium-pytest-framework-from-scratch-6fadd32f9574
 # TODO "test different screen sizes selenium python"
+# TODO FIX Chrome tests for test domain, cert issue even tho fine in browser?
 import argparse
 import datetime as dt
 import logging
