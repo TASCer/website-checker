@@ -38,7 +38,7 @@ def firefox() -> webdriver.Firefox:
         sys.exit()
 
 
-def chrome() -> webdriver.Chrome:
+def chrome(site) -> webdriver.Chrome:
     """
     Function creates a CHROMIUM Selenium webdriver to be used with web pages and forms.
 
@@ -46,16 +46,17 @@ def chrome() -> webdriver.Chrome:
     """
     try:
         options = ChromeOptions()
-        # working settings
-        # options.add_argument("--headless=new")
+        options.add_argument("--headless=new")
+        if "test" in site:
+            options.add_argument("--ignore-certificate-errors")
 
         # TESTING
         # options.add_argument("--window-size=480,960")
-        # unknown settings affects
         # options.add_argument("--remote-allow-origins=*")
         # options.add_experimental_option("excludeSwitches", ["enable-automation"])
-        # options.add_experimental_option("useAutomationExtension", True)
+        # options.add_experimental_option("useAutomationExtension", False)
         # options.add_argument("--disable notifications")
+
         driver = webdriver.Chrome(
             options=options, service=ChromeService(ChromeDriverManager().install())
         )
@@ -69,12 +70,12 @@ def chrome() -> webdriver.Chrome:
         sys.exit()
 
 
-def create_for(browser) -> webdriver.Firefox | webdriver.Chrome:
+def create_for(browser, site) -> webdriver.Firefox | webdriver.Chrome:
     match browser:
         case "firefox":
             driver = firefox()
         case "chrome":
-            driver = chrome()
+            driver = chrome(site)
 
     return driver
 

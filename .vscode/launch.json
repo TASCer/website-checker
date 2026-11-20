@@ -15,7 +15,7 @@
                 "--site",
                 "test",
                 "--browser",
-                "firefox"
+                "chrome"
             ],
             "console": "integratedTerminal",
             "justMyCode": true

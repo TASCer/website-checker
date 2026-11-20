@@ -164,7 +164,7 @@ if __name__ == "__main__":
     site2test_browser = Browsers[args.browser].value
     logger.info("\t\t\t\t***STARTING WEBSITE TESTING***")
     logger.info(f"{site2test_url=} with {site2test_browser=}")
-    browser_driver = create_driver.create_for(site2test_browser)
+    browser_driver = create_driver.create_for(site2test_browser, site2test_url)
     logger.info(f"{site2test_browser} options {browser_driver.options.arguments}")
 
     main(site=site2test_url, driver=browser_driver)
